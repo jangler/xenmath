@@ -112,6 +112,10 @@
   {:mapping [[22 13 7 18]]
    :generators [(/ 1200 22)]})
 
+(def pajara
+  {:mapping [[2 2 7 8] [0 1 -2 -2]]
+   :generators [600 706.843]})
+
 ; meantone family
 (error-stats septimal-meantone)
 (error-stats edo12)
@@ -125,3 +129,6 @@
 ; porcupine family
 (error-stats septimal-porcupine)
 (error-stats edo22)
+
+; pajara
+(error-stats pajara)

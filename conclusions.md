@@ -17,3 +17,9 @@ With optimal tuning, septimal meantone has a mean error of ~6c and max error of 
 Meantone is more accurate than porcupine in both the 5-limit and 7-limit. 5-limit accuracy is comparable to that of 12edo, although 7-limit error is about halved.
 
 22edo is a near-optimal porcupine tuning.
+
+## Pajara
+
+Pajara is comparable to meantone in 5-limit accuracy, but suffers in the 7-limit.
+
+22edo isn't as good a pajara tuning as I expected it to be; it adds a nontrivial amount of error in the 5-limit.
