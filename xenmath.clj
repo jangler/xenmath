@@ -116,6 +116,14 @@
   {:mapping [[2 2 7 8] [0 1 -2 -2]]
    :generators [600 706.843]})
 
+(def superpyth
+  {:mapping [[1 0 -12 6] [0 1 9 -2]]
+   :generators [1200 710.291]})
+
+(def magic
+  {:mapping [[1 9 2 -1] [0 5 1 12]]
+   :generators [1200 380.352]})
+
 ; meantone family
 (error-stats septimal-meantone)
 (error-stats edo12)
@@ -132,3 +140,9 @@
 
 ; pajara
 (error-stats pajara)
+
+; superpyth
+(error-stats superpyth)
+
+; magic
+(error-stats magic)
