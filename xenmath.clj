@@ -104,6 +104,14 @@
   {:mapping [[72 42 23 58]]
    :generators [(/ 1200 72)]})
 
+(def septimal-porcupine
+  {:mapping [[1 2 3 2] [0 -3 -5 6]]
+   :generators [1200 163.2032]})
+
+(def edo22
+  {:mapping [[22 13 7 18]]
+   :generators [(/ 1200 22)]})
+
 ; meantone family
 (error-stats septimal-meantone)
 (error-stats edo12)
@@ -113,3 +121,7 @@
 ; marvel family
 (error-stats marvel)
 (error-stats edo72)
+
+; porcupine family
+(error-stats septimal-porcupine)
+(error-stats edo22)

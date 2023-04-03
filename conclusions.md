@@ -11,3 +11,9 @@ Marvel is a highly accurate rank-3 temperament. With optimal tuning, it has a me
 With optimal tuning, septimal meantone has a mean error of ~6c and max error of ~12c for 7-limit consonances. As a rank-2 temperament, only one pair of accidentals is required, and intervals can be named using conventional major/minor/augmented/diminished terminology.
 
 31edo is a near-optimal meantone tuning. 19edo is a slight improvement over 12edo for 5-limit consonances, and a more substantial improvment for 7-limit consonances.
+
+## Porcupine
+
+Meantone is more accurate than porcupine in both the 5-limit and 7-limit. 5-limit accuracy is comparable to that of 12edo, although 7-limit error is about halved.
+
+22edo is a near-optimal porcupine tuning.
