@@ -320,9 +320,12 @@
 ; semicomma family
 (error-stats orwell)
 
+; 2 seems like the best mode for Orwell. Like mode 4 of Meantone, it has the
+; generator and its inverse, and all non-perfect intervals are large and can
+; therefore rightly be called major -- so this is the "major scale" of Orwell.
 (def orwell9 (viable-mos orwell))
 (chroma orwell9)
-(all-notation orwell 9 0 #{1})
+(all-notation orwell 9 2 #{1})
 
 (def meantone7 (viable-mos septimal-meantone))
 (chroma meantone7)
