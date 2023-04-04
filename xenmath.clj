@@ -1,6 +1,5 @@
 (ns xenmath
-  (:require [clojure.math :as math]
-            [clojure.string :as str]))
+  (:require [clojure.math :as math]))
 
 (def prime-indices
   "Map of primes to their indices in a mapping or generator list."
@@ -37,6 +36,7 @@
   (let [generators (temperament :generators)
         num-factors (factors (numerator r))
         den-factors (factors (denominator r))
+        prime-count (count (first (temperament :mapping)))
         map-factors (fn [fs]
                       (->> (map (fn [n]
                                   (->> (temperament :mapping)
@@ -46,15 +46,20 @@
                                        (reduce +)))
                                 fs)
                            (reduce +)))]
-    (mod (- (map-factors num-factors)
-            (map-factors den-factors))
-         1200)))
+    (if (some #(>= (prime-indices %) prime-count)
+              (concat num-factors den-factors))
+      nil
+      (mod (- (map-factors num-factors)
+              (map-factors den-factors))
+           1200))))
 
 (defn tuning-error
   "Returns the tuning error of ratio r in a regular temperament."
   [r temperament]
-  (- (cents-from-ratio r)
-     (linear-tuning r temperament)))
+  (let [tuning (linear-tuning r temperament)]
+    (if (nil? tuning)
+      nil
+      (- (cents-from-ratio r) tuning))))
 
 (def consonances-of-interest
   "Ratios we're interested in tuning accurately."
@@ -69,14 +74,20 @@
    7/5 ; and 10/7
    9/7 ; and 14/9
    15/14 ; and 28/15
+   11/6 ; and 12/11
+   11/7 ; and 14/11
+   11/8 ; and 16/11
+   11/9 ; and 18/11
+   11/10 ; and 20/11
+   15/11 ; and 22/15
    ])
 
 (defn error-stats
   "Returns a map of error stats for consonances of interest in a given
    temperament."
   [temperament]
-  (let [errors (map #(abs (tuning-error % temperament))
-                    consonances-of-interest)]
+  (let [errors (map abs (keep #(tuning-error % temperament)
+                              consonances-of-interest))]
     {:errors errors
      :mean-error (/ (reduce + errors) (count errors))
      :max-error (reduce max errors)}))
@@ -181,7 +192,7 @@
                                      ((second (t :mapping)) (prime-indices f))))
                               (reduce +)))
         distance (- (reduce-factors num-factors)
-                          (reduce-factors den-factors))
+                    (reduce-factors den-factors))
         scale (genchain-index-scale t n mode)
         scale-min (reduce min scale)
         scale-max (reduce max scale)
@@ -209,12 +220,21 @@
             2 "AA"))
         (m :degree))))
 
+(defn ratio-in-tuning?
+  "Returns true if a ratio is within a temperament's prime limit."
+  [r t]
+  (let [prime-count (count (first (t :mapping)))]
+    (->> (concat (factors (numerator r))
+                 (factors (denominator r)))
+         (every? #(< (prime-indices %) prime-count)))))
+
 (defn all-notation
   "Return all notation for intervals of interest in a scale, formatted nicely."
   [t n mode perfect-degrees]
   (->> (concat consonances-of-interest
                (map #(octave-reduce (/ 1 %))
                     consonances-of-interest))
+       (filter #(ratio-in-tuning? % t))
        (map (fn [r]
               {:ratio r
                :notation (let [note (notation r t n mode)
@@ -224,8 +244,6 @@
 (def septimal-meantone
   {:mapping [[1 0 -4 -13] [0 1 4 10]]
    :generators [1200 696.9521]})
-
-(all-notation septimal-meantone 7 4 #{1 4 5})
 
 (def edo12
   {:mapping [[12 7 4 10]]
@@ -272,8 +290,8 @@
    :generators [1200 380.352]})
 
 (def orwell
-  {:mapping [[1 0 3 1] [0 7 -3 8]]
-   :generators [1200 271.509]})
+  {:mapping [[1 0 3 1 3] [0 7 -3 8 2]]
+   :generators [1200 271.426]})
 
 ; meantone family
 (error-stats septimal-meantone)
@@ -304,6 +322,8 @@
 
 (def orwell9 (viable-mos orwell))
 (chroma orwell9)
+(all-notation orwell 9 0 #{1})
 
 (def meantone7 (viable-mos septimal-meantone))
 (chroma meantone7)
+(all-notation septimal-meantone 7 4 #{1 4 5})
