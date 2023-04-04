@@ -138,9 +138,12 @@
   ; TODO: implement mode argument
   (loop [notes [{:cents 0 :index 0}]]
     (if (= (count notes) n)
-      (->> notes
-           (sort-by :cents)
-           (map :index))
+      (let [scale (->> notes
+                       (sort-by :cents)
+                       (map :index)
+                       (rotate mode))
+            base (first scale)]
+        (map #(- % base) scale))
       (let [last-note (apply (partial max-key :index) notes)]
         (recur (conj notes {:cents (mod (+ (last-note :cents)
                                            (second (t :generators)))
@@ -157,6 +160,15 @@
                      xs)
        first))
 
+(defn mod-within
+  "Like modulo, but returns a value between a and b instead of within 0 and n."
+  [x a b]
+  (let [n (inc (- b a))]
+    (loop [x x]
+      (cond (< x a) (recur (+ x n))
+            (> x b) (recur (- x n))
+            :else x))))
+
 (defn notation
   "Returns the name for an interval, given a linear temperament, scale size,
    and mode."
@@ -169,9 +181,12 @@
                                      ((second (t :mapping)) (prime-indices f))))
                               (reduce +)))
         distance (- (reduce-factors num-factors)
-                    (reduce-factors den-factors))
-        degree (inc (index-of (mod distance n) (genchain-index-scale t n mode)))
-        sharps (math/floor-div distance n)]
+                          (reduce-factors den-factors))
+        scale (genchain-index-scale t n mode)
+        scale-min (reduce min scale)
+        scale-max (reduce max scale)
+        degree (inc (index-of (mod-within distance scale-min scale-max) scale))
+        sharps (math/floor-div (- distance scale-min) n)]
     {:degree degree
      :sharps sharps}))
 
@@ -210,7 +225,7 @@
   {:mapping [[1 0 -4 -13] [0 1 4 10]]
    :generators [1200 696.9521]})
 
-(all-notation septimal-meantone 7 3 #{1 4 5})
+(all-notation septimal-meantone 7 4 #{1 4 5})
 
 (def edo12
   {:mapping [[12 7 4 10]]
