@@ -80,6 +80,34 @@
      :mean-error (/ (reduce + errors) (count errors))
      :max-error (reduce max errors)}))
 
+(defn is-mos
+  "Returns true if a scale is a MOS scale."
+  [scale]
+  (loop [sizes #{}
+         remaining scale]
+    (if (< (count remaining) 2)
+      (= (count sizes) 2)
+      (recur (conj sizes (math/round (- (first remaining) (second remaining))))
+             (rest remaining)))))
+
+; TODO: it would be nice if this gave the nicest mode
+(defn viable-mos
+  "Returns a linear temperament's closest MOS to 7 notes."
+  [temperament]
+  (loop [notes [0]
+         candidate nil]
+    (if (<= (count notes) 12)
+      (recur (conj notes (mod (+ (second (temperament :generators))
+                                 (last notes))
+                              1200))
+             (if (and (is-mos (sort notes))
+                      (or (nil? candidate)
+                          (< (abs (- (count notes) 7))
+                             (abs (- (count candidate) 7)))))
+               notes
+               candidate))
+      (sort candidate))))
+
 (def septimal-meantone
   {:mapping [[1 0 -4 -13] [0 1 4 10]]
    :generators [1200 696.9521]})
@@ -112,6 +140,10 @@
   {:mapping [[22 13 7 18]]
    :generators [(/ 1200 22)]})
 
+(def srutal
+  {:mapping [[2 0 11 -42] [0 1 -2 15]]
+   :generators [600 704.814]})
+
 (def pajara
   {:mapping [[2 2 7 8] [0 1 -2 -2]]
    :generators [600 706.843]})
@@ -123,6 +155,10 @@
 (def magic
   {:mapping [[1 9 2 -1] [0 5 1 12]]
    :generators [1200 380.352]})
+
+(def orwell
+  {:mapping [[1 0 3 1] [0 7 -3 8]]
+   :generators [1200 271.509]})
 
 ; meantone family
 (error-stats septimal-meantone)
@@ -138,7 +174,8 @@
 (error-stats septimal-porcupine)
 (error-stats edo22)
 
-; pajara
+; diaschismic family
+(error-stats srutal)
 (error-stats pajara)
 
 ; superpyth
@@ -146,3 +183,6 @@
 
 ; magic
 (error-stats magic)
+
+; semicomma family
+(error-stats orwell)
