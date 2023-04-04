@@ -1,5 +1,6 @@
 (ns xenmath
-  (:require [clojure.math :as math]))
+  (:require [clojure.math :as math]
+            [clojure.string :as str]))
 
 (def prime-indices
   "Map of primes to their indices in a mapping or generator list."
@@ -80,15 +81,23 @@
      :mean-error (/ (reduce + errors) (count errors))
      :max-error (reduce max errors)}))
 
-(defn is-mos
-  "Returns true if a scale is a MOS scale."
+(defn step-sizes
+  "Returns a set of step sizes in a scale."
   [scale]
   (loop [sizes #{}
          remaining scale]
     (if (< (count remaining) 2)
       (= (count sizes) 2)
-      (recur (conj sizes (math/round (- (first remaining) (second remaining))))
+      (recur (let [size (- (first remaining) (second remaining))]
+               (if (not-any? #(< (abs (- size %)) 1) sizes)
+                 (conj sizes size)
+                 sizes))
              (rest remaining)))))
+
+(defn mos?
+  "Returns true if a scale is a MOS scale."
+  [scale]
+  (= (count (step-sizes scale)) 2))
 
 ; TODO: it would be nice if this gave the nicest mode
 (defn viable-mos
@@ -100,17 +109,108 @@
       (recur (conj notes (mod (+ (second (temperament :generators))
                                  (last notes))
                               1200))
-             (if (and (is-mos (sort notes))
+             (if (and (mos? (conj (vec (sort notes)) 1200))
                       (or (nil? candidate)
-                          (< (abs (- (count notes) 7))
-                             (abs (- (count candidate) 7)))))
+                          (<= (abs (- (count notes) 7))
+                              (abs (- (count candidate) 7)))))
                notes
                candidate))
-      (sort candidate))))
+      (conj (vec (sort candidate)) 1200))))
+
+(defn chroma
+  "Returns the chroma of a MOS scale; that is, the difference between its
+   large and small steps."
+  [scale]
+  (->> (step-sizes scale)
+       sort
+       reverse
+       (reduce -)))
+
+(defn rotate
+  "Returns a coll rotated left by n items."
+  [n coll]
+  (concat (drop n coll) (take n coll)))
+
+(defn genchain-index-scale
+  "Returns a sequence of genchain indices in scale order, given a linear
+   temperament, scale size, and mode."
+  [t n mode]
+  ; TODO: implement mode argument
+  (loop [notes [{:cents 0 :index 0}]]
+    (if (= (count notes) n)
+      (->> notes
+           (sort-by :cents)
+           (map :index))
+      (let [last-note (apply (partial max-key :index) notes)]
+        (recur (conj notes {:cents (mod (+ (last-note :cents)
+                                           (second (t :generators)))
+                                        1200)
+                            :index (inc (last-note :index))}))))))
+
+(defn index-of
+  "Returns the index of x in xs"
+  [x xs]
+  (->> (keep-indexed (fn [i y]
+                       (if (= y x)
+                         i
+                         nil))
+                     xs)
+       first))
+
+(defn notation
+  "Returns the name for an interval, given a linear temperament, scale size,
+   and mode."
+  [r t n mode]
+  (let [num-factors (factors (numerator r))
+        den-factors (factors (denominator r))
+        reduce-factors (fn [fs]
+                         (->> fs
+                              (map (fn [f]
+                                     ((second (t :mapping)) (prime-indices f))))
+                              (reduce +)))
+        distance (- (reduce-factors num-factors)
+                    (reduce-factors den-factors))
+        degree (inc (index-of (mod distance n) (genchain-index-scale t n mode)))
+        sharps (math/floor-div distance n)]
+    {:degree degree
+     :sharps sharps}))
+
+(defn format-notation
+  "Returns a string version of a map with keys :degree and :sharps."
+  ([m] (format-notation m false))
+  ([m perfect]
+   (str (if perfect
+          (case (m :sharps)
+            -2 "dd"
+            -1 "d"
+            0 "P"
+            1 "A"
+            2 "AA")
+          (case (m :sharps)
+            -2 "d"
+            -1 "m"
+            0 "M"
+            1 "A"
+            2 "AA"))
+        (m :degree))))
+
+(defn all-notation
+  "Return all notation for intervals of interest in a scale, formatted nicely."
+  [t n mode perfect-degrees]
+  (->> (concat consonances-of-interest
+               (map #(octave-reduce (/ 1 %))
+                    consonances-of-interest))
+       (map (fn [r]
+              {:ratio r
+               :notation (let [note (notation r t n mode)
+                               perfect (perfect-degrees (note :degree))]
+                           (format-notation note perfect))}))))
 
 (def septimal-meantone
   {:mapping [[1 0 -4 -13] [0 1 4 10]]
    :generators [1200 696.9521]})
+
+(all-notation septimal-meantone 7 3 #{1 4 5})
 
 (def edo12
   {:mapping [[12 7 4 10]]
@@ -186,3 +286,9 @@
 
 ; semicomma family
 (error-stats orwell)
+
+(def orwell9 (viable-mos orwell))
+(chroma orwell9)
+
+(def meantone7 (viable-mos septimal-meantone))
+(chroma meantone7)
