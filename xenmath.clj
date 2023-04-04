@@ -293,6 +293,10 @@
   {:mapping [[1 0 3 1 3] [0 7 -3 8 2]]
    :generators [1200 271.426]})
 
+(def edo53
+  {:mapping [[53 31 17 43 24]]
+   :generators [(/ 1200 53)]})
+
 ; meantone family
 (error-stats septimal-meantone)
 (error-stats edo12)
@@ -319,13 +323,14 @@
 
 ; semicomma family
 (error-stats orwell)
+(error-stats edo53)
 
 ; 2 seems like the best mode for Orwell. Like mode 4 of Meantone, it has the
 ; generator and its inverse, and all non-perfect intervals are large and can
 ; therefore rightly be called major -- so this is the "major scale" of Orwell.
 (def orwell9 (viable-mos orwell))
 (chroma orwell9)
-(all-notation orwell 9 2 #{1})
+(all-notation orwell 9 2 #{1 3 8})
 
 (def meantone7 (viable-mos septimal-meantone))
 (chroma meantone7)
