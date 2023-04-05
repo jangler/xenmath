@@ -1,6 +1,5 @@
 # Xenmath
 
-Public domain tuning math code in [Clojure][1], using [Babashka][2].
+Public domain tuning math code in [Clojure][1].
 
 [1]: https://clojure.org/
-[2]: https://babashka.org/
