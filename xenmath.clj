@@ -325,6 +325,37 @@
 (error-stats orwell)
 (error-stats edo53)
 
+; sensi
+(def sensi
+  {:mapping [[1 -1 -1 -2] [0 7 9 13]]
+   :generators [1200 443.383]})
+(error-stats sensi)
+(def edo46
+  {:mapping [[46 27 15 37]]
+   :generators [(/ 1200 46)]})
+(error-stats edo46)
+
+; tetracot
+(def tetracot
+  {:mapping [[1 1 1 5 2] [0 4 9 -15 10]]
+   :generators [1200 175.570]})
+(error-stats tetracot)
+(def edo41
+  {:mapping [[41 24 13 33 19]]
+   :generators [(/ 1200 41)]})
+(error-stats edo41)
+
+; catakleismic
+(def catakleismic
+  {:mapping [[1 0 1 -3] [0 6 5 22]]
+   :generators [1200 316.732]})
+(error-stats catakleismic)
+(def edo53-7-limit
+  {:mapping [[53 31 17 43]]
+   :generators [(/ 1200 53)]})
+(error-stats edo53-7-limit)
+(error-stats edo72)
+
 ; 2 seems like the best mode for Orwell. Like mode 4 of Meantone, it has the
 ; generator and its inverse, and all non-perfect intervals are large and can
 ; therefore rightly be called major -- so this is the "major scale" of Orwell.
