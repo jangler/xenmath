@@ -116,10 +116,17 @@
 (error-stats odd-limit-15 edo53)
 
 ; sensi
-(def sensi
+(def septimal-sensi
   {:mapping [[1 -1 -1 -2] [0 7 9 13]]
    :generators [1200 443.383]})
-(error-stats odd-limit-15 sensi)
+(error-stats odd-limit-15 septimal-sensi)
+(chroma (viable-mos septimal-sensi))
+(all-notation odd-limit-15 septimal-sensi 8 2 #{1 4 6} true)
+(def sensation
+  {:mapping [[1 -1 -1 -2 nil 0] [0 7 9 13 nil 10]]
+   :generators [1200 443.322]})
+(error-stats odd-limit-15 sensation)
+(all-notation odd-limit-15 sensation 8 2 #{1 4 6} true)
 (def edo46
   {:mapping [[46 27 15 37]]
    :generators [(/ 1200 46)]})
@@ -130,6 +137,8 @@
   {:mapping [[1 1 1 5 2] [0 4 9 -15 10]]
    :generators [1200 175.570]})
 (error-stats odd-limit-15 tetracot)
+(viable-mos tetracot)
+(all-notation odd-limit-15 tetracot 7 1 #{1 2 7} false)
 (def edo41
   {:mapping [[41 24 13 33 19]]
    :generators [(/ 1200 41)]})
@@ -137,9 +146,11 @@
 
 ; catakleismic
 (def catakleismic
-  {:mapping [[1 0 1 -3] [0 6 5 22]]
+  {:mapping [[1 0 1 -3 nil 0] [0 6 5 22 nil 14]]
    :generators [1200 316.732]})
 (error-stats odd-limit-15 catakleismic)
+(viable-mos catakleismic)
+(all-notation odd-limit-15 catakleismic 7 3 #{1 3 6} true)
 (def edo53-7-limit
   {:mapping [[53 31 17 43]]
    :generators [(/ 1200 53)]})
@@ -151,8 +162,8 @@
 ; therefore rightly be called major -- so this is the "major scale" of Orwell.
 (def orwell9 (viable-mos orwell))
 (chroma orwell9)
-(all-notation odd-limit-15 orwell 9 2 #{1 3 8})
+(all-notation odd-limit-15 orwell 9 2 #{1 3 8} false)
 
 (def meantone7 (viable-mos septimal-meantone))
 (chroma meantone7)
-(all-notation odd-limit-15 septimal-meantone 7 4 #{1 4 5})
+(all-notation odd-limit-15 septimal-meantone 7 4 #{1 4 5} false)

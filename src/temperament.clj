@@ -5,10 +5,13 @@
 (defn maps-ratio?
   "Returns true if a ratio is within a temperament's prime limit."
   [t r]
-  (let [prime-count (count (first (t :mapping)))]
+  (let [period-mapping (first (t :mapping))]
     (->> (concat (factors (numerator r))
                  (factors (denominator r)))
-         (every? #(< (prime-indices %) prime-count)))))
+         (every? (fn [x]
+                   (let [i (prime-indices x)]
+                     (and (< i (count period-mapping))
+                          (some? (nth period-mapping i)))))))))
 
 (defn linear-tuning
   "Returns the cents of ratio r in a linear temperament t with the given

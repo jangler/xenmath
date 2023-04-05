@@ -48,7 +48,7 @@
 (defn notation
   "Returns the name for an interval, given a linear temperament, scale size,
    and mode."
-  [r t n mode]
+  [r t n mode reverse-chroma]
   (let [num-factors (factors (numerator r))
         den-factors (factors (denominator r))
         reduce-factors (fn [fs]
@@ -64,26 +64,29 @@
         degree (inc (index-of (mod-within distance scale-min scale-max) scale))
         sharps (math/floor-div (- distance scale-min) n)]
     {:degree degree
-     :sharps sharps}))
+     :sharps (if reverse-chroma
+               (- sharps)
+               sharps)}))
 
 (defn format-notation
   "Returns a string version of a map with keys :degree and :sharps."
-  ([m] (format-notation m false))
-  ([m perfect]
-   (str (if perfect
-          (case (m :sharps)
-            -2 "dd"
-            -1 "d"
-            0 "P"
-            1 "A"
-            2 "AA")
-          (case (m :sharps)
-            -2 "d"
-            -1 "m"
-            0 "M"
-            1 "A"
-            2 "AA"))
-        (m :degree))))
+  [m perfect]
+  (if (< (abs (m :sharps)) 3)
+    (str (if perfect
+           (case (m :sharps)
+             -2 "dd"
+             -1 "d"
+             0 "P"
+             1 "A"
+             2 "AA")
+           (case (m :sharps)
+             -2 "d"
+             -1 "m"
+             0 "M"
+             1 "A"
+             2 "AA"))
+         (m :degree))
+    nil))
 
 (defn octave-reduce
   "Returns r, doubled or halved until within the range [1, 2]."
@@ -94,12 +97,11 @@
 
 (defn all-notation
   "Return all notation for intervals of interest in a scale, formatted nicely."
-  [rs t n mode perfect-degrees]
-  (->> (concat rs (map #(octave-reduce (/ 1 %))
-                       rs))
+  [rs t n mode perfect-degrees reverse-chroma]
+  (->> (concat rs (map #(octave-reduce (/ 1 %)) rs))
        (filter #(temperament/maps-ratio? t %))
        (map (fn [r]
               {:ratio r
-               :notation (let [note (notation r t n mode)
+               :notation (let [note (notation r t n mode reverse-chroma)
                                perfect (perfect-degrees (note :degree))]
                            (format-notation note perfect))}))))
