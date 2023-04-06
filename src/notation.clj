@@ -70,21 +70,14 @@
 
 (defn format-notation
   "Returns a string version of a map with keys :degree and :sharps."
-  [m perfect]
-  (if (< (abs (m :sharps)) 3)
-    (str (if perfect
-           (case (m :sharps)
-             -2 "dd"
-             -1 "d"
-             0 "P"
-             1 "A"
-             2 "AA")
-           (case (m :sharps)
-             -2 "d"
-             -1 "m"
-             0 "M"
-             1 "A"
-             2 "AA"))
+  [m]
+  (if (and (< (m :sharps) 2)
+           (> (m :sharps) -3))
+    (str (case (m :sharps)
+           -2 "ss"
+           -1 "s"
+           0 "L"
+           1 "LL")
          (m :degree))
     nil))
 
@@ -97,11 +90,10 @@
 
 (defn all-notation
   "Return all notation for intervals of interest in a scale, formatted nicely."
-  [rs t n mode perfect-degrees reverse-chroma]
+  [rs t n mode reverse-chroma]
   (->> (concat rs (map #(octave-reduce (/ 1 %)) rs))
        (filter #(temperament/maps-ratio? t %))
        (map (fn [r]
               {:ratio r
-               :notation (let [note (notation r t n mode reverse-chroma)
-                               perfect (perfect-degrees (note :degree))]
-                           (format-notation note perfect))}))))
+               :notation (let [note (notation r t n mode reverse-chroma)]
+                           (format-notation note))}))))
