@@ -162,6 +162,13 @@
 (chroma orwell9)
 (all-notation odd-limit-15 orwell 9 0 false)
 
+; miracle
+(def miracle
+  {:mapping [[1 1 3 3] [0 6 -7 -2]]
+   :generators [1200 116.675]})
+(error-stats odd-limit-15 miracle)
+(viable-mos miracle) ; doesn't give a nice result currently
+
 (def meantone7 (viable-mos septimal-meantone))
 (chroma meantone7)
 (all-notation odd-limit-15 septimal-meantone 7 4 false)
