@@ -169,6 +169,21 @@
 (error-stats odd-limit-15 miracle)
 (viable-mos miracle) ; doesn't give a nice result currently
 
+; myna
+(def myna
+  {:mapping [[1 -9 -9 -8] [0 10 9 7]]
+   :generators [1200 310.146]})
+(error-stats odd-limit-15 myna)
+(viable-mos myna) ; not nice
+
+; garibaldi
+(def garibaldi
+  {:mapping [[1 0 15 25] [0 1 -8 -14]]
+   :generators [1200 702.085]})
+(error-stats odd-limit-15 garibaldi)
+(viable-mos garibaldi)
+(all-notation odd-limit-15 garibaldi 7 0 false)
+
 (def meantone7 (viable-mos septimal-meantone))
 (chroma meantone7)
 (all-notation odd-limit-15 septimal-meantone 7 4 false)
