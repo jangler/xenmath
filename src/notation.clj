@@ -74,10 +74,10 @@
   (if (and (< (m :sharps) 2)
            (> (m :sharps) -3))
     (str (case (m :sharps)
-           -2 "ss"
+           -2 "d"
            -1 "s"
            0 "L"
-           1 "LL")
+           1 "A")
          (m :degree))
     nil))
 
