@@ -31,9 +31,17 @@
    15/13 ; and 26/15
    ])
 
+; meantone
 (def septimal-meantone
   {:mapping [[1 0 -4 -13] [0 1 4 10]]
    :generators [1200 696.9521]})
+(all-notation odd-limit-15 septimal-meantone 7 4 false)
+(def godzilla
+  {:mapping [[1 0 -4 2] [0 -2 -8 -1]]
+   :generators [1200 252.635]})
+(error-stats odd-limit-15 godzilla)
+(viable-mos godzilla)
+(all-notation odd-limit-15 godzilla 5 0 false)
 
 (def edo12
   {:mapping [[12 7 4 10]]
@@ -144,7 +152,7 @@
    :generators [(/ 1200 41)]})
 (error-stats odd-limit-15 edo41)
 
-; catakleismic
+; kleismic
 (def catakleismic
   {:mapping [[1 0 1 -3 nil 0] [0 6 5 22 nil 14]]
    :generators [1200 316.732]})
@@ -156,6 +164,11 @@
    :generators [(/ 1200 53)]})
 (error-stats odd-limit-15 edo53-7-limit)
 (error-stats odd-limit-15 edo72)
+(def keemun
+  {:mapping [[1 0 1 2] [0 6 5 3]]
+   :generators [1200 316.473]})
+(error-stats odd-limit-15 keemun)
+(viable-mos keemun)
 
 ; orwell
 (def orwell9 (viable-mos orwell))
@@ -183,7 +196,3 @@
 (error-stats odd-limit-15 garibaldi)
 (viable-mos garibaldi)
 (all-notation odd-limit-15 garibaldi 7 0 false)
-
-(def meantone7 (viable-mos septimal-meantone))
-(chroma meantone7)
-(all-notation odd-limit-15 septimal-meantone 7 4 false)

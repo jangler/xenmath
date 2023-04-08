@@ -32,7 +32,7 @@
   [t]
   (loop [notes [0]
          candidate nil]
-    (if (<= (count notes) 12)
+    (if (<= (count notes) 8)
       (recur (conj notes (mod (+ (second (t :generators))
                                  (last notes))
                               1200))
