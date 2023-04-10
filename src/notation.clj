@@ -97,3 +97,23 @@
               {:ratio r
                :notation (let [note (notation r t n mode reverse-chroma)]
                            (format-notation note))}))))
+
+(defn notate-planar
+  "Notate a ratio in a planar temperament with a fifth generator."
+  [r t]
+  (let [m (temperament/map-ratio r t)
+        degree (nth [1 5 2 6 3 7 4] (mod (first m) 7))
+        chroma (math/floor-div (inc (first m)) 7)
+        quality (if (#{1 4 5} degree)
+                  (case chroma
+                    -1 "d"
+                    0 "P"
+                    1 "A")
+                  (case chroma
+                    -2 "d"
+                    -1 "m"
+                    0 "M"
+                    1 "A"))
+        downs (apply str (map (fn [_] "v") (range (- (second m)))))
+        ups (apply str (map (fn [_] "^") (range (second m))))]
+    (str downs ups quality degree)))

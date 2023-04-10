@@ -29,17 +29,18 @@
 
 (defn viable-mos
   "Returns a linear temperament's closest MOS to 7 notes."
-  [t]
-  (loop [notes [0]
-         candidate nil]
-    (if (<= (count notes) 8)
-      (recur (conj notes (mod (+ (second (t :generators))
-                                 (last notes))
-                              1200))
-             (if (and (mos? (conj (vec (sort notes)) 1200))
-                      (or (nil? candidate)
-                          (<= (abs (- (count notes) 7))
-                              (abs (- (count candidate) 7)))))
-               notes
-               candidate))
-      (conj (vec (sort candidate)) 1200))))
+  ([t] (viable-mos t 8))
+  ([t n]
+   (loop [notes [0]
+          candidate nil]
+     (if (<= (count notes) n)
+       (recur (conj notes (mod (+ (second (t :generators))
+                                  (last notes))
+                               1200))
+              (if (and (mos? (conj (vec (sort notes)) 1200))
+                       (or (nil? candidate)
+                           (<= (abs (- (count notes) 7))
+                               (abs (- (count candidate) 7)))))
+                notes
+                candidate))
+       (conj (vec (sort candidate)) 1200)))))

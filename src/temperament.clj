@@ -1,6 +1,6 @@
 (ns temperament
   (:require [clojure.math :as math]
-            [integer :refer [factors prime-indices]]))
+            [integer :refer [factors monzo prime-indices]]))
 
 (defn maps-ratio?
   "Returns true if a ratio is within a temperament's prime limit."
@@ -12,6 +12,18 @@
                    (let [i (prime-indices x)]
                      (and (< i (count period-mapping))
                           (some? (nth period-mapping i)))))))))
+
+(defn map-ratio
+  "Returns the mapping for ratio r in temperament t."
+  [r t]
+  (let [e (monzo r)]
+    (->> (t :mapping)
+         (map (fn [v]
+                (->> v
+                     (map-indexed (fn [i x]
+                                      (* x (nth e i))))
+                     (reduce +))))
+         rest)))
 
 (defn linear-tuning
   "Returns the cents of ratio r in a linear temperament t with the given

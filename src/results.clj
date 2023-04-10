@@ -1,7 +1,7 @@
 (ns results
   (:require [notation :refer [all-notation]]
             [scale :refer [chroma viable-mos]]
-            [temperament :refer [error-stats]]))
+            [temperament :refer [error-stats map-ratio]]))
 
 (def odd-limit-15
   "Ratios we're interested in tuning accurately."
@@ -55,10 +55,6 @@
   {:mapping [[31 18 10 25]]
    :generators [(/ 1200 31)]})
 
-(def marvel
-  {:mapping [[1 0 0 -5] [0 1 0 2] [0 0 1 2]]
-   :generators [1200 700.4075 383.6376]})
-
 (def edo72
   {:mapping [[72 42 23 58]]
    :generators [(/ 1200 72)]})
@@ -78,10 +74,6 @@
 (def pajara
   {:mapping [[2 2 7 8] [0 1 -2 -2]]
    :generators [600 706.843]})
-
-(def superpyth
-  {:mapping [[1 0 -12 6] [0 1 9 -2]]
-   :generators [1200 710.291]})
 
 (def magic
   {:mapping [[1 9 2 -1] [0 5 1 12]]
@@ -113,8 +105,23 @@
 (error-stats odd-limit-15 srutal)
 (error-stats odd-limit-15 pajara)
 
-; superpyth
+; archytas clan
+(def superpyth
+  {:mapping [[1 0 -12 6] [0 1 9 -2]]
+   :generators [1200 710.291]})
 (error-stats odd-limit-15 superpyth)
+(def archy
+  {:mapping [[1 0 nil 6] [0 1 nil -2]]
+   :generators [1200 709.321]})
+(error-stats odd-limit-15 archy)
+(viable-mos archy)
+(all-notation odd-limit-15 archy 7 6 true)
+(def beatles
+  {:mapping [[1 1 nil 4] [0 2 nil -4]]
+   :generators [1200 354.6606]})
+(error-stats odd-limit-15 beatles)
+(viable-mos beatles)
+(all-notation odd-limit-15 beatles 7 4 true)
 
 ; magic
 (error-stats odd-limit-15 magic)
@@ -196,3 +203,69 @@
 (error-stats odd-limit-15 garibaldi)
 (viable-mos garibaldi)
 (all-notation odd-limit-15 garibaldi 7 0 false)
+
+; gamelismic clan
+(def slendric
+  {:mapping [[1 1 nil 3] [0 3 nil -1]]
+   :generators [1200 233.688]})
+(error-stats odd-limit-15 slendric)
+(->> (viable-mos slendric 5)
+     (chroma))
+(all-notation odd-limit-15 slendric 5 3 true) ; wrong result currently
+
+; liese
+(def liese
+  {:mapping [[1 3 nil 8] [0 -3 nil -11]]
+   :generators [1200 566.4752]})
+(error-stats odd-limit-15 liese)
+(viable-mos liese)
+
+; squares
+(def squares
+  {:mapping [[1 3 nil 6] [0 -4 nil -9]]
+   :generators [1200 425.3655]})
+(error-stats odd-limit-15 squares)
+(viable-mos squares)
+(all-notation odd-limit-15 squares 8 5 true)
+
+; marvel
+(def marvel
+  {:mapping [[1 0 0 -5] [0 1 0 2] [0 0 1 2]]
+   :generators [1200 700.4075 383.6376]})
+(def minerva
+  {:mapping [[1 0 0 -5 -9] [0 1 0 2 2] [0 0 1 2 4]]
+   :generators [1200 700.2593 386.5581]})
+(def minerva-syncom ; syntonic comma as third generator
+  {:mapping [[1 0 -2 -5 -3] [0 1 4 10 6] [0 0 -1 -2 -3]]
+   :generators [1200 700.2593 14.4791]})
+(error-stats odd-limit-15 marvel)
+(error-stats odd-limit-15 minerva)
+(error-stats odd-limit-15 minerva-syncom) ; a bit higher for some reason?
+(temperament/map-ratio 11/8 minerva-syncom)
+(defn all-notation-planar [t]
+  "Return notation for a planar temperament. The second generator must be a
+   fifth, and the third generator must be a comma."
+  (->> (concat odd-limit-15 (map #(* (/ 1 %) 2) odd-limit-15))
+       (filter #(temperament/maps-ratio? t %))
+       (sort-by (fn [r]
+                  (reduce + (concat (integer/factors (numerator r))
+                                    (integer/factors (denominator r))))))
+       (map (fn [r]
+              [r (notation/notate-planar r t)]))))
+(all-notation-planar minerva-syncom)
+
+; hemifamity
+(def hemifamity
+  {:mapping [[1 0 0 10] [0 1 0 -6] [0 0 1 1]]
+   :generators [1200 1902.8292 2786.8177]})
+(error-stats odd-limit-15 hemifamity)
+(let [tuning #(temperament/linear-tuning % hemifamity)
+      yo-third (tuning 5/4)
+      wa-third (tuning 81/64)
+      fifth (tuning 3/2)]
+  {:sharp-flat (mod (* fifth 7) 1200)
+   :up-down (- wa-third yo-third)})
+(def hemifamity-comma
+  {:mapping [[1 0 -2 4] [0 1 4 -2] [0 0 -1 -1]]
+   :generators [1200 702.8292 24.4991]})
+(all-notation-planar hemifamity-comma)
