@@ -321,7 +321,7 @@
    :generators [1200 1902.9138 2785.1307]})
 (error-stats odd-limit-15 akea)
 (optimize akea odd-limit-15 100000)
-(let [tuning #(temperament/linear-tuning % pele)
+(let [tuning #(temperament/linear-tuning % laka)
       yo-third (tuning 5/4)
       wa-third (tuning 81/64)
       fifth (tuning 3/2)]
@@ -364,3 +364,12 @@
   {:pele (undecimal-notation pele-comma)
    :laka (undecimal-notation laka-comma)
    :akea (undecimal-notation akea-comma)})
+(map (fn [r]
+       [r (temperament/linear-tuning r laka-comma)])
+     [27/16 81/64 243/128 256/243 128/81 32/27 45/32])
+(def hemifamity-11 ; adds a "generator" for the undecimal comma
+  {:mapping [[1 0 -2 4 1] [0 1 4 -2 -1] [0 0 -1 -1 0] [0 0 0 0 1]]
+   :generators [1200 702.6743 24.3867 54.1693]})
+(error-stats odd-limit-15 hemifamity-11)
+(optimize hemifamity-11 odd-limit-15 100000)
+(all-notation-planar hemifamity-11)

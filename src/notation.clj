@@ -132,5 +132,11 @@
                     1 "A"
                     2 "AA"))
         downs (apply str (map (fn [_] "v") (range (- (second m)))))
-        ups (apply str (map (fn [_] "^") (range (second m))))]
-    (str downs ups quality degree)))
+        ups (apply str (map (fn [_] "^") (range (second m))))
+        drops (if (> (count m) 2)
+                (apply str (map (fn [_] "/") (range (- (nth m 2)))))
+                "")
+        lifts (if (> (count m) 2)
+                (apply str (map (fn [_] "\\") (range (nth m 2))))
+                "")]
+    (str drops lifts downs ups quality degree)))
