@@ -70,14 +70,26 @@
 
 (defn format-notation
   "Returns a string version of a map with keys :degree and :sharps."
-  [m]
-  (if (and (< (m :sharps) 2)
-           (> (m :sharps) -3))
-    (str (case (m :sharps)
-           -2 "d"
-           -1 "s"
-           0 "L"
-           1 "A")
+  [m perfect]
+  (if (and (< (m :sharps) 4)
+           (> (m :sharps) -4))
+    (str (if perfect
+           (case (m :sharps)
+             -3 "ddd"
+             -2 "dd"
+             -1 "d"
+             0 "P"
+             1 "A"
+             2 "AA"
+             3 "AAA")
+           (case (m :sharps)
+             -3 "dd"
+             -2 "d"
+             -1 "s"
+             0 "L"
+             1 "A"
+             2 "AA"
+             3 "AAA"))
          (m :degree))
     nil))
 
@@ -90,13 +102,15 @@
 
 (defn all-notation
   "Return all notation for intervals of interest in a scale, formatted nicely."
-  [rs t n mode reverse-chroma]
-  (->> (concat rs (map #(octave-reduce (/ 1 %)) rs))
-       (filter #(temperament/maps-ratio? t %))
-       (map (fn [r]
-              {:ratio r
-               :notation (let [note (notation r t n mode reverse-chroma)]
-                           (format-notation note))}))))
+  ([rs t n mode reverse-chroma] (all-notation rs t n mode reverse-chroma #{1}))
+  ([rs t n mode reverse-chroma perfect-intervals]
+   (->> (concat rs (map #(octave-reduce (/ 1 %)) rs))
+        (filter #(temperament/maps-ratio? t %))
+        (map (fn [r]
+               {:ratio r
+                :notation (let [note (notation r t n mode reverse-chroma)
+                                perfect (perfect-intervals (note :degree))]
+                            (format-notation note perfect))})))))
 
 (defn notate-planar
   "Notate a ratio in a planar temperament with a fifth generator."

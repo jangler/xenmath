@@ -1,7 +1,9 @@
 (ns results
   (:require [notation :refer [all-notation]]
             [scale :refer [chroma viable-mos]]
-            [temperament :refer [error-stats map-ratio]]))
+            [temperament :refer [error-stats map-ratio]]
+            [integer]
+            [clojure.math :as math]))
 
 (def odd-limit-15
   "Ratios we're interested in tuning accurately."
@@ -35,6 +37,7 @@
 (def septimal-meantone
   {:mapping [[1 0 -4 -13] [0 1 4 10]]
    :generators [1200 696.9521]})
+(error-stats odd-limit-15 septimal-meantone)
 (all-notation odd-limit-15 septimal-meantone 7 4 false)
 (def godzilla
   {:mapping [[1 0 -4 2] [0 -2 -8 -1]]
@@ -42,6 +45,43 @@
 (error-stats odd-limit-15 godzilla)
 (viable-mos godzilla)
 (all-notation odd-limit-15 godzilla 5 0 false)
+(def undecimal-meantone
+  {:mapping [[1 0 -4 -13 -25] [0 1 4 10 18]]
+   :generators [1200 696.7130]})
+(error-stats odd-limit-15 undecimal-meantone)
+(def meanpop
+  {:mapping [[1 0 -4 -13 24] [0 1 4 10 -13]]
+   :generators [1200 696.5311]})
+(error-stats odd-limit-15 meanpop)
+(let [undecimal-notation (fn [t]
+                           (->> (all-notation odd-limit-15 t 7 4 false #{1 4 5})
+                                (filter #(not= 0 (nth (integer/monzo (% :ratio))
+                                                      (integer/prime-indices 11))))))
+      meantone-notation (undecimal-notation undecimal-meantone)
+      meanpop-notation (undecimal-notation meanpop)]
+  ; meanpop's error is a bit lower, but notation is a bit uglier.
+  ; no mapping for 11/7 might be a dealbreaker, though.
+  [meantone-notation meanpop-notation])
+(defn optimize
+  [t rs n]
+  (let [error (fn [t]
+                (let [es (error-stats rs t)]
+                  (es :max-error)))]
+    (loop [t t
+           n n
+           e (error t)]
+      (if (pos? n)
+        (let [gs (t :generators)
+              t2 (assoc t :generators
+                        (vec (concat [(first gs)]
+                                     (->> (rest gs)
+                                          (map #(+ % (- (math/random) 0.5)))))))
+              e2 (error t2)]
+          (recur (if (< e2 e) t2 t)
+                 (dec n)
+                 (if (< e2 e) e2 e)))
+        t))))
+(optimize undecimal-meantone odd-limit-15 100000)
 
 (def edo12
   {:mapping [[12 7 4 10]]
@@ -92,10 +132,6 @@
 (error-stats odd-limit-15 edo12)
 (error-stats odd-limit-15 edo19)
 (error-stats odd-limit-15 edo31)
-
-; marvel family
-(error-stats odd-limit-15 marvel)
-(error-stats odd-limit-15 edo72)
 
 ; porcupine family
 (error-stats odd-limit-15 septimal-porcupine)
@@ -242,9 +278,10 @@
 (error-stats odd-limit-15 minerva)
 (error-stats odd-limit-15 minerva-syncom) ; a bit higher for some reason?
 (temperament/map-ratio 11/8 minerva-syncom)
-(defn all-notation-planar [t]
+(defn all-notation-planar
   "Return notation for a planar temperament. The second generator must be a
    fifth, and the third generator must be a comma."
+  [t]
   (->> (concat odd-limit-15 (map #(* (/ 1 %) 2) odd-limit-15))
        (filter #(temperament/maps-ratio? t %))
        (sort-by (fn [r]
@@ -252,6 +289,16 @@
                                     (integer/factors (denominator r))))))
        (map (fn [r]
               [r (notation/notate-planar r t)]))))
+(defn all-tunings
+  "Return all tunings for a temperament."
+  [t]
+  (->> (concat odd-limit-15 (map #(* (/ 1 %) 2) odd-limit-15))
+       (filter #(temperament/maps-ratio? t %))
+       (sort-by (fn [r]
+                  (reduce + (concat (integer/factors (numerator r))
+                                    (integer/factors (denominator r))))))
+       (map (fn [r]
+              [r (temperament/linear-tuning r t)]))))
 (all-notation-planar minerva-syncom)
 
 ; hemifamity
@@ -267,5 +314,11 @@
    :up-down (- wa-third yo-third)})
 (def hemifamity-comma
   {:mapping [[1 0 -2 4] [0 1 4 -2] [0 0 -1 -1]]
-   :generators [1200 702.8292 24.4991]})
+   :generators [1200 702.6752 24.3852]})
+(error-stats odd-limit-15 hemifamity-comma)
+(optimize hemifamity-comma odd-limit-15 100000)
 (all-notation-planar hemifamity-comma)
+(all-tunings hemifamity)
+(map (fn [r]
+       [r (temperament/linear-tuning r hemifamity)])
+     [27/16 81/64 243/128 256/243 128/81 32/27 45/32])
