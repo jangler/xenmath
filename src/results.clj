@@ -306,7 +306,22 @@
   {:mapping [[1 0 0 10] [0 1 0 -6] [0 0 1 1]]
    :generators [1200 1902.8292 2786.8177]})
 (error-stats odd-limit-15 hemifamity)
-(let [tuning #(temperament/linear-tuning % hemifamity)
+(def pele
+  {:mapping [[1 0 0 10 17] [0 1 0 -6 -10] [0 0 1 1 1]]
+   :generators [1200 1903.3592 2788.6230]})
+(error-stats odd-limit-15 pele)
+(optimize pele odd-limit-15 100000)
+(def laka
+  {:mapping [[1 0 0 10 -18] [0 1 0 -6 15] [0 0 1 1 -1]]
+   :generators [1200 1902.6246 2786.3153]})
+(error-stats odd-limit-15 laka)
+(optimize laka odd-limit-15 100000)
+(def akea
+  {:mapping [[1 0 0 10 -3] [0 1 0 -6 7] [0 0 1 1 -2]]
+   :generators [1200 1902.9138 2785.1307]})
+(error-stats odd-limit-15 akea)
+(optimize akea odd-limit-15 100000)
+(let [tuning #(temperament/linear-tuning % pele)
       yo-third (tuning 5/4)
       wa-third (tuning 81/64)
       fifth (tuning 3/2)]
@@ -322,3 +337,30 @@
 (map (fn [r]
        [r (temperament/linear-tuning r hemifamity)])
      [27/16 81/64 243/128 256/243 128/81 32/27 45/32])
+(def pele-comma
+  {:mapping [[1 0 -2 4 0] [0 1 4 -2 -6] [0 0 -1 -1 -1]]
+   :generators [1200 1903.3592 24.8138]})
+(error-stats odd-limit-15 pele-comma)
+(->> (range -20 20) ; to find mappings
+     (map (fn [i]
+            {:mapping [[1 0 -2 4 0] [0 1 4 -2 i] [0 0 -1 -1 -1]]
+             :generators [1200 1903.3592 24.8138]}))
+     (sort-by #((error-stats odd-limit-15 %) :max-error)))
+(def laka-comma
+  {:mapping [[1 0 -2 4 0] [0 1 4 -2 11] [0 0 -1 -1 1]]
+   :generators [1200 1902.6246 24.1832]})
+(error-stats odd-limit-15 laka-comma)
+(optimize laka-comma odd-limit-15 100000)
+(all-notation-planar laka-comma)
+(def akea-comma
+  {:mapping [[1 0 -2 4 0] [0 1 4 -2 -1] [0 0 -1 -1 2]]
+   :generators [1200 1902.9138 26.5245]})
+(error-stats odd-limit-15 akea-comma)
+(all-notation-planar akea-comma)
+(let [undecimal-notation (fn [t]
+                           (->> (all-notation-planar t)
+                                (filter #(not= 0 (nth (integer/monzo (first %))
+                                                      (integer/prime-indices 11))))))]
+  {:pele (undecimal-notation pele-comma)
+   :laka (undecimal-notation laka-comma)
+   :akea (undecimal-notation akea-comma)})

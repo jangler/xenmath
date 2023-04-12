@@ -120,14 +120,17 @@
         chroma (math/floor-div (inc (first m)) 7)
         quality (if (#{1 4 5} degree)
                   (case chroma
+                    -2 "dd"
                     -1 "d"
                     0 "P"
-                    1 "A")
+                    1 "A"
+                    2 "AA")
                   (case chroma
                     -2 "d"
                     -1 "m"
                     0 "M"
-                    1 "A"))
+                    1 "A"
+                    2 "AA"))
         downs (apply str (map (fn [_] "v") (range (- (second m)))))
         ups (apply str (map (fn [_] "^") (range (second m))))]
     (str downs ups quality degree)))
