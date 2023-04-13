@@ -37,6 +37,17 @@
 (def elevens-only
   (filter #(not= 0 (nth (integer/monzo %) (integer/prime-indices 11))) odd-limit-15))
 
+(defn all-tunings
+  "Return all tunings for a temperament."
+  [t]
+  (->> (concat odd-limit-15 (map #(* (/ 1 %) 2) odd-limit-15))
+       (filter #(temperament/maps-ratio? t %))
+       (sort-by (fn [r]
+                  (reduce + (concat (integer/factors (numerator r))
+                                    (integer/factors (denominator r))))))
+       (map (fn [r]
+              [r (temperament/linear-tuning r t)]))))
+
 ; meantone
 (def septimal-meantone
   {:mapping [[1 0 -4 -13] [0 1 4 10]]
@@ -85,7 +96,12 @@
                 (dec n)
                 (if (< e2 e) e2 e)))
        t))))
-(optimize undecimal-meantone 100000)
+; (optimize undecimal-meantone 100000)
+(all-notation [2187/2048 81/80 64/63 33/32] undecimal-meantone 7 4 false #{1 4 5})
+(all-tunings undecimal-meantone)
+(map (fn [r]
+       [r (temperament/linear-tuning r undecimal-meantone)])
+     [27/16 81/64 243/128 256/243 128/81 32/27 1024/729])
 
 (def edo12
   {:mapping [[12 7 4 10]]
@@ -96,8 +112,9 @@
    :generators [(/ 1200 19)]})
 
 (def edo31
-  {:mapping [[31 18 10 25]]
+  {:mapping [[31 18 10 25 14]]
    :generators [(/ 1200 31)]})
+(error-stats odd-limit-15 edo31)
 
 (def edo72
   {:mapping [[72 42 23 58]]
@@ -293,16 +310,6 @@
                                     (integer/factors (denominator r))))))
        (map (fn [r]
               [r (notation/notate-planar r t)]))))
-(defn all-tunings
-  "Return all tunings for a temperament."
-  [t]
-  (->> (concat odd-limit-15 (map #(* (/ 1 %) 2) odd-limit-15))
-       (filter #(temperament/maps-ratio? t %))
-       (sort-by (fn [r]
-                  (reduce + (concat (integer/factors (numerator r))
-                                    (integer/factors (denominator r))))))
-       (map (fn [r]
-              [r (temperament/linear-tuning r t)]))))
 (all-notation-planar minerva-syncom)
 
 ; hemifamity
@@ -314,33 +321,23 @@
   {:mapping [[1 0 0 10 17] [0 1 0 -6 -10] [0 0 1 1 1]]
    :generators [1200 1903.3592 2788.6230]})
 (error-stats odd-limit-15 pele)
-(optimize pele 100000)
+; (optimize pele 100000)
 (def laka
   {:mapping [[1 0 0 10 -18] [0 1 0 -6 15] [0 0 1 1 -1]]
    :generators [1200 1902.6246 2786.3153]})
 (error-stats odd-limit-15 laka)
-(optimize laka 100000)
+; (optimize laka 100000)
 (def akea
   {:mapping [[1 0 0 10 -3] [0 1 0 -6 7] [0 0 1 1 -2]]
    :generators [1200 1902.9138 2785.1307]})
 (error-stats odd-limit-15 akea)
-(optimize akea 100000)
-(let [tuning #(temperament/linear-tuning % laka)
-      yo-third (tuning 5/4)
-      wa-third (tuning 81/64)
-      fifth (tuning 3/2)]
-  {:sharp-flat (mod (* fifth 7) 1200)
-   :up-down (- wa-third yo-third)})
+; (optimize akea 100000)
 (def hemifamity-comma
   {:mapping [[1 0 -2 4] [0 1 4 -2] [0 0 -1 -1]]
    :generators [1200 702.6752 24.3852]})
 (error-stats odd-limit-15 hemifamity-comma)
-(optimize hemifamity-comma 100000)
+; (optimize hemifamity-comma 100000)
 (all-notation-planar hemifamity-comma)
-(all-tunings hemifamity)
-(map (fn [r]
-       [r (temperament/linear-tuning r hemifamity)])
-     [27/16 81/64 243/128 256/243 128/81 32/27 45/32])
 (def pele-comma
   {:mapping [[1 0 -2 4 0] [0 1 4 -2 -6] [0 0 -1 -1 -1]]
    :generators [1200 1903.3592 24.8138]})
@@ -354,7 +351,7 @@
   {:mapping [[1 0 -2 4 0] [0 1 4 -2 11] [0 0 -1 -1 1]]
    :generators [1200 1902.6246 24.1832]})
 (error-stats odd-limit-15 laka-comma)
-(optimize laka-comma 100000)
+; (optimize laka-comma 100000)
 (all-notation-planar laka-comma)
 (def akea-comma
   {:mapping [[1 0 -2 4 0] [0 1 4 -2 -1] [0 0 -1 -1 2]]
@@ -363,7 +360,7 @@
   (let [es11 (error-stats elevens-only t)
         es7 (error-stats no-elevens t)]
     (+ (es11 :max-error) (* 3 (es7 :max-error)))))
-(optimize akea-comma 10000 error-func-weight-7-limit)
+; (optimize akea-comma 10000 error-func-weight-7-limit)
 (error-stats odd-limit-15 akea-comma)
 (all-notation-planar akea-comma)
 (map (fn [r]
@@ -373,8 +370,12 @@
   {:mapping [[1 0 -2 4 1] [0 1 4 -2 -1] [0 0 -1 -1 0] [0 0 0 0 1]]
    :generators [1200 702.6743 24.3867 54.1693]})
 (error-stats odd-limit-15 hemifamity-11)
-(optimize hemifamity-11 100000)
+; (optimize hemifamity-11 100000)
 (all-notation-planar hemifamity-11)
+(all-tunings hemifamity-11)
+(map (fn [r]
+       [r (temperament/linear-tuning r hemifamity-11)])
+     [27/16 81/64 243/128 256/243 128/81 32/27 1024/729])
 (let [undecimal-notation (fn [t]
                            (->> (all-notation-planar t)
                                 (filter #(not= 0 (nth (integer/monzo (first %))
@@ -383,3 +384,10 @@
    :laka (undecimal-notation laka-comma)
    :h11  (undecimal-notation hemifamity-11)
    :akea (undecimal-notation akea-comma)})
+(let [tuning #(temperament/linear-tuning % hemifamity-11)
+      yo-third (tuning 5/4)
+      wa-third (tuning 81/64)
+      fifth (tuning 3/2)]
+  {:sharp-flat (mod (* fifth 7) 1200)
+   :up-down (- wa-third yo-third)})
+                                              
