@@ -48,6 +48,12 @@
        (map (fn [r]
               [r (temperament/linear-tuning r t)]))))
 
+(defn scale-cents [t]
+  (map (fn [r]
+         [r (temperament/linear-tuning r t)])
+       [256/243 9/8 32/27 81/64 4/3 1024/729 3/2 128/81 27/16 16/9 243/128
+        2187/2048]))
+
 ; meantone
 (def septimal-meantone
   {:mapping [[1 0 -4 -13] [0 1 4 10]]
@@ -102,6 +108,7 @@
 (map (fn [r]
        [r (temperament/linear-tuning r undecimal-meantone)])
      [27/16 81/64 243/128 256/243 128/81 32/27 1024/729])
+(scale-cents undecimal-meantone)
 
 (def edo12
   {:mapping [[12 7 4 10]]
@@ -140,10 +147,6 @@
   {:mapping [[1 9 2 -1] [0 5 1 12]]
    :generators [1200 380.352]})
 
-(def orwell
-  {:mapping [[1 0 3 1 3] [0 7 -3 8 2]]
-   :generators [1200 271.426]})
-
 (def edo53
   {:mapping [[53 31 17 43 24]]
    :generators [(/ 1200 53)]})
@@ -164,9 +167,13 @@
 
 ; archytas clan
 (def superpyth
-  {:mapping [[1 0 -12 6] [0 1 9 -2]]
-   :generators [1200 710.291]})
+  {:mapping [[1 2 6 2 10] [0 -1 -9 2 -16]]
+   :generators [1200 490.4096]})
+; (optimize superpyth 100000)
 (error-stats odd-limit-15 superpyth)
+(viable-mos superpyth)
+(all-notation odd-limit-15 superpyth 7 1 true #{1 4 5})
+(scale-cents superpyth)
 (def archy
   {:mapping [[1 0 nil 6] [0 1 nil -2]]
    :generators [1200 709.321]})
@@ -184,6 +191,10 @@
 (error-stats odd-limit-15 magic)
 
 ; semicomma family
+(def orwell
+  {:mapping [[1 0 3 1 3] [0 7 -3 8 2]]
+   :generators [1200 271.137]})
+; (optimize orwell 100000)
 (error-stats odd-limit-15 orwell)
 (error-stats odd-limit-15 edo53)
 
@@ -215,6 +226,11 @@
   {:mapping [[41 24 13 33 19]]
    :generators [(/ 1200 41)]})
 (error-stats odd-limit-15 edo41)
+(def octacot
+  {:mapping [[1 1 1 2 2] [0 8 18 11 20]]
+   :generators [1200 87.9751]})
+(error-stats odd-limit-15 octacot)
+(viable-mos octacot)
 
 ; kleismic
 (def catakleismic
@@ -235,6 +251,7 @@
 (viable-mos keemun)
 
 ; orwell
+(viable-mos orwell)
 (def orwell9 (viable-mos orwell))
 (chroma orwell9)
 (all-notation odd-limit-15 orwell 9 0 false)
@@ -244,7 +261,7 @@
   {:mapping [[1 1 3 3] [0 6 -7 -2]]
    :generators [1200 116.675]})
 (error-stats odd-limit-15 miracle)
-(viable-mos miracle) ; doesn't give a nice result currently
+(viable-mos miracle 8)
 
 ; myna
 (def myna
@@ -287,15 +304,23 @@
 
 ; marvel
 (def marvel
-  {:mapping [[1 0 0 -5] [0 1 0 2] [0 0 1 2]]
-   :generators [1200 700.4075 383.6376]})
+  {:mapping [[1 0 0 -5 12] [0 1 0 2 -1] [0 0 1 2 -3]]
+   :generators [1200 700.5584 383.8545]})
+(optimize marvel 100000)
+(temperament/linear-tuning 81/80 marvel)
+(def marvel-syncom
+  {:mapping [[1 0 0 -5 12] [0 1 4 10 -13] [0 0 -1 -2 3]]
+   :generators [1200 700.5584 18.3791]})
 (def minerva
   {:mapping [[1 0 0 -5 -9] [0 1 0 2 2] [0 0 1 2 4]]
-   :generators [1200 700.2593 386.5581]})
+   :generators [1200 700.7617 386.8520]})
+(temperament/linear-tuning 81/80 minerva)
+; (optimize minerva 100000)
 (def minerva-syncom ; syntonic comma as third generator
-  {:mapping [[1 0 -2 -5 -3] [0 1 4 10 6] [0 0 -1 -2 -3]]
-   :generators [1200 700.2593 14.4791]})
+  {:mapping [[1 0 -2 -5 -3] [0 1 4 10 18] [0 0 -1 -2 -4]]
+   :generators [1200 700.7617 16.1948]})
 (error-stats odd-limit-15 marvel)
+(error-stats odd-limit-15 marvel-syncom)
 (error-stats odd-limit-15 minerva)
 (error-stats odd-limit-15 minerva-syncom) ; a bit higher for some reason?
 (temperament/map-ratio 11/8 minerva-syncom)
@@ -310,7 +335,8 @@
                                     (integer/factors (denominator r))))))
        (map (fn [r]
               [r (notation/notate-planar r t)]))))
-(all-notation-planar minerva-syncom)
+; (all-notation-planar marvel-syncom) ; -4!
+(all-notation-planar minerva-syncom) ; for my purposes, this is v ugly
 
 ; hemifamity
 (def hemifamity
@@ -347,6 +373,7 @@
             {:mapping [[1 0 -2 4 0] [0 1 4 -2 i] [0 0 -1 -1 -1]]
              :generators [1200 1903.3592 24.8138]}))
      (sort-by #((error-stats odd-limit-15 %) :max-error)))
+(all-notation-planar pele-comma)
 (def laka-comma
   {:mapping [[1 0 -2 4 0] [0 1 4 -2 11] [0 0 -1 -1 1]]
    :generators [1200 1902.6246 24.1832]})
@@ -372,10 +399,10 @@
 (error-stats odd-limit-15 hemifamity-11)
 ; (optimize hemifamity-11 100000)
 (all-notation-planar hemifamity-11)
-(all-tunings hemifamity-11)
+(all-tunings pele-comma)
 (map (fn [r]
-       [r (temperament/linear-tuning r hemifamity-11)])
-     [27/16 81/64 243/128 256/243 128/81 32/27 1024/729])
+       [r (temperament/linear-tuning r pele-comma)])
+     [27/16 81/64 243/128 256/243 128/81 32/27 1024/729 81/80 2187/2048])
 (let [undecimal-notation (fn [t]
                            (->> (all-notation-planar t)
                                 (filter #(not= 0 (nth (integer/monzo (first %))
@@ -390,4 +417,27 @@
       fifth (tuning 3/2)]
   {:sharp-flat (mod (* fifth 7) 1200)
    :up-down (- wa-third yo-third)})
-                                              
+
+; schismatic family
+(def andromeda
+  {:mapping [[1 2 -1 -3 -4] [0 -1 8 14 18]]
+   :generators [1200 497.6286]})
+(error-stats odd-limit-15 andromeda)
+(viable-mos andromeda)
+(all-notation odd-limit-15 andromeda 7 1 true #{1 4 5})
+
+; starling temperaments
+(def nusecond
+  {:mapping [[1 3 4 5 5] [0 -11 -13 -17 -12]]
+   :generators [1200 154.7408]})
+; (optimize nusecond 100000)
+(error-stats odd-limit-15 nusecond)
+(viable-mos nusecond)
+(all-notation odd-limit-15 nusecond 7 6 true #{1})
+(all-notation odd-limit-15 nusecond 8 0 false #{1})
+
+(def superkleismic
+  {:mapping [[1 4 5 2 4] [0 -9 -10 3 -2]]
+   :generators [1200 321.8466]})
+(error-stats odd-limit-15 superkleismic)
+(viable-mos superkleismic)

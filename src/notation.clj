@@ -120,12 +120,14 @@
         chroma (math/floor-div (inc (first m)) 7)
         quality (if (#{1 4 5} degree)
                   (case chroma
+                    -3 "ddd"
                     -2 "dd"
                     -1 "d"
                     0 "P"
                     1 "A"
                     2 "AA")
                   (case chroma
+                    -3 "dd"
                     -2 "d"
                     -1 "m"
                     0 "M"
