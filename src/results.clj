@@ -179,7 +179,7 @@
    :generators [1200 709.321]})
 (error-stats odd-limit-15 archy)
 (viable-mos archy)
-(all-notation odd-limit-15 archy 7 6 true)
+(all-notation odd-limit-15 archy 7 2 true)
 (def beatles
   {:mapping [[1 1 nil 4] [0 2 nil -4]]
    :generators [1200 354.6606]})
@@ -441,3 +441,33 @@
    :generators [1200 321.8466]})
 (error-stats odd-limit-15 superkleismic)
 (viable-mos superkleismic)
+
+; dicot family
+; i don't think it makes musical sense to call this a 2.3.5 temperament.
+; these generators would make a great 2.3.11 temperament, though, and that
+; temperament is "neutral".
+(def dicot
+  {:mapping [[1 1 2] [0 2 1]]
+   :generators [1200 350.9775]})
+(error-stats odd-limit-15 dicot)
+(viable-mos dicot)
+
+; neutral
+(def neutral
+  {:mapping [[1 1 nil nil 2] [0 2 nil nil 5]]
+   :generators [1200 350.2636]})
+(error-stats odd-limit-15 neutral)
+(viable-mos neutral)
+
+; slendro clan
+(def semaphore
+  {:mapping [[1 2 nil 3] [0 -2 nil -1]]
+   :generators [1200 249.0226]})
+(error-stats odd-limit-15 semaphore)
+(viable-mos semaphore 9)
+
+; mavila
+(def mavila
+  {:mapping [[1 2 1] [0 -1 3]]
+   :generators [1200 521.0896]})
+(error-stats odd-limit-15 mavila)
