@@ -83,25 +83,7 @@
   ; meanpop's error is a bit lower, but notation is a bit uglier.
   ; no mapping for 11/7 might be a dealbreaker, though.
   [meantone-notation meanpop-notation])
-(defn optimize
-  ([t n] (optimize t n (fn [t]
-                         (let [es (error-stats odd-limit-15 t)]
-                           (es :max-error)))))
-  ([t n errfn]
-   (loop [t t
-          n n
-          e (errfn t)]
-     (if (pos? n)
-       (let [gs (t :generators)
-             t2 (assoc t :generators
-                       (vec (concat [(first gs)]
-                                    (->> (rest gs)
-                                         (map #(+ % (- (math/random) 0.5)))))))
-             e2 (errfn t2)]
-         (recur (if (< e2 e) t2 t)
-                (dec n)
-                (if (< e2 e) e2 e)))
-       t))))
+
 ; (optimize undecimal-meantone 100000)
 (all-notation [2187/2048 81/80 64/63 33/32] undecimal-meantone 7 4 false #{1 4 5})
 (all-tunings undecimal-meantone)
@@ -306,7 +288,7 @@
 (def marvel
   {:mapping [[1 0 0 -5 12] [0 1 0 2 -1] [0 0 1 2 -3]]
    :generators [1200 700.5584 383.8545]})
-(optimize marvel 100000)
+; (optimize marvel 100000)
 (temperament/linear-tuning 81/80 marvel)
 (def marvel-syncom
   {:mapping [[1 0 0 -5 12] [0 1 4 10 -13] [0 0 -1 -2 3]]

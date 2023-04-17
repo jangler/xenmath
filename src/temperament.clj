@@ -46,9 +46,8 @@
       (if (some #(>= (prime-indices %) prime-count)
                 (concat num-factors den-factors))
         nil
-        (mod (- (map-factors num-factors)
-                (map-factors den-factors))
-             1200)))
+        (- (map-factors num-factors)
+           (map-factors den-factors))))
     nil))
 
 (defn cents-from-ratio
