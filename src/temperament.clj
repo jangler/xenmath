@@ -69,5 +69,7 @@
   [rs t]
   (let [errors (map abs (keep #(tuning-error % t) rs))]
     {:errors errors
-     :mean-error (/ (reduce + errors) (count errors))
-     :max-error (reduce max errors)}))
+     :mean-error (if (not-empty errors)
+                   (/ (reduce + errors) (count errors))
+                   nil)
+     :max-error (if (not-empty errors) (reduce max errors) nil)}))

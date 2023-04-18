@@ -3,17 +3,21 @@
   (:require [clojure.math :as math]
             [clojure.math.combinatorics :as combo]
             [scale]
-            [integer :refer [monzo]]
+            [integer :refer [monzo prime-indices]]
             [temperament :refer [cents-from-ratio error-stats]]))
+
+; TODO: chromaticism
+; TODO: mapping non-primes (9 and 15)
 
 (def odd-limit 15)
 (def smallest-consonance 10/9)
 (def min-degrees-with-otonal-triads 1)
-(def min-mean-otonal-triads-per-degree 1.5)
+(def min-mean-otonal-triads-per-degree 3)
 (def mos-size-range [5 9])
 (def error-limit 20)
 (def min-primes-mapped 3)
-(def min-step-size 20)
+(def min-step-size 30)
+(def min-consonance-fraction 2/3)
 
 (def consonances
   (->> (range 3 (inc odd-limit))
@@ -23,11 +27,6 @@
        (apply concat)
        (filter #(>= % smallest-consonance))
        set))
-
-(defn edo-interval
-  "Return a\\b in cents."
-  [a b]
-  (* a (/ 1200 b)))
 
 (defn random-in-range
   "Return a uniformly distributed random double between a and b."
@@ -142,19 +141,19 @@
 
 (defn scale-otonal-triads
   "Return available 15-odd-limit otonal triads on each scale degree."
-  [generators n mapping]
-  (->> (mapped-scale generators n)
+  [t]
+  (->> (mapped-scale (t :generators) (t :mos-size))
        mapped-modes
-       (map #(mode-otonal-triads mapping %))))
+       (map #(mode-otonal-triads (t :mapping) %))))
 
 (defn scale-matrix
   "Return a table of consonances represented by each degree of each mode."
-  [gs n m]
+  [t]
   (let [cvs (map (fn [r]
                    {:ratio r
-                    :vector (map-interval m r)})
+                    :vector (map-interval (t :mapping) r)})
                  consonances)]
-    (->> (mapped-scale gs n)
+    (->> (mapped-scale (t :generators) (t :mos-size))
          mapped-modes
          (map (fn [mode]
                 (map (fn [v]
@@ -162,24 +161,24 @@
                             (filter (fn [cv]
                                       (= (cv :vector) v)))
                             (map :ratio)))
-                     mode))))))
+                     (take (dec (t :mos-size)) mode)))))))
 
 (defn fraction-of-degrees-with-otonal-triads
   "Returns the fraction of mapped scale degrees with 15-odd-limit otonal
    triads."
-  [generators n mapping]
-  (/ (->> (scale-otonal-triads generators n mapping)
+  [t]
+  (/ (->> (scale-otonal-triads t)
           (filter not-empty)
           count)
-     n))
+     (t :mos-size)))
 
 (defn mean-otonal-triads-per-degree
   "Returns the mean of otonal triad counts per scale degree."
-  [generators n mapping]
-  (float (/ (->> (scale-otonal-triads generators n mapping)
+  [t]
+  (float (/ (->> (scale-otonal-triads t)
                  (map count)
                  (reduce +))
-            n)))
+            (t :mos-size))))
 
 (defn guess-vector-to-interval
   "Finds a vector that comes out within the error limit of an interval, for the
@@ -195,10 +194,6 @@
           (if (< (abs (- period-reduced-cents (mod (* y gen) per))) error-limit)
             [(math/round (/ (- cents (* y gen)) per)) y]
             (recur (rest ps))))))))
-
-(defn random-choice
-  [coll]
-  (nth coll (math/floor (random-in-range 0 (count coll)))))
 
 (defn random-reasonable-mapping
   [[per gen]]
@@ -222,23 +217,36 @@
                                     v)))]
     (vec (map omit-fn m))))
 
+(defn fraction-of-consonant-intervals
+  [t]
+  (/ (->> (scale-matrix t)
+          (apply concat)
+          (filter not-empty)
+          count)
+     (* (t :mos-size) (dec (t :mos-size)))))
+
+(defn meets-criteria? [t]
+  (and (>= (mean-otonal-triads-per-degree t)
+           min-mean-otonal-triads-per-degree)
+       (>= (fraction-of-degrees-with-otonal-triads t)
+           min-degrees-with-otonal-triads)
+       (>= (fraction-of-consonant-intervals t)
+           min-consonance-fraction)
+       (< ((error-stats consonances t) :max-error)
+          error-limit)))
+
 (defn find-viable-mapping
   "Given generators and scale size, attempts to find a mapping that satisfies
    search criteria."
   [gs n]
-  (prn gs n)
   (loop [tries 1000]
     (if (zero? tries)
       nil
-      (let [m (omit-random-primes (random-reasonable-mapping gs))
-            errors (error-stats consonances {:generators gs :mapping m})]
-        (if (and (< (errors :max-error)
-                    error-limit)
-                 (>= (mean-otonal-triads-per-degree gs n m)
-                     min-mean-otonal-triads-per-degree)
-                 (>= (fraction-of-degrees-with-otonal-triads gs n m)
-                     min-degrees-with-otonal-triads))
-          m
+      (let [t {:mapping (omit-random-primes (random-reasonable-mapping gs))
+               :generators gs
+               :mos-size n}]
+        (if (meets-criteria? t)
+          (t :mapping)
           (recur (dec tries)))))))
 
 (defn find-proper-generator
@@ -255,10 +263,10 @@
         {:generators gens :mos-sizes mos-sizes}))))
 
 (defn optimize
-  ([n t] (optimize t n (fn [t]
-                         (let [es (error-stats consonances t)]
-                           (es :max-error)))))
+  ([n t] (optimize n t (fn [t]
+                         ((error-stats consonances t) :max-error))))
   ([n t errfn]
+   (prn t)
    (loop [t t
           n n
           e (errfn t)]
@@ -274,6 +282,50 @@
                 (if (< e2 e) e2 e)))
        t))))
 
+(defn add-additional-mappings
+  "Attempt to add more prime mappings to a temperament, as long as they don't
+   increase maximum error."
+  [t]
+  (loop [primes [3 5 7 11 13]
+         t t]
+    (if (empty? primes)
+      t
+      (let [p (first primes)
+            i (prime-indices p)
+            v (guess-vector-to-interval (t :generators) p)
+            m (t :mapping)]
+        (recur (rest primes)
+               (if (and (some? v)
+                        (nil? (nth (first m) i)))
+                 (let [t2 (assoc t :mapping
+                                 [(assoc (first m) i (first v))
+                                  (assoc (second m) i (second v))])
+                       e (error-stats consonances t)
+                       e2 (error-stats consonances t2)]
+                   (if (<= (e2 :max-error) (e :max-error))
+                     t2
+                     t))
+                 t))))))
+
+(defn strip-unused-mappings
+  "Remove mappings from a temperament that don't make a difference in the
+   scale intervals."
+  [t]
+  (loop [primes [3 5 7 11 13]
+         t t]
+    (if (empty? primes)
+      t
+      (let [p (first primes)
+            i (prime-indices p)
+            m (t :mapping)
+            t2 (assoc t :mapping
+                      [(assoc (first m) i nil)
+                       (assoc (second m) i nil)])]
+        (recur (rest primes)
+               (if (= (mean-otonal-triads-per-degree t2)
+                      (mean-otonal-triads-per-degree t))
+                 t2
+                 t))))))
 (defn search
   []
   (loop [n 100]
@@ -288,7 +340,11 @@
                             :pattern (scale/pattern-name
                                       (first (scale/moses (x :generators) [n n])))}))
                        (filter #(some? (% :mapping)))
-                       (optimize 1000))]
+                       (map #(->> %
+                                  (optimize 1000)
+                                  add-additional-mappings
+                                  strip-unused-mappings
+                                  (optimize 1000))))]
         (if (empty? finds)
           (recur (dec n))
           finds)))))
@@ -297,7 +353,8 @@
   (def hedgehog-gens [600 165])
   (def meantone
     {:mapping [[1 2 4] [0 -1 -4]]
-     :generators [1200 503.7613]})
+     :generators [1200 503.7613]
+     :mos-size 7})
   (def helmholtz-mapping [[1 2 -1] [0 -1 8]])
   (error-stats consonances meantone)
   (->> (mapped-scale hedgehog-gens 8)
@@ -311,22 +368,101 @@
        (map #(mode-otonal-triads helmholtz-mapping %)))
   (def orgone
     {:mapping [[1 nil nil 2 4] [0 nil nil 3 -2]]
-     :generators [1200 323.3717]})
+     :generators [1200 323.3717]
+     :mos-size 7})
   (error-stats consonances orgone)
   (->> (mapped-scale (orgone :generators) 7)
        mapped-modes
        (map #(mode-otonal-triads (orgone :mapping) %)))
 
-  (find-proper-generator)
   (search)
-  (def t
-    {:mapping [[4 nil 9 11 17 16] [0 nil 1 1 -13 -5]]
-     :generators [300 72.13966342994118]
-     :mos-size 8
-     :pattern "4L 4s"})
-  (scale/moses (t :generators) [8 8])
-  (error-stats consonances t)
-  (scale-otonal-triads (t :generators) (t :mos-size) (t :mapping))
-  (scale-matrix (t :generators) (t :mos-size) (t :mapping))
 
+  (def oodako-ish
+    {:mapping [[3 3 3 4 6 nil] [0 4 9 10 10 nil]]
+     :generators [400 175.90928084154478]
+     :mos-size 9
+     :pattern "6L 3s"})
+  (scale-matrix oodako-ish)
+  (scale-otonal-triads oodako-ish)
+  (error-stats consonances oodako-ish)
+
+  (def dimipent
+    {:mapping [[4 6 9 nil nil nil] [0 1 1 nil nil nil]],
+     :generators [300 101.95509466107227],
+     :mos-size 8,
+     :pattern "4L 4s"})
+  (scale-matrix dimipent)
+  (scale-otonal-triads dimipent)
+  (error-stats consonances dimipent)
+
+  (def t
+    {:mapping [[2 nil 5 6 nil nil] [0 nil -1 -1 nil nil]],
+     :generators [600 213.73146960668458],
+     :mos-size 6,
+     :pattern "4L 2s"})
+  (scale-matrix t)
+  (scale-otonal-triads t)
+
+  (def orwell
+    {:mapping [[1 0 3 1 3 nil] [0 7 -3 8 2 nil]]
+     :generators [1200 271.1032645156822]
+     :mos-size 9
+     :pattern "4L 5s"})
+  (scale-matrix orwell)
+  (scale-otonal-triads orwell)
+  (error-stats consonances orwell)
+
+  (def sensi
+    {:mapping [[1 -1 -1 -2 nil nil] [0 7 9 13 nil nil]],
+     :generators [1200 443.52209743349977],
+     :mos-size 8,
+     :pattern "3L 5s"})
+  (scale-matrix sensi)
+  (scale-otonal-triads sensi)
+  (error-stats consonances sensi)
+
+  (def meantone
+    {:mapping [[1 2 4 nil nil nil] [0 -1 -4 nil nil nil]],
+     :generators [1200 503.4213338965872],
+     :mos-size 7,
+     :pattern "5L 2s"})
+  (scale-matrix meantone)
+  (scale-otonal-triads meantone)
+  (error-stats consonances meantone)
+
+  ; can't find a named augmented family temperament with a ~10/9 generator
+  (def t
+    {:mapping [[3 7 11 12 14 nil] [0 -5 -9 -8 -8 nil]],
+     :generators [400 179.3376238921682],
+     :mos-size 9,
+     :pattern "6L 3s"})
+  (scale-matrix t)
+  (scale-otonal-triads t)
+  (error-stats consonances t)
+
+  (def crepuscular
+    {:mapping [[2 2 3 4 6 nil] [0 5 7 7 4 nil]]
+     :generators [600 140.73473230631686]
+     :mos-size 8
+     :pattern "2L 6s"})
+  (scale-matrix crepuscular)
+  (scale-otonal-triads crepuscular)
+  (error-stats consonances crepuscular)
+
+  (def doublewide
+    {:mapping [[2 5 6 7 nil nil] [0 -4 -3 -3 nil nil]],
+     :generators [600 274.97119474976114],
+     :mos-size 6,
+     :pattern "4L 2s"})
+  (scale-matrix doublewide)
+  (scale-otonal-triads doublewide)
+  (error-stats consonances doublewide)
+
+  (def t
+    {:mapping [[2 nil 4 5 6 nil] [0 nil 2 2 3 nil]],
+     :generators [600 188.21718641121893],
+     :mos-size 8,
+     :pattern "6L 2s"})
+  (scale-matrix t)
+  (scale-otonal-triads t)
   :rcf)
