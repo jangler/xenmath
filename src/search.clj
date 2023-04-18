@@ -4,6 +4,7 @@
             [clojure.edn :as edn]
             [clojure.math :as math]
             [clojure.math.combinatorics :as combo]
+            [clojure.string :as str]
             [scale]
             [integer :refer [monzo prime-indices]]
             [temperament :refer [cents-from-ratio error-stats]]))
@@ -14,13 +15,16 @@
 (def save-path "data/found.edn")
 (def odd-limit 15)
 (def smallest-consonance 10/9)
-(def min-degrees-with-otonal-triads 1)
-(def min-mean-otonal-triads-per-degree 3)
+(def degrees-with-triads-fraction 1)
+(def min-mean-triads-per-degree 3)
 (def mos-size-range [5 9])
 (def error-limit 15)
 (def min-primes-mapped 3)
-(def min-step-size 30)
 (def min-consonance-fraction 2/3)
+(def max-periods-per-octave
+  "Reasonable values are 1 to 3. If you're looking for error below 15 cents,
+   you probably want 1."
+  1)
 
 (def consonances
   (->> (range 3 (inc odd-limit))
@@ -115,8 +119,8 @@
 (defn lcm [a b]
   (/ (* a b) (gcd a b)))
 
-(defn otonal-triad-form
-  "Return an otonal triad made of ratios a and b over a 1/1 root."
+(defn triad-form
+  "Return an triad made of ratios a and b over a 1/1 root."
   [a b]
   (let [[a b] (sort [a b])
         an (numerator a)
@@ -132,22 +136,22 @@
   (->> [a b (/ (max a b) (min a b))]
        (every? #(contains? consonances %))))
 
-(defn mode-otonal-triads
+(defn mode-triads
   "Given a mapping and a mode of a mapped scale, return available 15-odd-limit
-   otonal triads on the scale root."
+   triads on the scale root."
   [mapping scale]
   (let [cs (scale-consonances mapping scale)]
     (->> (combo/combinations cs 2)
          (filter #(apply form-consonant-triad? %))
-         (map #(apply otonal-triad-form %)))))
+         (map #(apply triad-form %)))))
 
 
-(defn scale-otonal-triads
-  "Return available 15-odd-limit otonal triads on each scale degree."
+(defn scale-triads
+  "Return available 15-odd-limit triads on each scale degree."
   [t]
   (->> (mapped-scale (t :generators) (t :mos-size))
        mapped-modes
-       (map #(mode-otonal-triads (t :mapping) %))))
+       (map #(mode-triads (t :mapping) %))))
 
 (defn scale-matrix
   "Return a table of consonances represented by each degree of each mode."
@@ -166,19 +170,18 @@
                             (map :ratio)))
                      (take (dec (t :mos-size)) mode)))))))
 
-(defn fraction-of-degrees-with-otonal-triads
-  "Returns the fraction of mapped scale degrees with 15-odd-limit otonal
-   triads."
+(defn fraction-of-degrees-with-triads
+  "Returns the fraction of mapped scale degrees with 15-odd-limit triads."
   [t]
-  (/ (->> (scale-otonal-triads t)
+  (/ (->> (scale-triads t)
           (filter not-empty)
           count)
      (t :mos-size)))
 
-(defn mean-otonal-triads-per-degree
-  "Returns the mean of otonal triad counts per scale degree."
+(defn mean-triads-per-degree
+  "Returns the mean of triad counts per scale degree."
   [t]
-  (float (/ (->> (scale-otonal-triads t)
+  (float (/ (->> (scale-triads t)
                  (map count)
                  (reduce +))
             (t :mos-size))))
@@ -229,35 +232,37 @@
      (* (t :mos-size) (dec (t :mos-size)))))
 
 (defn meets-criteria? [t]
-  (and (>= (mean-otonal-triads-per-degree t)
-           min-mean-otonal-triads-per-degree)
-       (>= (fraction-of-degrees-with-otonal-triads t)
-           min-degrees-with-otonal-triads)
+  (and (>= (mean-triads-per-degree t)
+           min-mean-triads-per-degree)
+       (>= (fraction-of-degrees-with-triads t)
+           degrees-with-triads-fraction)
        (>= (fraction-of-consonant-intervals t)
            min-consonance-fraction)
        (< ((error-stats consonances t) :max-error)
-          error-limit)))
+          error-limit)
+       (scale/proper? (first (scale/moses (t :generators)
+                                          [(t :mos-size) (t :mos-size)])))))
 
 (defn find-viable-mapping
   "Given generators and scale size, attempts to find a mapping that satisfies
    search criteria."
   [gs n]
-  (loop [tries 1000]
-    (if (zero? tries)
+  (loop [try 1]
+    (if (> try 10)
       nil
       (let [t {:mapping (omit-random-primes (random-reasonable-mapping gs))
                :generators gs
                :mos-size n}]
         (if (meets-criteria? t)
           (t :mapping)
-          (recur (dec tries)))))))
+          (recur (inc try)))))))
 
 (defn find-proper-generator
   "Find generators that generate a proper MOS of appropriate size."
   []
   (loop []
-    (let [per (/ 1200 (math/round (random-in-range 1 4)))
-          gens [per (random-in-range min-step-size (/ per 2))]
+    (let [per (/ 1200 (math/round (random-in-range 1 max-periods-per-octave)))
+          gens [per (random-in-range (/ per 10) (/ per 2))]
           mos-sizes (->> (scale/moses gens mos-size-range)
                          (filter scale/proper?)
                          (map count))]
@@ -269,7 +274,6 @@
   ([n t] (optimize n t (fn [t]
                          ((error-stats consonances t) :max-error))))
   ([n t errfn]
-   (prn t)
    (loop [t t
           n n
           e (errfn t)]
@@ -325,15 +329,15 @@
                       [(assoc (first m) i nil)
                        (assoc (second m) i nil)])]
         (recur (rest primes)
-               (if (= (mean-otonal-triads-per-degree t2)
-                      (mean-otonal-triads-per-degree t))
+               (if (= (mean-triads-per-degree t2)
+                      (mean-triads-per-degree t))
                  t2
                  t))))))
 (defn search
   [existing]
   (let [existing-mappings (set (map :mapping existing))
         existing-matrices (set (map scale-matrix existing))]
-    (loop [n 100]
+    (loop [n 1000]
       (if (zero? n)
         '()
         (let [x (find-proper-generator)
@@ -347,7 +351,9 @@
                          (filter (fn [t]
                                    (and (some? (t :mapping))
                                         (not (contains? existing-mappings
-                                                        (t :mapping))))))
+                                                        (t :mapping)))
+                                        (not (contains? existing-matrices
+                                                        (scale-matrix t))))))
                          (map #(->> %
                                     (optimize 1000)
                                     add-additional-mappings
@@ -370,17 +376,26 @@
   []
   (edn/read-string (slurp save-path)))
 
+(defn find-by-name
+  "Find a tempermament with a name matching a substring."
+  [ts s]
+  (first (filter (fn [t]
+                   (and (some? (t :name))
+                        (str/includes? (t :name) s)))
+                 ts)))
+
 (comment
   ; to use this module, just alternate between evaluating these two expressions
   (def ts (load-temperaments))
-  (save-temperaments (vec (concat ts (search ts))))
-  
+  (time (save-temperaments (concat ts (search ts))))
+
   ; diagnostics for running on newly found temperaments
   (def t (last ts))
+  (def t (find-by-name ts "archy[5]"))
   {:max-error ((error-stats consonances t) :max-error)
    :scale-matrix (scale-matrix t)
-   :triads (scale-otonal-triads t)}
-  
+   :triads (scale-triads t)}
+
   ; other misc diagnostics
   (filter #(not (meets-criteria? %)) ts)
 
