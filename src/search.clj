@@ -337,33 +337,31 @@
   [existing]
   (let [existing-mappings (set (map :mapping existing))
         existing-matrices (set (map scale-matrix existing))]
-    (loop [n 1000]
-      (if (zero? n)
-        '()
-        (let [x (find-proper-generator)
-              finds (->> (for [n (x :mos-sizes)]
-                           (let [mapping (find-viable-mapping (x :generators) n)]
-                             {:mapping mapping
-                              :generators (x :generators)
-                              :mos-size n
-                              :pattern (scale/pattern-name
-                                        (first (scale/moses (x :generators) [n n])))}))
-                         (filter (fn [t]
-                                   (and (some? (t :mapping))
-                                        (not (contains? existing-mappings
-                                                        (t :mapping)))
-                                        (not (contains? existing-matrices
-                                                        (scale-matrix t))))))
-                         (map #(->> %
-                                    (optimize 1000)
-                                    add-additional-mappings
-                                    strip-unused-mappings
-                                    (optimize 1000)))
-                         (filter #(not (contains? existing-matrices
-                                                  (scale-matrix %)))))]
-          (if (empty? finds)
-            (recur (dec n))
-            finds))))))
+    (loop []
+      (let [x (find-proper-generator)
+            finds (->> (for [n (x :mos-sizes)]
+                         (let [mapping (find-viable-mapping (x :generators) n)]
+                           {:mapping mapping
+                            :generators (x :generators)
+                            :mos-size n
+                            :pattern (scale/pattern-name
+                                      (first (scale/moses (x :generators) [n n])))}))
+                       (filter (fn [t]
+                                 (and (some? (t :mapping))
+                                      (not (contains? existing-mappings
+                                                      (t :mapping)))
+                                      (not (contains? existing-matrices
+                                                      (scale-matrix t))))))
+                       (map #(->> %
+                                  (optimize 1000)
+                                  add-additional-mappings
+                                  strip-unused-mappings
+                                  (optimize 1000)))
+                       (filter #(not (contains? existing-matrices
+                                                (scale-matrix %)))))]
+        (if (empty? finds)
+          (recur)
+          finds)))))
 
 (defn save-temperaments
   "Write found temperaments to the save file."
@@ -386,6 +384,8 @@
 
 (comment
   ; to use this module, just alternate between evaluating these two expressions
+  ; although i think this has already found everything meeting the current
+  ; criteria
   (def ts (load-temperaments))
   (time (save-temperaments (concat ts (search ts))))
 
