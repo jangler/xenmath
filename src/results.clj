@@ -149,9 +149,8 @@
 
 ; archytas clan
 (def superpyth
-  {:mapping [[1 2 6 2 10] [0 -1 -9 2 -16]]
+  {:mapping [[1 2 6 2] [0 -1 -9 2]]
    :generators [1200 490.4096]})
-; (optimize superpyth 100000)
 (error-stats odd-limit-15 superpyth)
 (viable-mos superpyth)
 (all-notation odd-limit-15 superpyth 7 1 true #{1 4 5})
@@ -183,15 +182,15 @@
 ; sensi
 (def septimal-sensi
   {:mapping [[1 -1 -1 -2] [0 7 9 13]]
-   :generators [1200 443.383]})
+   :generators [1200 443.5193]})
 (error-stats odd-limit-15 septimal-sensi)
 (chroma (viable-mos septimal-sensi))
-(all-notation odd-limit-15 septimal-sensi 8 5 true)
+(all-notation odd-limit-15 septimal-sensi 8 5 true #{1})
 (def sensation
   {:mapping [[1 -1 -1 -2 nil 0] [0 7 9 13 nil 10]]
    :generators [1200 443.322]})
 (error-stats odd-limit-15 sensation)
-(all-notation odd-limit-15 sensation 8 5 true)
+(all-notation odd-limit-15 sensation 8 5 true #{1})
 (def edo46
   {:mapping [[46 27 15 37]]
    :generators [(/ 1200 46)]})
@@ -236,7 +235,7 @@
 (viable-mos orwell)
 (def orwell9 (viable-mos orwell))
 (chroma orwell9)
-(all-notation odd-limit-15 orwell 9 0 false)
+(all-notation odd-limit-15 orwell 9 0 false #{1})
 
 ; miracle
 (def miracle
@@ -453,3 +452,13 @@
   {:mapping [[1 2 1] [0 -1 3]]
    :generators [1200 521.0896]})
 (error-stats odd-limit-15 mavila)
+
+; bleu
+(def bleu
+  {:name "bleu[9]",
+   :mapping [[1 1 nil 2 3 3] [0 5 nil 7 4 6]],
+   :generators [1200 140.3905907227253],
+   :mos-size 9,
+   :pattern "8L 1s"})
+(error-stats odd-limit-15 bleu)
+(all-notation odd-limit-15 bleu 9 0 false #{1})
