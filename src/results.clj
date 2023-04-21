@@ -3,6 +3,7 @@
             [scale :refer [chroma viable-mos]]
             [temperament :refer [error-stats map-ratio]]
             [integer]
+            [search :refer [optimize]]
             [clojure.math :as math]))
 
 (def odd-limit-15
@@ -152,7 +153,7 @@
   {:mapping [[1 2 6 2] [0 -1 -9 2]]
    :generators [1200 490.4096]})
 (error-stats odd-limit-15 superpyth)
-(viable-mos superpyth)
+(scale/moses (superpyth :generators) [7 7])
 (all-notation odd-limit-15 superpyth 7 1 true #{1 4 5})
 (scale-cents superpyth)
 (def archy
@@ -456,8 +457,8 @@
 ; bleu
 (def bleu
   {:name "bleu[9]",
-   :mapping [[1 1 nil 2 3 3] [0 5 nil 7 4 6]],
-   :generators [1200 140.3905907227253],
+   :mapping [[1 1 nil 2 3 nil] [0 5 nil 7 4 nil]],
+   :generators [1200 140.39100356000483],
    :mos-size 9,
    :pattern "8L 1s"})
 (error-stats odd-limit-15 bleu)

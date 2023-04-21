@@ -16,8 +16,8 @@
 (def odd-limit 15)
 (def smallest-consonance 10/9)
 (def degrees-with-triads-fraction 1)
-(def min-mean-triads-per-degree 3)
-(def mos-size-range [5 9])
+(def min-mean-triads-per-degree 2)
+(def mos-size-range [5 17])
 (def error-limit 15)
 (def min-primes-mapped 3)
 (def min-consonance-fraction 2/3)
@@ -133,8 +133,10 @@
 (defn form-consonant-triad?
   "Return true if the ratios form a consonant triad over a 1/1 root."
   [a b]
-  (->> [a b (/ (max a b) (min a b))]
-       (every? #(contains? consonances %))))
+  (and (->> [a b (/ (max a b) (min a b))]
+            (every? #(contains? consonances %)))
+       (every? #(or (even? %) (<= % odd-limit))
+               (triad-form a b))))
 
 (defn mode-triads
   "Given a mapping and a mode of a mapped scale, return available 15-odd-limit
@@ -335,9 +337,12 @@
                  t))))))
 (defn search
   [existing]
-  (let [existing-mappings (set (map :mapping existing))
-        existing-matrices (set (map scale-matrix existing))]
-    (loop []
+  (loop [all-finds existing
+         existing-mappings (set (map :mapping existing))
+         existing-matrices (set (map scale-matrix existing))
+         tries-since-find 0]
+    (if (> tries-since-find 1000)
+      all-finds
       (let [x (find-proper-generator)
             finds (->> (for [n (x :mos-sizes)]
                          (let [mapping (find-viable-mapping (x :generators) n)]
@@ -360,8 +365,18 @@
                        (filter #(not (contains? existing-matrices
                                                 (scale-matrix %)))))]
         (if (empty? finds)
-          (recur)
-          finds)))))
+          (recur all-finds
+                 existing-mappings
+                 existing-matrices
+                 (inc tries-since-find))
+          (do
+            (prn (format "found after %d tries" tries-since-find))
+            (recur (concat all-finds finds)
+                   (clojure.set/union existing-mappings
+                                      (set (map :mapping finds)))
+                   (clojure.set/union existing-matrices
+                                      (set (map scale-matrix finds)))
+                   0)))))))
 
 (defn save-temperaments
   "Write found temperaments to the save file."
@@ -382,22 +397,43 @@
                         (str/includes? (t :name) s)))
                  ts)))
 
+(defn triad-counts [t]
+  (let [triads (apply concat (scale-triads t))]
+    (sort-by first (for [tr (set triads)]
+                     [(count (filter #{tr} triads)) tr]))))
+
+(defn triad-search [ts triad]
+  (->> ts
+       (map (fn [t]
+              {:name (t :name)
+               :count (->> (triad-counts t)
+                           (filter #(= (second %) triad))
+                           (map first)
+                           first)}))
+       (filter #(some? (% :count)))))
+
 (comment
   ; to use this module, just alternate between evaluating these two expressions
   ; although i think this has already found everything meeting the current
   ; criteria
   (def ts (load-temperaments))
-  (time (save-temperaments (concat ts (search ts))))
+  (time (save-temperaments (search ts)))
 
   ; diagnostics for running on newly found temperaments
   (def t (last ts))
-  (def t (find-by-name ts "archy[5]"))
+  (def t (find-by-name ts "orwell[9]"))
   {:max-error ((error-stats consonances t) :max-error)
    :scale-matrix (scale-matrix t)
    :triads (scale-triads t)}
 
   ; other misc diagnostics
   (filter #(not (meets-criteria? %)) ts)
+  (triad-counts t)
+  (triad-search ts '(4 6 7))
+  
+  (->> (scale/moses ((find-by-name ts "meantone[7]") :generators) [7 14])
+       first
+       scale/chroma)
 
   ; refilter
   (save-temperaments (filter meets-criteria? ts))
