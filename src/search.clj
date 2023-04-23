@@ -335,22 +335,41 @@
                       (mean-triads-per-degree t))
                  t2
                  t))))))
+
+(defn mod-inverse [a c]
+  (loop [b 0]
+    (if (> b c)
+      (throw (Exception. (format "no modular inverse of %d and %d" a c)))
+      (if (= (mod (* a b) c) 1)
+        b
+        (recur (inc b))))))
+
+; problem: this doesn't work when n is a multiple of s
+(defn make-bright [gs n]
+  (let [scl (vec (first (scale/moses gs [n n])))
+        [_ s] (scale/step-counts scl)]
+    (if (or (zero? (mod n s))
+            (= (second gs) (nth scl (mod-inverse s n))))
+      gs
+      [(first gs) (- (first gs) (second gs))])))
+
 (defn search
   [existing]
   (loop [all-finds existing
          existing-mappings (set (map :mapping existing))
          existing-matrices (set (map scale-matrix existing))
-         tries-since-find 0]
-    (if (> tries-since-find 1000)
-      all-finds
+         try 1]
+    (if (> try 2000)
+      nil
       (let [x (find-proper-generator)
             finds (->> (for [n (x :mos-sizes)]
-                         (let [mapping (find-viable-mapping (x :generators) n)]
+                         (let [gs (x :generators)
+                               mapping (find-viable-mapping gs n)]
                            {:mapping mapping
-                            :generators (x :generators)
+                            :generators gs
                             :mos-size n
                             :pattern (scale/pattern-name
-                                      (first (scale/moses (x :generators) [n n])))}))
+                                      (first (scale/moses gs [n n])))}))
                        (filter (fn [t]
                                  (and (some? (t :mapping))
                                       (not (contains? existing-mappings
@@ -368,15 +387,10 @@
           (recur all-finds
                  existing-mappings
                  existing-matrices
-                 (inc tries-since-find))
+                 (inc try))
           (do
-            (prn (format "found after %d tries" tries-since-find))
-            (recur (concat all-finds finds)
-                   (clojure.set/union existing-mappings
-                                      (set (map :mapping finds)))
-                   (clojure.set/union existing-matrices
-                                      (set (map scale-matrix finds)))
-                   0)))))))
+            (prn (format "found on try %d" try))
+            finds))))))
 
 (defn save-temperaments
   "Write found temperaments to the save file."
@@ -390,11 +404,11 @@
   (edn/read-string (slurp save-path)))
 
 (defn find-by-name
-  "Find a tempermament with a name matching a substring."
+  "Find a tempermament with a given name."
   [ts s]
   (first (filter (fn [t]
                    (and (some? (t :name))
-                        (str/includes? (t :name) s)))
+                        (= (t :name) s)))
                  ts)))
 
 (defn triad-counts [t]
@@ -417,21 +431,31 @@
   ; although i think this has already found everything meeting the current
   ; criteria
   (def ts (load-temperaments))
-  (time (save-temperaments (search ts)))
+  (future
+    (time (loop [ts ts]
+            (let [results (search ts)
+                  ts (concat ts results)]
+              (if (some? results)
+                (do
+                  (save-temperaments ts)
+                  (recur ts))
+                nil)))))
 
   ; diagnostics for running on newly found temperaments
   (def t (last ts))
-  (def t (find-by-name ts "orwell[9]"))
+  (def t (find-by-name ts "sensi[8]"))
   {:max-error ((error-stats consonances t) :max-error)
    :scale-matrix (scale-matrix t)
    :triads (scale-triads t)}
+
+  (find-viable-mapping [1200 756.4800594832991] 8)
 
   ; other misc diagnostics
   (filter #(not (meets-criteria? %)) ts)
   (triad-counts t)
   (triad-search ts '(4 6 7))
-  
-  (->> (scale/moses ((find-by-name ts "meantone[7]") :generators) [7 14])
+
+  (->> (scale/moses ((find-by-name ts "sensi[8]") :generators) [7 14])
        first
        scale/chroma)
 

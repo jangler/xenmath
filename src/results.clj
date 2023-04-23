@@ -2,9 +2,10 @@
   (:require [notation :refer [all-notation]]
             [scale :refer [chroma viable-mos]]
             [temperament :refer [error-stats map-ratio]]
-            [integer]
+            [integer :refer [rational-power]]
             [search :refer [optimize]]
-            [clojure.math :as math]))
+            [clojure.math :as math]
+            [clojure.string :as str]))
 
 (def odd-limit-15
   "Ratios we're interested in tuning accurately."
@@ -35,6 +36,12 @@
    ])
 (def no-elevens
   (filter #(= 0 (nth (integer/monzo %) (integer/prime-indices 11))) odd-limit-15))
+(def no-13s
+  (filter #(= 0 (nth (integer/monzo %) (integer/prime-indices 13))) odd-limit-15))
+(def ol15-235
+  (filter #(and (zero? (nth (integer/monzo %) (integer/prime-indices 11)))
+                (zero? (nth (integer/monzo %) (integer/prime-indices 7))))
+          odd-limit-15))
 (def elevens-only
   (filter #(not= 0 (nth (integer/monzo %) (integer/prime-indices 11))) odd-limit-15))
 
@@ -49,11 +56,29 @@
        (map (fn [r]
               [r (temperament/linear-tuning r t)]))))
 
+(def scale-ratios
+  [256/243 9/8 32/27 81/64 4/3 1024/729 3/2 128/81 27/16 16/9 243/128 2187/2048])
+
 (defn scale-cents [t]
   (map (fn [r]
          [r (temperament/linear-tuning r t)])
-       [256/243 9/8 32/27 81/64 4/3 1024/729 3/2 128/81 27/16 16/9 243/128
-        2187/2048]))
+       scale-ratios))
+
+(defn factor-sum [r]
+  (->> (integer/monzo r)
+       (map abs)
+       (map * [2 3 5 7 11 13])
+       (reduce +)))
+
+(->> no-13s
+     (map #(vector % (notation/octave-reduce (/ 1 %))))
+     flatten
+     (sort-by factor-sum)
+     (map (fn [r] {:ratio r :udn (notation/udn r)}))
+     (map (fn [m]
+            (format "%s in JI UDN,%s" (str (:ratio m)) (:udn m))))
+     (clojure.string/join "\n")
+     (spit "ji-udn-flashcards.csv"))
 
 ; meantone
 (def septimal-meantone
@@ -93,30 +118,9 @@
      [27/16 81/64 243/128 256/243 128/81 32/27 1024/729])
 (scale-cents undecimal-meantone)
 
-(def edo12
-  {:mapping [[12 7 4 10]]
-   :generators [(/ 1200 12)]})
-
-(def edo19
-  {:mapping [[19 11 6 15]]
-   :generators [(/ 1200 19)]})
-
-(def edo31
-  {:mapping [[31 18 10 25 14]]
-   :generators [(/ 1200 31)]})
-(error-stats odd-limit-15 edo31)
-
-(def edo72
-  {:mapping [[72 42 23 58]]
-   :generators [(/ 1200 72)]})
-
 (def septimal-porcupine
   {:mapping [[1 2 3 2] [0 -3 -5 6]]
    :generators [1200 163.2032]})
-
-(def edo22
-  {:mapping [[22 13 7 18]]
-   :generators [(/ 1200 22)]})
 
 (def srutal
   {:mapping [[2 0 11 -42] [0 1 -2 15]]
@@ -130,9 +134,135 @@
   {:mapping [[1 9 2 -1] [0 5 1 12]]
    :generators [1200 380.352]})
 
+; edos
+(def edo12
+  {:mapping [[12 19 28]]
+   :generators [(/ 1200 12)]})
+(def edo19
+  {:mapping [[19 30 44]]
+   :generators [(/ 1200 19)]})
+(def edo22
+  {:mapping [[22 35 51 62 76]]
+   :generators [(/ 1200 22)]})
+(def edo27
+  {:mapping [[27 43 63 76]]
+   :generators [(/ 1200 27)]})
+(def edo31
+  {:mapping [[31 49 72 87 107]]
+   :generators [(/ 1200 31)]})
+(def edo41
+  {:mapping [[41 65 95 115 142]]
+   :generators [(/ 1200 41)]})
+(def edo46
+  {:mapping [[46 73 107 129]]
+   :generators [(/ 1200 46)]})
 (def edo53
-  {:mapping [[53 31 17 43 24]]
+  {:mapping [[53 84 123 149 183]]
    :generators [(/ 1200 53)]})
+(def edo72
+  {:mapping [[72 114 167 202 249]]
+   :generators [(/ 1200 72)]})
+
+(defn map-edo [n]
+  (let [g (/ 1200 n)]
+    [(vec (for [p [2 3 5 7 11]]
+            (math/round (/ (temperament/cents-from-ratio p) g))))]))
+
+(map #(search/map-interval (map-edo 49) %) [9/8 81/64 4/3 3/2 27/16 243/128 2187/2048])
+
+(defn edo [n]
+  {:mapping (map-edo n)
+   :generators [(/ 1200 n)]})
+
+(defn filter-limit [rs limit]
+  (filter #(<= (reduce max (concat (integer/factors (numerator %))
+                                   (integer/factors (denominator %))))
+               limit)
+          rs))
+
+(defn edos-with-comma-steps [limit]
+  (for [i (range 12 99)]
+    (let [t (edo i)]
+      {:edo i
+       :max-error ((error-stats (filter-limit odd-limit-15 limit) t) :max-error)
+       :comma-steps (map #(first (search/map-interval (t :mapping) %))
+                         [81/80 64/63 33/32])})))
+
+(defn strip-increasing-error [edos]
+  (loop [remaining edos
+         found []
+         record 50]
+    (if (empty? remaining)
+      found
+      (recur (rest remaining)
+             (if (< (:max-error (first remaining)) record)
+               (conj found (first remaining))
+               found)
+             (min record (:max-error (first remaining)))))))
+
+(defn filter-comma-steps [limit pred]
+  (->> (edos-with-comma-steps limit)
+       (filter #(pred (:comma-steps %)))))
+
+; septimal meantone
+(->> (filter-comma-steps 7 #(zero? (first %)))
+     strip-increasing-error)
+
+; superpyth
+(->> (filter-comma-steps 7 #(zero? (second %)))
+     strip-increasing-error)
+
+; hemifamity
+(->> (filter-comma-steps 11 #(= % [1 1 2]))
+     strip-increasing-error)
+
+(->> (edos-with-comma-steps 11)
+     (filter (fn [x]
+               (and (every? #(not (neg? %))
+                            (x :comma-steps))
+                    (< (x :max-error) 25)
+                    (< (reduce + (x :comma-steps)) 6))))
+     (group-by :comma-steps)
+     vals
+     (map #(first (sort-by :max-error %)))
+     (sort-by #(reduce + (map abs (% :comma-steps)))))
+
+(def udn22
+  {:mapping [[1 0 0 6 1]
+             [0 1 0 -2 3]
+             [0 0 1 0 -1]]
+   :generators [1200 1908.7714022457055 2780.650963009264]})
+(def udn31
+  {:mapping [[1 0 -4 0 11]
+             [0 1 4 0 -3]
+             [0 0 0 1 -1]]
+   :generators [1200 1896.5784357579885 3367.783512018541]})
+(def udn41
+  {:mapping [[1 0 0 10 -3]
+             [0 1 0 -6 7]
+             [0 0 1 1 -2]]
+   :generators [1200 1902.9096324609097 2785.1226125354206]})
+(for [t [(edo 22)
+         udn22
+         (edo 31)
+         udn31
+         (edo 41)
+         udn41]]
+  (:max-error (error-stats odd-limit-15 t)))
+
+(for [r (map #(rational-power 12/7 %) (range 1 11))]
+  (mod (first (search/map-interval (map-edo 46) r)) 46))
+
+(defn log2 [n]
+  (/ (math/log n) (math/log 2)))
+
+(defn tenney-height [r]
+  (log2 (* (numerator r) (denominator r))))
+
+(->> no-13s
+     (map #(vector % (notation/octave-reduce (/ 1 %))))
+     flatten
+     (sort-by tenney-height))
 
 ; meantone family
 (error-stats odd-limit-15 septimal-meantone)
@@ -192,10 +322,6 @@
    :generators [1200 443.322]})
 (error-stats odd-limit-15 sensation)
 (all-notation odd-limit-15 sensation 8 5 true #{1})
-(def edo46
-  {:mapping [[46 27 15 37]]
-   :generators [(/ 1200 46)]})
-(error-stats odd-limit-15 edo46)
 
 ; tetracot
 (def tetracot
@@ -204,9 +330,6 @@
 (error-stats odd-limit-15 tetracot)
 (viable-mos tetracot)
 (all-notation odd-limit-15 tetracot 7 0 false)
-(def edo41
-  {:mapping [[41 24 13 33 19]]
-   :generators [(/ 1200 41)]})
 (error-stats odd-limit-15 edo41)
 (def octacot
   {:mapping [[1 1 1 2 2] [0 8 18 11 20]]

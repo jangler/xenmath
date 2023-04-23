@@ -1,6 +1,6 @@
 (ns notation
   (:require [clojure.math :as math]
-            [integer :refer [factors prime-indices]]
+            [integer :refer [factors prime-indices monzo rational-power]]
             [temperament]))
 
 (defn mod-within
@@ -142,3 +142,34 @@
                 (apply str (map (fn [_] "/") (range (nth m 2))))
                 "")]
     (str drops lifts downs ups quality degree)))
+
+(defn udn-degree [tertial-r]
+  (nth [4 1 5 2 6 3 7] (mod (inc (second (monzo tertial-r))) 7)))
+
+(defn udn-quality [tertial-r degree]
+  (let [distance (math/floor-div (inc (second (monzo tertial-r))) 7)]
+    (if (#{1 4 5} degree)
+      (case distance
+        -1 "d"
+        0 "P"
+        1 "A")
+      (case distance
+        -1 "m"
+        0 "M"
+        1 "A"))))
+
+(defn repeat-str [s n]
+  (apply str (repeat n s)))
+
+(defn udn [r]
+  (let [m (monzo r)
+        tertial-r (* r (reduce * (map rational-power [1 1 81/80 64/63 32/33] m)))
+        d (udn-degree tertial-r)
+        q (udn-quality tertial-r d)]
+    (str (repeat-str "v" (max 0 (nth m 2)))
+         (repeat-str "^" (max 0 (- (nth m 2))))
+         (repeat-str "\\" (max 0 (nth m 3)))
+         (repeat-str "/" (max 0 (- (nth m 3))))
+         (repeat-str "+" (max 0 (nth m 4)))
+         (repeat-str "-" (max 0 (- (nth m 4))))
+         q d)))

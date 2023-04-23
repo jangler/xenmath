@@ -13,7 +13,7 @@
   [r]
   (let [num-factors (factors (numerator r))
         den-factors (factors (denominator r))]
-    (vec (for [p [2 3 5 7 11]]
+    (vec (for [p [2 3 5 7 11 13]]
            (- (count (filter #(= % p) num-factors))
               (count (filter #(= % p) den-factors)))))))
 
@@ -25,3 +25,8 @@
    7 3
    11 4
    13 5})
+
+(defn rational-power [r p]
+  (cond (zero? p) 1
+        (pos? p) (* r (rational-power r (dec p)))
+        :else (/ (rational-power r (inc p)) r)))
