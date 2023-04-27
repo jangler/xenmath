@@ -147,7 +147,7 @@
             (math/round (/ (temperament/cents-from-ratio p) g))))]))
 
 (comment
-  (map #(search/map-interval (map-edo 49) %) [9/8 81/64 4/3 3/2 27/16 243/128 2187/2048])
+  (map #(search/map-interval (map-edo 58) %) [9/8 81/64 4/3 3/2 27/16 243/128 2187/2048])
   :rcf)
 
 (defn edo [n]
@@ -207,6 +207,13 @@
        vals
        (map #(first (sort-by :max-error %)))
        (sort-by #(reduce + (map abs (% :comma-steps)))))
+
+  (into {} (map (fn [r]
+                  [r (into {} (for [n [41 46 53]]
+                                [(keyword (format "%dedo" n))
+                                 (temperament/tuning-error r (edo n))]))])
+                [3/2 9/8 9/5 5/3 5/4 7/4 7/6 11/6 11/8 11/9]))
+
   :rcf)
 
 (def udn22
@@ -642,4 +649,8 @@
 (comment
   (error-stats odd-limit-15 bleu)
   (all-notation odd-limit-15 bleu 9 0 false #{1})
+  :rcf)
+
+(comment
+  (map temperament/cents-from-ratio [9/8 11/9 4/3 3/2 11/7 11/6])
   :rcf)
