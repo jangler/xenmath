@@ -21,7 +21,7 @@
          (map (fn [v]
                 (->> v
                      (map-indexed (fn [i x]
-                                      (* x (nth e i))))
+                                    (* x (nth e i))))
                      (reduce +))))
          rest)))
 
@@ -67,9 +67,14 @@
   "Returns a map of error stats for consonances of interest in a given
    temperament."
   [rs t]
-  (let [errors (map abs (keep #(tuning-error % t) rs))]
+  (let [errors (into {} (keep (fn [r]
+                                (some->> (tuning-error r t)
+                                         abs
+                                         (vector r)))
+                              rs))
+        abs-errors (map abs (vals errors))]
     {:errors errors
-     :mean-error (if (not-empty errors)
-                   (/ (reduce + errors) (count errors))
+     :mean-error (if (not-empty abs-errors)
+                   (/ (reduce + abs-errors) (count abs-errors))
                    nil)
-     :max-error (if (not-empty errors) (reduce max errors) nil)}))
+     :max-error (if (not-empty abs-errors) (reduce max abs-errors) nil)}))

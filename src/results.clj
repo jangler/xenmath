@@ -45,6 +45,20 @@
 (def elevens-only
   (filter #(not= 0 (nth (integer/monzo %) (integer/prime-indices 11))) odd-limit-15))
 
+(defn primes-in-ratio [r]
+  (set (mapcat integer/factors [(numerator r) (denominator r)])))
+
+(defn subgroup [ps]
+  (filter (fn [r]
+            (every? ps (primes-in-ratio r)))
+          odd-limit-15))
+
+(comment
+  (->> odd-limit-15
+       (mapcat #(vector % (notation/octave-reduce (/ 1 %))))
+       (sort-by factor-sum))
+  :rcf)
+
 (defn all-tunings
   "Return all tunings for a temperament."
   [t]
@@ -61,7 +75,7 @@
 
 (defn scale-cents [t]
   (map (fn [r]
-         [r (temperament/linear-tuning r t)])
+         [r (float (temperament/linear-tuning r t))])
        scale-ratios))
 
 (defn factor-sum [r]
@@ -87,7 +101,8 @@
    :generators [1200 696.9521]})
 (comment
   (error-stats odd-limit-15 septimal-meantone)
-  (all-notation odd-limit-15 septimal-meantone 7 4 false)
+  (->> (all-notation odd-limit-15 septimal-meantone 7 4 false #{1 4 5})
+       (sort-by #(factor-sum (:ratio %))))
   :rcf)
 
 (def godzilla
@@ -143,11 +158,13 @@
 
 (defn map-edo [n]
   (let [g (/ 1200 n)]
-    [(vec (for [p [2 3 5 7 11]]
+    [(vec (for [p [2 3 5 7 11 13]]
             (math/round (/ (temperament/cents-from-ratio p) g))))]))
 
 (comment
-  (map #(search/map-interval (map-edo 58) %) [9/8 81/64 4/3 3/2 27/16 243/128 2187/2048])
+  (map #(search/map-interval (map-edo 53) %) [9/8 81/64 4/3 3/2 27/16 243/128 2187/2048])
+  (error-stats (subgroup #{2 3 5 7 11 13}) (edo 72))
+  (search/map-interval (map-edo 53) 13/10)
   :rcf)
 
 (defn edo [n]
@@ -160,44 +177,69 @@
                limit)
           rs))
 
-(defn edos-with-comma-steps [limit]
-  (for [i (range 12 99)]
-    (let [t (edo i)]
+(defn log2 [n]
+  (/ (math/log n) (math/log 2)))
+
+(defn edos-with-comma-steps [limit commas]
+  (for [i (range 5 (int (* 2 (/ 1 (log2 (reduce min commas))))))]
+    (let [t (edo i)
+          es (error-stats (filter-limit odd-limit-15 limit) t)]
       {:edo i
-       :max-error ((error-stats (filter-limit odd-limit-15 limit) t) :max-error)
+       :max-error (es :max-error)
+       :mean-error (es :mean-error)
        :comma-steps (map #(first (search/map-interval (t :mapping) %))
-                         [81/80 64/63 33/32])})))
+                         commas)})))
 
 (defn strip-increasing-error [edos]
   (loop [remaining edos
          found []
-         record 50]
+         record-max 30
+         record-mean 15]
     (if (empty? remaining)
       found
       (recur (rest remaining)
-             (if (< (:max-error (first remaining)) record)
+             (if (and (< (:max-error (first remaining)) record-max)
+                      (< (:mean-error (first remaining)) record-mean))
                (conj found (first remaining))
                found)
-             (min record (:max-error (first remaining)))))))
+             (min record-max (:max-error (first remaining)))
+             (min record-mean (:mean-error (first remaining)))))))
 
-(defn filter-comma-steps [limit pred]
-  (->> (edos-with-comma-steps limit)
+(defn filter-comma-steps [limit commas pred]
+  (->> (edos-with-comma-steps limit commas)
        (filter #(pred (:comma-steps %)))))
+
+(defn edos-tempering-out [& commas]
+  (->> (filter-comma-steps (reduce max (mapcat primes-in-ratio commas))
+                           commas
+                           #(every? zero? %))
+       strip-increasing-error))
 
 (comment
   ; septimal meantone
-  (->> (filter-comma-steps 7 #(zero? (first %)))
-       strip-increasing-error)
+  (edos-tempering-out 81/80 225/224)
 
   ; superpyth
-  (->> (filter-comma-steps 7 #(zero? (second %)))
-       strip-increasing-error)
+  (edos-tempering-out 64/63 245/243)
 
   ; hemifamity
-  (->> (filter-comma-steps 11 #(= % [1 1 2]))
+  (edos-tempering-out 5120/5103)
+
+  ; marvel
+  (edos-tempering-out 225/224)
+
+  ; edos with comma mappings at most one step
+  ; 31edo is by far the best in the 11-limit
+  (->> (filter-comma-steps 11 [81/80 64/63 33/32] #(= (reduce max %) 1))
        strip-increasing-error)
 
-  (->> (edos-with-comma-steps 11)
+  ; edos where 81/80 = 64/63 and 33/32 = 1053/1024
+  (->> (filter-comma-steps 13 [81/80 64/63 33/32 1053/1024]
+                           #(and (reduce = (take 2 %))
+                                 (reduce = (drop 2 %))))
+       strip-increasing-error)
+
+  (->> (edos-with-comma-steps 11 [81/80 64/63 33/32])
        (filter (fn [x]
                  (and (every? #(not (neg? %))
                               (x :comma-steps))
@@ -208,11 +250,15 @@
        (map #(first (sort-by :max-error %)))
        (sort-by #(reduce + (map abs (% :comma-steps)))))
 
+  (->> (scale-cents (edo 31))
+       (map second)
+       (map #(+ % 77.41936)))
+
   (into {} (map (fn [r]
                   [r (into {} (for [n [41 46 53]]
                                 [(keyword (format "%dedo" n))
                                  (temperament/tuning-error r (edo n))]))])
-                [3/2 9/8 9/5 5/3 5/4 7/4 7/6 11/6 11/8 11/9]))
+                [3/2 9/8 9/5 5/3 5/4 7/4 7/6 11/6 11/8 11/9 13/10]))
 
   :rcf)
 
@@ -246,9 +292,6 @@
 
   :rcf)
 
-(defn log2 [n]
-  (/ (math/log n) (math/log 2)))
-
 (defn tenney-height [r]
   (log2 (* (numerator r) (denominator r))))
 
@@ -276,7 +319,8 @@
 (comment
   (error-stats odd-limit-15 superpyth)
   (scale/moses (superpyth :generators) [7 7])
-  (all-notation odd-limit-15 superpyth 7 1 true #{1 4 5})
+  (->> (all-notation odd-limit-15 superpyth 7 1 true #{1 4 5})
+       (sort-by #(factor-sum (:ratio %))))
   (scale-cents superpyth)
   :rcf)
 
@@ -507,7 +551,8 @@
    :generators [1200 702.6752 24.3852]})
 (comment
   (error-stats odd-limit-15 hemifamity-comma)
-  (all-notation-planar hemifamity-comma)
+  (->> (all-notation-planar hemifamity-comma)
+       (sort-by (comp factor-sum first)))
   :rcf)
 
 (def pele-comma
