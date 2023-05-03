@@ -48,7 +48,9 @@
 (defn primes-in-ratio [r]
   (set (mapcat integer/factors [(numerator r) (denominator r)])))
 
-(defn subgroup [ps]
+(defn subgroup
+  "Return 15-odd-limit intervals containing only the given set of primes."
+  [ps]
   (filter (fn [r]
             (every? ps (primes-in-ratio r)))
           odd-limit-15))
@@ -162,7 +164,7 @@
             (math/round (/ (temperament/cents-from-ratio p) g))))]))
 
 (comment
-  (map #(search/map-interval (map-edo 53) %) [9/8 81/64 4/3 3/2 27/16 243/128 2187/2048])
+  (map #(search/map-interval (map-edo 29) %) [9/8 81/64 4/3 3/2 27/16 243/128 2187/2048])
   (error-stats (subgroup #{2 3 5 7 11 13}) (edo 49))
   (search/map-interval (map-edo 53) 13/10)
   :rcf)
@@ -255,6 +257,7 @@
   (edo-interval-quality [7/5])
   ; 11-over
   (edo-interval-quality [11/9 11/6])
+  (map #(notate-edo 49 %) [5/4 8/5 7/4 8/7 11/9 18/11])
   :rcf)
 
 (defn filter-limit [rs limit]
@@ -304,6 +307,7 @@
 (comment
   (edos-tempering-out 81/80 225/224) ; septimal meantone
   (edos-tempering-out 64/63 245/243) ; superpyth
+  (edos-tempering-out 55/54 64/63 99/98) ; suprapyth
   (edos-tempering-out 5120/5103) ; hemifamity
   (edos-tempering-out 225/224) ; marvel
   (edos-tempering-out 32805/32768) ; schismatic
@@ -401,12 +405,16 @@
 (def superpyth
   {:mapping [[1 2 6 2] [0 -1 -9 2]]
    :generators [1200 490.4096]})
+(def suprapyth
+  {:mapping [[1 2 6 2 1] [0 -1 -9 2 6]]
+   :generators [1200 491.0003]})
 (comment
-  (error-stats odd-limit-15 superpyth)
+  (error-stats odd-limit-15 suprapyth)
+  (error-stats (subgroup #{2 3 5 7 11}) (edo 22))
   (scale/moses (superpyth :generators) [7 7])
-  (->> (all-notation odd-limit-15 superpyth 7 1 true #{1 4 5})
+  (->> (all-notation odd-limit-15 suprapyth 7 1 true #{1 4 5})
        (sort-by #(factor-sum (:ratio %))))
-  (scale-cents superpyth)
+  (scale-cents suprapyth)
   :rcf)
 
 (def archy
@@ -623,12 +631,17 @@
 (def leapday
   {:mapping [[1	2	11 9	8	7] [0	-1 -21	-15	-11	-8]]
    :generators [1200 495.7862]})
+(def leapday-planar
+  {:mapping [[1 1 0 4 -3 -1] [0 1 4 -2 11 8] [0 0 -1 -1 0 0]]
+   :generators [1200 704.3145 28.5614]})
 
 (def hemifamity-comma
   {:mapping [[1 0 -2 4] [0 1 4 -2] [0 0 -1 -1]]
    :generators [1200 702.6752 24.3852]})
 (comment
-  (error-stats odd-limit-15 leapday)
+  (error-stats odd-limit-15 leapday-planar)
+  (error-stats odd-limit-15 (edo 46))
+  (scale-cents leapday-planar)
   (->> (all-notation odd-limit-15 leapday 7 1 true #{1 4 5})
        (sort-by (comp factor-sum :ratio)))
   (->> (all-notation-planar hemifamity-comma)
