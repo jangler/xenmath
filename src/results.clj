@@ -163,13 +163,99 @@
 
 (comment
   (map #(search/map-interval (map-edo 53) %) [9/8 81/64 4/3 3/2 27/16 243/128 2187/2048])
-  (error-stats (subgroup #{2 3 5 7 11 13}) (edo 72))
+  (error-stats (subgroup #{2 3 5 7 11 13}) (edo 49))
   (search/map-interval (map-edo 53) 13/10)
   :rcf)
 
 (defn edo [n]
   {:mapping (map-edo n)
    :generators [(/ 1200 n)]})
+
+(defn notate-edo
+  "Return a list of valid notation strings for ratio r in edo n."
+  [n r]
+  (let [edo-mapping (map-edo n)
+        naturals (map-indexed (fn [i r]
+                                {:degree (inc i)
+                                 :steps (first (search/map-interval edo-mapping r))
+                                 :sharps 0
+                                 :ups 0})
+                              [1/1 9/8 81/64 4/3 3/2 27/16 243/128 2/1])
+        apotome-steps (first (search/map-interval edo-mapping 2187/2048))
+        add-sharp (fn [n i]
+                    (-> n
+                        (update :sharps #(+ % i))
+                        (update :steps #(+ % (* i apotome-steps)))))
+        add-up (fn [n i]
+                 (-> n
+                     (update :ups #(+ % i))
+                     (update :steps #(+ % i))))
+        notes (mapcat (fn [n]
+                        (for [sharps (if (#{1 4 5 8} (:degree n))
+                                       [-1 0 1]
+                                       [-2 -1 0 1])
+                              ups [-1 0 1]]
+                          (add-sharp (add-up n ups) sharps)))
+                      naturals)
+        r-steps (first (search/map-interval edo-mapping r))]
+    (->> notes
+         (filter #(= r-steps (:steps %)))
+         (map (fn [n]
+                (let [quality (if (#{1 4 5 8} (:degree n))
+                                (case (:sharps n)
+                                  -1 "d"
+                                  0 "P"
+                                  1 "A")
+                                (case (:sharps n)
+                                  -2 "d"
+                                  -1 "m"
+                                  0 "M"
+                                  1 "A"))
+                      downs (apply str (map (fn [_] "v") (range (- (:ups n)))))
+                      ups (apply str (map (fn [_] "^") (range (:ups n))))]
+                  (str ups downs quality (:degree n))))))))
+
+(defn strip-degree [s]
+  (subs s 0 (dec (count s))))
+
+(defn edo-interval-quality [rs]
+  (let [edos (filter (fn [n]
+                       (every? #(< (abs (temperament/tuning-error % (edo n))) 20) rs))
+                     (range 19 54))
+        quality-set (fn [n]
+                      (set (mapcat (fn [r]
+                                     (map strip-degree (notate-edo n r))) rs)))
+        ns (->> (for [n edos]
+                  (vec (quality-set n)))
+                flatten
+                set
+                (map (fn [n]
+                       {:notation n
+                        :edos (filter #(contains? (quality-set %) n) edos)}))
+                (sort-by (comp count :edos))
+                reverse)]
+    (->> (loop [ns ns
+                found-edos #{}
+                results []]
+           (if (empty? ns)
+             results
+             (recur (rest ns)
+                    (clojure.set/union found-edos (set (:edos (first ns))))
+                    (conj results (update (first ns) :edos (fn [xs]
+                                                             (filter #(not (found-edos %))
+                                                                     xs)))))))
+         (filter (comp not empty? :edos)))))
+
+(comment
+  ; 5-over
+  (edo-interval-quality [10/9 5/4 5/3 15/8])
+  ; 7-over
+  (edo-interval-quality [7/6 7/4 14/9])
+  ; 7/5
+  (edo-interval-quality [7/5])
+  ; 11-over
+  (edo-interval-quality [11/9 11/6])
+  :rcf)
 
 (defn filter-limit [rs limit]
   (filter #(<= (reduce max (concat (integer/factors (numerator %))
@@ -216,17 +302,16 @@
        strip-increasing-error))
 
 (comment
-  ; septimal meantone
-  (edos-tempering-out 81/80 225/224)
-
-  ; superpyth
-  (edos-tempering-out 64/63 245/243)
-
-  ; hemifamity
-  (edos-tempering-out 5120/5103)
-
-  ; marvel
-  (edos-tempering-out 225/224)
+  (edos-tempering-out 81/80 225/224) ; septimal meantone
+  (edos-tempering-out 64/63 245/243) ; superpyth
+  (edos-tempering-out 5120/5103) ; hemifamity
+  (edos-tempering-out 225/224) ; marvel
+  (edos-tempering-out 32805/32768) ; schismatic
+  (edos-tempering-out 225/224 3125/3087) ; garibaldi
+  (edos-tempering-out 225/224 385/384 2200/2187) ; cassandra
+  (edos-tempering-out 100/99 225/224 245/242) ; andromeda
+  (edos-tempering-out 91/90 121/120 169/168 352/351) ; leapday
+  (edos-tempering-out 81/80 105/104 126/125) ; erato
 
   ; edos with comma mappings at most one step
   ; 31edo is by far the best in the 11-limit
@@ -448,16 +533,6 @@
   (viable-mos myna) ; not nice
   :rcf)
 
-; garibaldi
-(def garibaldi
-  {:mapping [[1 0 15 25] [0 1 -8 -14]]
-   :generators [1200 702.085]})
-(comment
-  (error-stats odd-limit-15 garibaldi)
-  (viable-mos garibaldi)
-  (all-notation odd-limit-15 garibaldi 7 0 false)
-  :rcf)
-
 ; gamelismic clan
 (def slendric
   {:mapping [[1 1 nil 3] [0 3 nil -1]]
@@ -545,12 +620,17 @@
 (def akea
   {:mapping [[1 0 0 10 -3] [0 1 0 -6 7] [0 0 1 1 -2]]
    :generators [1200 1902.9138 2785.1307]})
+(def leapday
+  {:mapping [[1	2	11 9	8	7] [0	-1 -21	-15	-11	-8]]
+   :generators [1200 495.7862]})
 
 (def hemifamity-comma
   {:mapping [[1 0 -2 4] [0 1 4 -2] [0 0 -1 -1]]
    :generators [1200 702.6752 24.3852]})
 (comment
-  (error-stats odd-limit-15 hemifamity-comma)
+  (error-stats odd-limit-15 leapday)
+  (->> (all-notation odd-limit-15 leapday 7 1 true #{1 4 5})
+       (sort-by (comp factor-sum :ratio)))
   (->> (all-notation-planar hemifamity-comma)
        (sort-by (comp factor-sum first)))
   :rcf)
@@ -621,13 +701,20 @@
   :rcf)
 
 ; schismatic family
-(def andromeda
-  {:mapping [[1 2 -1 -3 -4] [0 -1 8 14 18]]
+(def garibaldi
+  {:mapping [[1 2 -1 -3] [0 -1 8 14]]
    :generators [1200 497.6286]})
+(def andromeda
+  {:mapping [[1 2 -1 -3 -4 -5] [0 -1 8 14 18 21]]
+   :generators [1200 497.6286]})
+(def cassandra
+  {:mapping [[1 2 -1 -3 13 12] [0 -1 8 14 -23 -20]]
+   :generators [1200 497.8874]})
 (comment
-  (error-stats odd-limit-15 andromeda)
+  (error-stats odd-limit-15 cassandra)
   (viable-mos andromeda)
-  (all-notation odd-limit-15 andromeda 7 1 true #{1 4 5})
+  (->> (all-notation odd-limit-15 cassandra 7 1 true #{1 4 5})
+       (sort-by (comp factor-sum :ratio)))
   :rcf)
 
 ; starling temperaments

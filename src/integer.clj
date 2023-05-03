@@ -3,16 +3,22 @@
 (defn factors
   "Returns a seq of factors of n."
   [n]
-  (let [i (first (filter #(zero? (rem n %)) (range 2 (inc n))))]
-    (if (= i n)
-      [n]
-      (conj (factors (/ n i)) i))))
+  (if (= n 1)
+    []
+    (let [i (first (filter #(zero? (rem n %)) (range 2 (inc n))))]
+      (if (= i n)
+        [n]
+        (conj (factors (/ n i)) i)))))
 
 (defn monzo
   "Returns a prime exponent vector for ratio r."
   [r]
-  (let [num-factors (factors (numerator r))
-        den-factors (factors (denominator r))]
+  (let [num-factors (factors (if (ratio? r)
+                               (numerator r)
+                               r))
+        den-factors (factors (if (ratio? r)
+                               (denominator r)
+                               1))]
     (vec (for [p [2 3 5 7 11 13]]
            (- (count (filter #(= % p) num-factors))
               (count (filter #(= % p) den-factors)))))))

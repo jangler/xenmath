@@ -71,25 +71,18 @@
 (defn format-notation
   "Returns a string version of a map with keys :degree and :sharps."
   [m perfect]
-  (if (and (< (m :sharps) 4)
-           (> (m :sharps) -4))
+  (if (and (<= (m :sharps) 1)
+           (>= (m :sharps) (if perfect -1 -2)))
     (str (if perfect
            (case (m :sharps)
-             -3 "ddd"
-             -2 "dd"
              -1 "d"
              0 "P"
-             1 "A"
-             2 "AA"
-             3 "AAA")
+             1 "A")
            (case (m :sharps)
-             -3 "dd"
              -2 "d"
-             -1 "s"
-             0 "L"
-             1 "A"
-             2 "AA"
-             3 "AAA"))
+             -1 "m"
+             0 "M"
+             1 "A"))
          (m :degree))
     nil))
 
@@ -110,7 +103,8 @@
                {:ratio r
                 :notation (let [note (notation r t n mode reverse-chroma)
                                 perfect (perfect-intervals (note :degree))]
-                            (format-notation note perfect))})))))
+                            (format-notation note perfect))}))
+        (filter (comp some? :notation)))))
 
 (defn notate-planar
   "Notate a ratio in a planar temperament with a fifth generator."
