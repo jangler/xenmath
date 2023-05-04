@@ -5,7 +5,8 @@
             [integer :refer [rational-power]]
             [search :refer [optimize]]
             [clojure.math :as math]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [clojure.set :refer [union]]))
 
 (def odd-limit-15
   "Ratios we're interested in tuning accurately."
@@ -120,11 +121,14 @@
 (def septimal-meantone
   {:mapping [[1 1 0 -3] [0 1 4 10]]
    :generators [1200 696.3826411106703]})
+(def meantone-ext13
+  {:mapping [[1 2 4 7 nil 2] [0 -1 -4 -10 nil 4]]
+   :generators [1200 504.6715207655108]})
 (comment
-  (def rs (low-complexity-consonances septimal-meantone 7 4 false #{1 4 5}))
-  (search/optimize 10000 septimal-meantone (errfn rs))
-  (error-stats rs septimal-meantone)
-  (error-stats rs (edo 31))
+  (def rs (low-complexity-consonances meantone-ext13 7 4 false #{1 4 5}))
+  (search/optimize 10000 meantone-ext13 (errfn rs))
+  (error-stats rs meantone-ext13)
+  (error-stats rs (edo 19))
   (->> (all-notation odd-limit-15 septimal-meantone 7 4 false #{1 4 5})
        (sort-by #(factor-sum (:ratio %))))
   :rcf)
@@ -167,10 +171,6 @@
 (def septimal-porcupine
   {:mapping [[1 2 3 2] [0 -3 -5 6]]
    :generators [1200 163.2032]})
-
-(def srutal
-  {:mapping [[2 0 11 -42] [0 1 -2 15]]
-   :generators [600 704.814]})
 
 (def pajara
   {:mapping [[2 2 7 8] [0 1 -2 -2]]
@@ -264,7 +264,7 @@
            (if (empty? ns)
              results
              (recur (rest ns)
-                    (clojure.set/union found-edos (set (:edos (first ns))))
+                    (union found-edos (set (:edos (first ns))))
                     (conj results (update (first ns) :edos (fn [xs]
                                                              (filter #(not (found-edos %))
                                                                      xs)))))))
@@ -291,15 +291,16 @@
 (defn log2 [n]
   (/ (math/log n) (math/log 2)))
 
-(defn edos-with-comma-steps [limit commas]
-  (for [i (range 5 (int (* 2 (/ 1 (log2 (reduce min commas))))))]
-    (let [t (edo i)
-          es (error-stats (filter-limit odd-limit-15 limit) t)]
-      {:edo i
-       :max-error (es :max-error)
-       :mean-error (es :mean-error)
-       :comma-steps (map #(first (search/map-interval (t :mapping) %))
-                         commas)})))
+(defn edos-with-comma-steps [commas]
+  (let [primes (reduce union (map primes-in-ratio commas))]
+    (for [i (range 5 (int (* 2 (/ 1 (log2 (reduce min commas))))))]
+      (let [t (edo i)
+            es (error-stats (subgroup primes) t)]
+        {:edo i
+         :max-error (es :max-error)
+         :mean-error (es :mean-error)
+         :comma-steps (map #(first (search/map-interval (t :mapping) %))
+                           commas)}))))
 
 (defn strip-increasing-error [edos]
   (loop [remaining edos
@@ -316,15 +317,15 @@
              (min record-max (:max-error (first remaining)))
              (min record-mean (:mean-error (first remaining)))))))
 
-(defn filter-comma-steps [limit commas pred]
-  (->> (edos-with-comma-steps limit commas)
+(defn filter-comma-steps [commas pred]
+  (->> (edos-with-comma-steps commas)
        (filter #(pred (:comma-steps %)))))
 
+(defn all-edos-tempering-out [& commas]
+  (filter-comma-steps commas #(every? zero? %)))
+
 (defn edos-tempering-out [& commas]
-  (->> (filter-comma-steps (reduce max (mapcat primes-in-ratio commas))
-                           commas
-                           #(every? zero? %))
-       strip-increasing-error))
+  (strip-increasing-error (apply all-edos-tempering-out commas)))
 
 (defn mos-report [[per gen]]
   (->> (scale/moses [per gen] [3 24])
@@ -357,7 +358,11 @@
   (edos-tempering-out 64/63 99/98) ; machine
   (edos-tempering-out 1029/1024 3136/3125) ; hemithirds
   (edos-tempering-out 99/98 9317/9216) ; joan
-  (edos-tempering-out 352/351 364/363) ; parapyth ; flattone
+  (edos-tempering-out 352/351 364/363) ; parapyth
+  (edos-tempering-out 1029/1024) ; slendric
+  (edos-tempering-out 81/80 1029/1024) ; mothra
+  (edos-tempering-out 245/243 1029/1024) ; rodan
+  (edos-tempering-out 1029/1024 10976/10935) ; guiron
 
   (mos-report [1200 176]) ; tetracot
   (mos-report [600 705]) ; srutal
@@ -367,19 +372,20 @@
   (mos-report [1200 317]) ; kleismic
   (mos-report [1200 193]) ; hemithirds
   (mos-report [1200 543]) ; joan
+  (mos-report [1200 234]) ; slendric
 
   ; edos with comma mappings at most one step
   ; 31edo is by far the best in the 11-limit
-  (->> (filter-comma-steps 11 [81/80 64/63 33/32] #(= (reduce max %) 1))
+  (->> (filter-comma-steps [81/80 64/63 33/32] #(= (reduce max %) 1))
        strip-increasing-error)
 
   ; edos where 81/80 = 64/63 and 33/32 = 1053/1024
-  (->> (filter-comma-steps 13 [81/80 64/63 33/32 1053/1024]
+  (->> (filter-comma-steps [81/80 64/63 33/32 1053/1024]
                            #(and (reduce = (take 2 %))
                                  (reduce = (drop 2 %))))
        strip-increasing-error)
 
-  (->> (edos-with-comma-steps 11 [81/80 64/63 33/32])
+  (->> (edos-with-comma-steps [81/80 64/63 33/32])
        (filter (fn [x]
                  (and (every? #(not (neg? %))
                               (x :comma-steps))
@@ -400,6 +406,57 @@
                                  (temperament/tuning-error r (edo n))]))])
                 [3/2 9/8 9/5 5/3 5/4 7/4 7/6 11/6 11/8 11/9 13/10]))
 
+  :rcf)
+
+(defn fifth-tempering [& commas]
+  (let [results (apply edos-tempering-out commas)]
+    {:edos (map :edo results)
+     :max-error (:max-error (last results))
+     :fifth (->> (edo (:edo (last results)))
+                 (temperament/linear-tuning 3/2)
+                 float)}))
+
+(comment
+  (fifth-tempering 81/80)
+  (fifth-tempering (/ 5/4 (* 9/8 2187/2048)))
+  (fifth-tempering (/ 5/4 (/ 4/3 2187/2048)))
+  (fifth-tempering 64/63)
+  (fifth-tempering (/ (* 27/16 2187/2048) 7/4))
+  (fifth-tempering (/ 7/4 (/ 16/9 2187/2048)))
+  (fifth-tempering (/ 11/8 (* 2187/2048 81/64)))
+  (fifth-tempering (/ (/ 3/2 2187/2048) 11/8))
+  (compare 13/8 (/ 27/16 2187/2048))
+  (fifth-tempering (/ 13/8 (/ 27/16 2187/2048)))
+  (fifth-tempering (/ 13/8 (* 3/2 2187/2048)))
+  (fifth-tempering (/ (/ 16/9 2187/2048) 13/8))
+  (fifth-tempering 20480/19683 64/63)
+  (fifth-tempering 20480/19683 8192/8019)
+  (fifth-tempering 81/80 1053/1024)
+  (fifth-tempering 32805/32768 180224/177147)
+  (fifth-tempering 180224/177147 6656/6561)
+  (fifth-tempering 180224/177147 262144/255879)
+  (fifth-tempering 81/80 59049/57344 1053/1024)
+  (fifth-tempering 1029/1024)
+  :rcf)
+
+(defn all-mappings [t]
+  (->> odd-limit-15
+       (mapcat #(vector % (notation/octave-reduce (/ 1 %))))
+       (map (fn [r] 
+              {:ratio r
+               :mapping (search/map-interval (:mapping t) r)}))
+       (filter (comp some? :mapping))))
+
+(defn genchain [n t]
+  (let [gs (:generators t)
+        mappings (all-mappings t)]
+    (for [i (range (/ n (/ 1200 (first gs))))]
+      (filter #(= (second (:mapping %)) i) mappings))))
+
+(comment
+  (all-mappings slendric)
+  (genchain 11 slendric)
+  (genchain 12 septimal-meantone)
   :rcf)
 
 (def udn22
@@ -447,8 +504,14 @@
   :rcf)
 
 ; diaschismic family
+(def srutal
+  {:mapping [[2 3 5 3] [0 1 -2 15]]
+   :generators [600 105.03479259226647]})
+
 (comment
   (error-stats odd-limit-15 srutal)
+  (scale/moses (:generators srutal) [10 10])
+  (all-notation odd-limit-15 srutal 10 4 false #{1 4 5 6})
   (error-stats odd-limit-15 pajara))
 
 ; archytas clan
