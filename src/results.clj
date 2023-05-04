@@ -98,11 +98,26 @@
 
 ; meantone
 
+(defn low-complexity-consonances
+  [t n mode reverse-chroma perfect-intervals]
+  (->> (all-notation odd-limit-15 t n mode reverse-chroma perfect-intervals)
+       (map :ratio)))
+
+(defn errfn [rs]
+  (fn [t]
+    (let [es (error-stats rs t)
+          errs (vals (:errors es))]
+      (/ (reduce + (map #(max 0 (- % 5)) errs))
+         (count errs)))))
+
 (def septimal-meantone
-  {:mapping [[1 0 -4 -13] [0 1 4 10]]
-   :generators [1200 696.9521]})
+  {:mapping [[1 1 0 -3] [0 1 4 10]]
+   :generators [1200 696.3826411106703]})
 (comment
-  (error-stats odd-limit-15 septimal-meantone)
+  (def rs (low-complexity-consonances septimal-meantone 7 4 false #{1 4 5}))
+  (search/optimize 10000 septimal-meantone (errfn rs))
+  (error-stats rs septimal-meantone)
+  (error-stats rs (edo 31))
   (->> (all-notation odd-limit-15 septimal-meantone 7 4 false #{1 4 5})
        (sort-by #(factor-sum (:ratio %))))
   :rcf)
@@ -304,6 +319,12 @@
                            #(every? zero? %))
        strip-increasing-error))
 
+(defn mos-report [[per gen]]
+  (->> (scale/moses [per gen] [3 24])
+       (map (fn [s]
+              {:size (count s)
+               :proper (scale/proper? s)}))))
+
 (comment
   (edos-tempering-out 81/80 225/224) ; septimal meantone
   (edos-tempering-out 64/63 245/243) ; superpyth
@@ -316,6 +337,29 @@
   (edos-tempering-out 100/99 225/224 245/242) ; andromeda
   (edos-tempering-out 91/90 121/120 169/168 352/351) ; leapday
   (edos-tempering-out 81/80 105/104 126/125) ; erato
+  (edos-tempering-out 50/49 64/63) ; pajara
+  (edos-tempering-out 2048/2025 4375/4374) ; srutal
+  (edos-tempering-out 875/864 2048/2025) ; keen
+  (edos-tempering-out 1728/1715 2048/2025) ; echidna
+  (edos-tempering-out 250/243) ; porcupine
+  (edos-tempering-out 20000/19683) ; tetracot
+  (edos-tempering-out 875/864 5120/5103) ; monkey
+  (edos-tempering-out 225/224 15625/15309) ; bunya
+  (edos-tempering-out 15625/15552) ; hanson/kleismic
+  (edos-tempering-out 225/224 4375/4374) ; catakleismic
+  (edos-tempering-out 64/63 99/98) ; machine
+  (edos-tempering-out 1029/1024 3136/3125) ; hemithirds
+  (edos-tempering-out 99/98 9317/9216) ; joan
+  (edos-tempering-out 352/351 364/363) ; parapyth ; flattone
+
+  (mos-report [1200 176]) ; tetracot
+  (mos-report [600 705]) ; srutal
+  (mos-report [600 435]) ; echidna
+  (mos-report [1200 443]) ; sensi
+  (mos-report [1200 272]) ; orwell
+  (mos-report [1200 317]) ; kleismic
+  (mos-report [1200 193]) ; hemithirds
+  (mos-report [1200 543]) ; joan
 
   ; edos with comma mappings at most one step
   ; 31edo is by far the best in the 11-limit
@@ -404,13 +448,18 @@
 
 (def superpyth
   {:mapping [[1 2 6 2] [0 -1 -9 2]]
-   :generators [1200 490.4096]})
+   :generators [1200 489.85419323128866]})
 (def suprapyth
   {:mapping [[1 2 6 2 1] [0 -1 -9 2 6]]
-   :generators [1200 491.0003]})
+   :generators [1200 490.46310412407973]})
 (comment
-  (error-stats odd-limit-15 suprapyth)
-  (error-stats (subgroup #{2 3 5 7 11}) (edo 22))
+  (def rs (low-complexity-consonances superpyth 7 1 true #{1 4 5}))
+  (optimize 10000 superpyth (errfn rs))
+  (error-stats rs superpyth)
+  (def rs (low-complexity-consonances suprapyth 7 1 true #{1 4 5}))
+  (optimize 10000 suprapyth (errfn rs))
+  (error-stats rs suprapyth)
+  (error-stats rs (edo 22))
   (scale/moses (superpyth :generators) [7 7])
   (->> (all-notation odd-limit-15 suprapyth 7 1 true #{1 4 5})
        (sort-by #(factor-sum (:ratio %))))
@@ -462,10 +511,11 @@
 
 (def sensation
   {:mapping [[1 -1 -1 -2 nil 0] [0 7 9 13 nil 10]]
-   :generators [1200 443.322]})
+   :generators [1200 443.13632891307043]})
 (comment
   (error-stats odd-limit-15 sensation)
-  (all-notation odd-limit-15 sensation 8 5 true #{1})
+  (all-notation odd-limit-15 sensation 8 5 true)
+  (low-complexity-consonances sensation 8 5 true #{1})
   :rcf)
 
 ; tetracot
