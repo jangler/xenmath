@@ -73,7 +73,14 @@
               [r (temperament/linear-tuning r t)]))))
 
 (def scale-ratios
-  [256/243 9/8 32/27 81/64 4/3 1024/729 3/2 128/81 27/16 16/9 243/128 2187/2048])
+  (let [a 2187/2048]
+    [a
+     9/8 (* 9/8 a)
+     81/64
+     4/3 (* 4/3 a)
+     3/2 (* 3/2 a)
+     27/16 (* 27/16 a)
+     243/128]))
 
 (defn scale-cents [t]
   (map (fn [r]
@@ -383,7 +390,7 @@
        (map #(first (sort-by :max-error %)))
        (sort-by #(reduce + (map abs (% :comma-steps)))))
 
-  (->> (scale-cents (edo 31))
+  (->> (scale-cents (edo 22))
        (map second)
        (map #(+ % 77.41936)))
 
