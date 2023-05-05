@@ -1,74 +1,11 @@
 (ns results
   (:require [edo]
             [interval]
-            [notation :refer [all-notation]]
+            [notation]
             [scale]
             [temperament :refer [error-stats]]
             [clojure.math :as math]
             [clojure.set :refer [union]]))
-
-(def odd-limit-15
-  "Ratios we're interested in tuning accurately."
-  [3/2 ; and 4/3
-   9/8 ; and 16/9
-   5/4 ; and 8/5
-   5/3 ; and 6/5
-   9/5 ; and 10/9
-   15/8 ; and 16/15
-   7/4 ; and 8/7
-   7/6 ; and 12/7
-   7/5 ; and 10/7
-   9/7 ; and 14/9
-   15/14 ; and 28/15
-   11/6 ; and 12/11
-   11/7 ; and 14/11
-   11/8 ; and 16/11
-   11/9 ; and 18/11
-   11/10 ; and 20/11
-   15/11 ; and 22/15
-   13/7 ; and 14/13
-   13/8 ; and 16/13
-   13/9 ; and 18/13
-   13/10 ; and 20/13
-   13/11 ; and 22/13
-   13/12 ; and 24/13
-   15/13 ; and 26/15
-   ])
-
-(comment
-  (->> odd-limit-15
-       (mapcat #(vector % (notation/octave-reduce (/ 1 %))))
-       (sort-by interval/factor-sum))
-  :rcf)
-
-(defn all-tunings
-  "Return all tunings for a temperament."
-  [t]
-  (->> (concat odd-limit-15 (map #(* (/ 1 %) 2) odd-limit-15))
-       (filter #(temperament/maps? t %))
-       (sort-by interval/factor-sum)
-       (map (fn [r]
-              [r (temperament/tuning r t)]))))
-
-(def scale-ratios
-  (let [a 2187/2048]
-    [a
-     9/8 (* 9/8 a)
-     81/64
-     4/3 (* 4/3 a)
-     3/2 (* 3/2 a)
-     27/16 (* 27/16 a)
-     243/128]))
-
-(defn scale-cents [t]
-  (map (fn [r]
-         [r (float (temperament/tuning r t))])
-       scale-ratios))
-
-(defn low-complexity-consonances
-  [t n mode reverse-chroma perfect-intervals]
-  (->> (all-notation odd-limit-15 t n mode reverse-chroma perfect-intervals)
-       (map :ratio)))
 
 (defn notate-edo
   "Return a list of valid notation strings for ratio r in edo n."
@@ -176,21 +113,6 @@
          :comma-steps (map #(first (temperament/tmap t %))
                            commas)}))))
 
-(defn strip-increasing-error [edos]
-  (loop [remaining edos
-         found []
-         record-max 30
-         record-mean 15]
-    (if (empty? remaining)
-      found
-      (recur (rest remaining)
-             (if (and (< (:max-error (first remaining)) record-max)
-                      (< (:mean-error (first remaining)) record-mean))
-               (conj found (first remaining))
-               found)
-             (min record-max (:max-error (first remaining)))
-             (min record-mean (:mean-error (first remaining)))))))
-
 (defn filter-comma-steps [commas pred]
   (->> (edos-with-comma-steps commas)
        (filter #(pred (:comma-steps %)))))
@@ -199,7 +121,7 @@
   (filter-comma-steps commas #(every? zero? %)))
 
 (defn edos-tempering-out [& commas]
-  (strip-increasing-error (apply all-edos-tempering-out commas)))
+  (edo/strip-nondecreasing-error (apply all-edos-tempering-out commas)))
 
 (defn mos-report [[per gen]]
   (->> (scale/moses [per gen] [3 24])
@@ -251,13 +173,13 @@
   ; edos with comma mappings at most one step
   ; 31edo is by far the best in the 11-limit
   (->> (filter-comma-steps [81/80 64/63 33/32] #(= (reduce max %) 1))
-       strip-increasing-error)
+       edo/strip-nondecreasing-error)
 
   ; edos where 81/80 = 64/63 and 33/32 = 1053/1024
   (->> (filter-comma-steps [81/80 64/63 33/32 1053/1024]
                            #(and (reduce = (take 2 %))
                                  (reduce = (drop 2 %))))
-       strip-increasing-error)
+       edo/strip-nondecreasing-error)
 
   (->> (edos-with-comma-steps [81/80 64/63 33/32])
        (filter (fn [x]
@@ -308,7 +230,7 @@
   "Return notation for a planar temperament. The second generator must be a
    fifth, and the third generator must be a comma."
   [t]
-  (->> (concat odd-limit-15 (map #(* (/ 1 %) 2) odd-limit-15))
+  (->> (interval/odd-limit 15)
        (filter #(temperament/maps? t %))
        (sort-by interval/factor-sum)
        (map (fn [r]

@@ -1,6 +1,6 @@
 [{:name "diaschismic"
   :mapping [[2 3 5 7 9 10] [0 1 -2 -8 -12 -15]]
-  :generators [600 105.2138]
+  :generators [600 103.8968]
   :commas [126/125 176/175 196/195 364/363]}
  {:name "meantone"
   :mapping [[1 2 4] [0 -1 -4]]

@@ -1,4 +1,5 @@
-(ns scale)
+(ns scale
+  (:require [temperament]))
 
 (defn next-mode
   "Returns the next mode of a scale."
@@ -115,6 +116,17 @@
                 notes
                 candidate))
        (conj (vec (sort candidate)) 1200)))))
+
+(defn chromatic-scale [t]
+  (let [a 2187/2048
+        rs [a
+            9/8 (* 9/8 a)
+            81/64
+            4/3 (* 4/3 a)
+            3/2 (* 3/2 a)
+            27/16 (* 27/16 a)
+            243/128]]
+    (map #(temperament/tuning % t) rs)))
 
 (comment
   (def major-scale [200 400 500 700 900 1100 1200])
