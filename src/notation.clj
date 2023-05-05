@@ -1,6 +1,7 @@
 (ns notation
   (:require [clojure.math :as math]
-            [integer :refer [factors prime-indices monzo rational-power]]
+            [numbers :refer [factors prime-indices rational-power]]
+            [interval :refer [monzo]]
             [temperament]))
 
 (defn mod-within
@@ -98,7 +99,7 @@
   ([rs t n mode reverse-chroma] (all-notation rs t n mode reverse-chroma #{1}))
   ([rs t n mode reverse-chroma perfect-intervals]
    (->> (concat rs (map #(octave-reduce (/ 1 %)) rs))
-        (filter #(temperament/maps-ratio? t %))
+        (filter #(temperament/maps? t %))
         (map (fn [r]
                {:ratio r
                 :notation (let [note (notation r t n mode reverse-chroma)
@@ -109,7 +110,7 @@
 (defn notate-planar
   "Notate a ratio in a planar temperament with a fifth generator."
   [r t]
-  (let [m (temperament/map-ratio r t)
+  (let [m (temperament/tmap r t)
         degree (nth [1 5 2 6 3 7 4] (mod (first m) 7))
         chroma (math/floor-div (inc (first m)) 7)
         quality (if (#{1 4 5} degree)

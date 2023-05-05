@@ -1,0 +1,20 @@
+[{:name "diaschismic"
+  :mapping [[2 3 5 7 9 10] [0 1 -2 -8 -12 -15]]
+  :generators [600 105.2138]
+  :commas [126/125 176/175 196/195 364/363]}
+ {:name "meantone"
+  :mapping [[1 2 4] [0 -1 -4]]
+  :generators [1200 503.4215]
+  :commas [81/80]}
+ {:name "pajara"
+  :mapping [[2 3 5 6] [0 1 -2 -2]]
+  :generators [600 107.0357]
+  :commas [50/49 64/63]}
+ {:name "septimal meantone"
+  :mapping [[1 2 4 7] [0 -1 -4 -10]]
+  :generators [1200 503.4215]
+  :commas [81/80 126/125]}
+ {:name "srutal"
+  :mapping [[2 3 5] [0 1 -2]]
+  :generators [600 105.2137]
+  :commas [2048/2025]}]

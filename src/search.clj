@@ -4,15 +4,15 @@
             [clojure.edn :as edn]
             [clojure.math :as math]
             [clojure.math.combinatorics :as combo]
-            [clojure.string :as str]
             [scale]
-            [integer :refer [monzo prime-indices]]
-            [temperament :refer [cents-from-ratio error-stats]]))
+            [numbers :refer [prime-indices]]
+            [interval]
+            [temperament]))
 
 ; TODO: chromaticism
 ; TODO: mapping non-primes (9 and 15)
 
-(def save-path "data/found.edn")
+(def save-path "data/search-results.edn")
 (def odd-limit 15)
 (def smallest-consonance 10/9)
 (def degrees-with-triads-fraction 1)
@@ -82,29 +82,13 @@
              (mapped-next-mode scale)
              (dec n)))))
 
-(defn map-interval
-  "Given a ratio and mapping, returns the exponent vector.
-   If the mapping does not map the ratio, returns nil."
-  [m r]
-  (let [v (monzo r)]
-    (if (every? (fn [[i x]]
-                  (or (zero? x)
-                      (and (contains? (first m) i)
-                           (some? ((first m) i)))))
-                (map-indexed vector v))
-      (->> m
-           (map (fn [xs]
-                  (map #(if (nil? %) 0 %) xs)))
-           (map #(reduce + (map * v %))))
-      nil)))
-
 (defn scale-consonances
   "Return consonances represented by a mode of a mapped scale."
   [mapping scale]
   (->> consonances
        (map (fn [r]
               {:ratio r
-               :vector (map-interval mapping r)}))
+               :vector (temperament/tmap {:mappng mapping} r)}))
        (filter (fn [m]
                  (and (some? (m :vector))
                       (some #(= % (m :vector)) scale))))
@@ -160,7 +144,7 @@
   [t]
   (let [cvs (map (fn [r]
                    {:ratio r
-                    :vector (map-interval (t :mapping) r)})
+                    :vector (temperament/tmap t r)})
                  consonances)]
     (->> (mapped-scale (t :generators) (t :mos-size))
          mapped-modes
@@ -192,7 +176,7 @@
   "Finds a vector that comes out within the error limit of an interval, for the
    given generators."
   [[per gen] r]
-  (let [cents (cents-from-ratio r)
+  (let [cents (interval/cents r)
         period-reduced-cents (mod cents per)
         variance (* 2 (second mos-size-range))]
     (loop [ps (shuffle (range (- variance) (inc variance)))]
@@ -240,7 +224,7 @@
            degrees-with-triads-fraction)
        (>= (fraction-of-consonant-intervals t)
            min-consonance-fraction)
-       (< ((error-stats consonances t) :max-error)
+       (< ((temperament/error-stats consonances t) :max-error)
           error-limit)
        (scale/proper? (first (scale/moses (t :generators)
                                           [(t :mos-size) (t :mos-size)])))))
@@ -272,25 +256,6 @@
         (recur)
         {:generators gens :mos-sizes mos-sizes}))))
 
-(defn optimize
-  ([n t] (optimize n t (fn [t]
-                         ((error-stats consonances t) :max-error))))
-  ([n t errfn]
-   (loop [t t
-          n n
-          e (errfn t)]
-     (if (pos? n)
-       (let [gs (t :generators)
-             t2 (assoc t :generators
-                       (vec (concat [(first gs)]
-                                    (->> (rest gs)
-                                         (map #(+ % (- (math/random) 0.5)))))))
-             e2 (errfn t2)]
-         (recur (if (< e2 e) t2 t)
-                (dec n)
-                (if (< e2 e) e2 e)))
-       t))))
-
 (defn add-additional-mappings
   "Attempt to add more prime mappings to a temperament, as long as they don't
    increase maximum error."
@@ -309,8 +274,8 @@
                  (let [t2 (assoc t :mapping
                                  [(assoc (first m) i (first v))
                                   (assoc (second m) i (second v))])
-                       e (error-stats consonances t)
-                       e2 (error-stats consonances t2)]
+                       e (temperament/error-stats consonances t)
+                       e2 (temperament/error-stats consonances t2)]
                    (if (<= (e2 :max-error) (e :max-error))
                      t2
                      t))
@@ -336,23 +301,6 @@
                  t2
                  t))))))
 
-(defn mod-inverse [a c]
-  (loop [b 0]
-    (if (> b c)
-      (throw (Exception. (format "no modular inverse of %d and %d" a c)))
-      (if (= (mod (* a b) c) 1)
-        b
-        (recur (inc b))))))
-
-; problem: this doesn't work when n is a multiple of s
-(defn make-bright [gs n]
-  (let [scl (vec (first (scale/moses gs [n n])))
-        [_ s] (scale/step-counts scl)]
-    (if (or (zero? (mod n s))
-            (= (second gs) (nth scl (mod-inverse s n))))
-      gs
-      [(first gs) (- (first gs) (second gs))])))
-
 (defn search
   [existing]
   (loop [all-finds existing
@@ -377,10 +325,10 @@
                                       (not (contains? existing-matrices
                                                       (scale-matrix t))))))
                        (map #(->> %
-                                  (optimize 1000)
+                                  (temperament/optimize 12)
                                   add-additional-mappings
                                   strip-unused-mappings
-                                  (optimize 1000)))
+                                  (temperament/optimize 12)))
                        (filter #(not (contains? existing-matrices
                                                 (scale-matrix %)))))]
         (if (empty? finds)
@@ -444,7 +392,7 @@
   ; diagnostics for running on newly found temperaments
   (def t (last ts))
   (def t (find-by-name ts "sensi[8]"))
-  {:max-error ((error-stats consonances t) :max-error)
+  {:max-error ((temperament/error-stats consonances t) :max-error)
    :scale-matrix (scale-matrix t)
    :triads (scale-triads t)}
 
