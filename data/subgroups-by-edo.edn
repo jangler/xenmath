@@ -1,0 +1,1238 @@
+({:edo 15,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 9.1242, :max-error 13.6863})}
+ {:edo 16, :subgroups ()}
+ {:edo 17,
+  :subgroups
+  ({:subgroup (2 3 13), :mean-error 4.4481, :max-error 7.8547}
+   {:subgroup (2 3 11), :mean-error 8.0328, :max-error 13.388}
+   {:subgroup (2 3 11 13), :mean-error 6.3866, :max-error 13.388})}
+ {:edo 18, :subgroups ()}
+ {:edo 19,
+  :subgroups
+  ({:subgroup (2 3 5), :mean-error 8.4706, :max-error 14.5845})}
+ {:edo 20, :subgroups ()}
+ {:edo 21,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 9.1242, :max-error 13.6863})}
+ {:edo 22,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 3.9089, :max-error 5.8634}
+   {:subgroup (2 3 7), :mean-error 8.3072, :max-error 14.2718})}
+ {:edo 23, :subgroups ()}
+ {:edo 24,
+  :subgroups
+  ({:subgroup (2 3 11), :mean-error 2.0824, :max-error 3.91}
+   {:subgroup (2 3 13), :mean-error 8.0294, :max-error 13.3823}
+   {:subgroup (2 3 11 13), :mean-error 6.1649, :max-error 13.3823}
+   {:subgroup (2 5 13), :mean-error 9.1242, :max-error 13.6863})}
+ {:edo 25,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 5.8839, :max-error 8.8259})}
+ {:edo 26, :subgroups ()}
+ {:edo 27,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 9.1242, :max-error 13.6863}
+   {:subgroup (2 5 13), :mean-error 9.1242, :max-error 13.6863}
+   {:subgroup (2 5 7 13), :mean-error 7.6823, :max-error 13.6863})}
+ {:edo 28,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 4.2829, :max-error 6.4243})}
+ {:edo 29,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 9.2666, :max-error 13.8999}
+   {:subgroup (2 5 13), :mean-error 9.2666, :max-error 13.8999}
+   {:subgroup (2 5 11 13), :mean-error 7.0242, :max-error 13.8999})}
+ {:edo 30,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 9.1242, :max-error 13.6863}
+   {:subgroup (2 5 13), :mean-error 9.476, :max-error 14.2139}
+   {:subgroup (2 5 11 13), :mean-error 8.554, :max-error 14.2139})}
+ {:edo 31,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 1.2447, :max-error 1.8671}
+   {:subgroup (2 5 11), :mean-error 6.777, :max-error 10.1656}
+   {:subgroup (2 5 7 11), :mean-error 5.2634, :max-error 10.1656}
+   {:subgroup (2 3 7), :mean-error 6.0002, :max-error 10.3616}
+   {:subgroup (2 3 11), :mean-error 6.0211, :max-error 10.3616}
+   {:subgroup (2 3 7 11), :mean-error 5.8736, :max-error 10.3616}
+   {:subgroup (2 5 13), :mean-error 7.3902, :max-error 11.0853}
+   {:subgroup (2 3 5), :mean-error 6.3053, :max-error 11.1447}
+   {:subgroup (2 3 5 7), :mean-error 5.2246, :max-error 11.1447}
+   {:subgroup (2 3 5 11), :mean-error 6.1405, :max-error 11.1447}
+   {:subgroup (2 3 5 7 11), :mean-error 5.6166, :max-error 11.1447}
+   {:subgroup (2 5 7 13), :mean-error 6.2151, :max-error 12.1692})}
+ {:edo 32, :subgroups ()}
+ {:edo 33,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 9.1242, :max-error 13.6863})}
+ {:edo 34,
+  :subgroups
+  ({:subgroup (2 5 13), :mean-error 4.3541, :max-error 6.5312}
+   {:subgroup (2 3 5), :mean-error 4.5819, :max-error 7.8547}
+   {:subgroup (2 3 13), :mean-error 4.4481, :max-error 7.8547}
+   {:subgroup (2 3 5 13), :mean-error 3.9311, :max-error 7.8547}
+   {:subgroup (2 3 11), :mean-error 8.0328, :max-error 13.388}
+   {:subgroup (2 5 11), :mean-error 8.9253, :max-error 13.388}
+   {:subgroup (2 3 5 11), :mean-error 6.8071, :max-error 13.388}
+   {:subgroup (2 3 11 13), :mean-error 6.3866, :max-error 13.388}
+   {:subgroup (2 5 11 13), :mean-error 7.4623, :max-error 13.388}
+   {:subgroup (2 3 5 11 13), :mean-error 5.7345, :max-error 13.388})}
+ {:edo 35,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 6.1139, :max-error 9.1709}
+   {:subgroup (2 5 11), :mean-error 6.1139, :max-error 9.1709}
+   {:subgroup (2 5 7 11), :mean-error 5.5987, :max-error 9.1709})}
+ {:edo 36,
+  :subgroups
+  ({:subgroup (2 3 7), :mean-error 1.9958, :max-error 3.91}
+   {:subgroup (2 3 13), :mean-error 4.3166, :max-error 7.1944}
+   {:subgroup (2 3 7 13), :mean-error 3.4147, :max-error 7.1944})}
+ {:edo 37,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 1.917, :max-error 2.8755}
+   {:subgroup (2 5 13), :mean-error 1.917, :max-error 2.8755}
+   {:subgroup (2 5 11 13), :mean-error 1.8848, :max-error 2.8755}
+   {:subgroup (2 5 7), :mean-error 2.7647, :max-error 4.1471}
+   {:subgroup (2 5 7 11), :mean-error 2.5472, :max-error 4.1471}
+   {:subgroup (2 5 7 13), :mean-error 2.1002, :max-error 4.1471}
+   {:subgroup (2 5 7 11 13), :mean-error 2.2272, :max-error 4.1471})}
+ {:edo 38,
+  :subgroups
+  ({:subgroup (2 3 11), :mean-error 8.6855, :max-error 14.4758}
+   {:subgroup (2 5 11), :mean-error 9.6505, :max-error 14.4758}
+   {:subgroup (2 3 5), :mean-error 8.4706, :max-error 14.5845}
+   {:subgroup (2 3 5 11), :mean-error 7.2559, :max-error 14.5845})}
+ {:edo 39,
+  :subgroups
+  ({:subgroup (2 3 11), :mean-error 6.3791, :max-error 11.4746}
+   {:subgroup (2 5 11), :mean-error 9.1242, :max-error 13.6863})}
+ {:edo 40,
+  :subgroups
+  ({:subgroup (2 5 13), :mean-error 2.8093, :max-error 4.2139}
+   {:subgroup (2 5 7), :mean-error 8.3415, :max-error 12.5122}
+   {:subgroup (2 5 7 13), :mean-error 6.344, :max-error 12.5122})}
+ {:edo 41,
+  :subgroups
+  ({:subgroup (2 3 7), :mean-error 2.3642, :max-error 3.9403}
+   {:subgroup (2 3 11), :mean-error 2.8678, :max-error 4.7796}
+   {:subgroup (2 5 7), :mean-error 3.8839, :max-error 5.8259}
+   {:subgroup (2 3 5), :mean-error 4.2873, :max-error 6.794}
+   {:subgroup (2 3 5 7), :mean-error 3.756, :max-error 6.794}
+   {:subgroup (2 3 7 11), :mean-error 3.6066, :max-error 7.7519}
+   {:subgroup (2 3 13), :mean-error 4.9517, :max-error 8.2528}
+   {:subgroup (2 3 11 13), :mean-error 4.5687, :max-error 8.2528}
+   {:subgroup (2 5 11), :mean-error 7.0703, :max-error 10.6055}
+   {:subgroup (2 3 5 11), :mean-error 5.3943, :max-error 10.6055}
+   {:subgroup (2 5 7 11), :mean-error 5.7981, :max-error 10.6055}
+   {:subgroup (2 3 5 7 11), :mean-error 4.8636, :max-error 10.6055}
+   {:subgroup (2 3 7 13), :mean-error 5.1503, :max-error 11.2251}
+   {:subgroup (2 3 7 11 13), :mean-error 5.0332, :max-error 11.2251}
+   {:subgroup (2 5 13), :mean-error 9.3858, :max-error 14.0787}
+   {:subgroup (2 3 5 13), :mean-error 6.9731, :max-error 14.0787}
+   {:subgroup (2 5 7 13), :mean-error 7.5347, :max-error 14.0787}
+   {:subgroup (2 5 11 13), :mean-error 7.836, :max-error 14.0787}
+   {:subgroup (2 3 5 7 13), :mean-error 6.0895, :max-error 14.0787}
+   {:subgroup (2 3 5 11 13), :mean-error 6.6936, :max-error 14.0787}
+   {:subgroup (2 5 7 11 13), :mean-error 7.1819, :max-error 14.0787}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 6.1817,
+    :max-error 14.0787})}
+ {:edo 42,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 9.1242, :max-error 13.6863})}
+ {:edo 43,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 4.5477, :max-error 6.8216}
+   {:subgroup (2 5 13), :mean-error 5.1349, :max-error 7.7023}
+   {:subgroup (2 5 7), :mean-error 5.2789, :max-error 7.9183}
+   {:subgroup (2 5 7 11), :mean-error 4.3654, :max-error 7.9183}
+   {:subgroup (2 3 13), :mean-error 4.473, :max-error 8.5612}
+   {:subgroup (2 5 11 13), :mean-error 5.8007, :max-error 10.14}
+   {:subgroup (2 5 7 13), :mean-error 6.349, :max-error 11.2366}
+   {:subgroup (2 5 7 11 13), :mean-error 5.859, :max-error 11.2366}
+   {:subgroup (2 3 5), :mean-error 6.4898, :max-error 12.9451}
+   {:subgroup (2 3 5 13), :mean-error 5.4169, :max-error 12.9451})}
+ {:edo 44,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 3.9089, :max-error 5.8634}
+   {:subgroup (2 5 13), :mean-error 6.2816, :max-error 9.4224}
+   {:subgroup (2 5 11 13), :mean-error 6.1444, :max-error 10.7903}
+   {:subgroup (2 3 7), :mean-error 8.3072, :max-error 14.2718}
+   {:subgroup (2 3 13), :mean-error 7.5777, :max-error 14.2718}
+   {:subgroup (2 3 7 13), :mean-error 7.3425, :max-error 14.2718})}
+ {:edo 45,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 8.6536, :max-error 12.9804})}
+ {:edo 46,
+  :subgroups
+  ({:subgroup (2 3 5), :mean-error 3.7259, :max-error 7.3835}
+   {:subgroup (2 3 11), :mean-error 4.9665, :max-error 8.2775}
+   {:subgroup (2 3 7), :mean-error 5.0365, :max-error 8.3942}
+   {:subgroup (2 3 7 11), :mean-error 4.7726, :max-error 8.3942}
+   {:subgroup (2 5 11), :mean-error 5.655, :max-error 8.4825}
+   {:subgroup (2 5 7), :mean-error 5.7327, :max-error 8.5992}
+   {:subgroup (2 5 7 11), :mean-error 4.8815, :max-error 8.5992}
+   {:subgroup (2 3 13), :mean-error 6.3184, :max-error 10.5307}
+   {:subgroup (2 3 7 13), :mean-error 5.7481, :max-error 10.5307}
+   {:subgroup (2 3 11 13), :mean-error 5.7222, :max-error 10.5307}
+   {:subgroup (2 3 7 11 13), :mean-error 5.1255, :max-error 10.5307}
+   {:subgroup (2 5 13), :mean-error 7.1571, :max-error 10.7357}
+   {:subgroup (2 5 7 13), :mean-error 5.9693, :max-error 10.7357}
+   {:subgroup (2 5 11 13), :mean-error 5.9498, :max-error 10.7357}
+   {:subgroup (2 5 7 11 13), :mean-error 5.016, :max-error 10.7357}
+   {:subgroup (2 3 5 11), :mean-error 5.397, :max-error 10.8753}
+   {:subgroup (2 3 5 7), :mean-error 5.45, :max-error 10.992}
+   {:subgroup (2 3 5 7 11), :mean-error 5.7105, :max-error 10.992}
+   {:subgroup (2 3 5 13), :mean-error 6.4212, :max-error 13.1285}
+   {:subgroup (2 3 5 7 13), :mean-error 6.492, :max-error 13.1285}
+   {:subgroup (2 3 5 11 13), :mean-error 6.4646, :max-error 13.1285}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 6.2394,
+    :max-error 13.1285})}
+ {:edo 47,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 3.1479, :max-error 4.7219}
+   {:subgroup (2 5 13), :mean-error 3.5737, :max-error 5.3605}
+   {:subgroup (2 5 7 13), :mean-error 2.9114, :max-error 5.3605}
+   {:subgroup (2 5 11), :mean-error 9.1461, :max-error 13.7192}
+   {:subgroup (2 5 7 11), :mean-error 7.0907, :max-error 13.7192}
+   {:subgroup (2 5 11 13), :mean-error 7.1972, :max-error 13.7192}
+   {:subgroup (2 5 7 11 13), :mean-error 5.8928, :max-error 13.7192})}
+ {:edo 48,
+  :subgroups
+  ({:subgroup (2 3 11), :mean-error 2.0824, :max-error 3.91}
+   {:subgroup (2 3 7), :mean-error 6.0505, :max-error 10.0841}
+   {:subgroup (2 3 7 11), :mean-error 4.699, :max-error 10.0841}
+   {:subgroup (2 5 11), :mean-error 7.5425, :max-error 11.3137}
+   {:subgroup (2 3 5), :mean-error 7.8683, :max-error 13.2687}
+   {:subgroup (2 3 5 11), :mean-error 6.7003, :max-error 13.2687}
+   {:subgroup (2 3 13), :mean-error 8.0294, :max-error 13.3823}
+   {:subgroup (2 3 7 13), :mean-error 7.5369, :max-error 13.3823}
+   {:subgroup (2 3 11 13), :mean-error 6.1649, :max-error 13.3823}
+   {:subgroup (2 3 7 11 13), :mean-error 6.4758, :max-error 13.3823})}
+ {:edo 49,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 7.1773, :max-error 10.7659}
+   {:subgroup (2 5 11), :mean-error 7.9649, :max-error 11.9474}
+   {:subgroup (2 5 7 11), :mean-error 6.8475, :max-error 11.9474}
+   {:subgroup (2 5 13), :mean-error 8.9317, :max-error 13.3976})}
+ {:edo 50,
+  :subgroups
+  ({:subgroup (2 5 13), :mean-error 1.5425, :max-error 2.3137}
+   {:subgroup (2 5 11), :mean-error 1.9972, :max-error 2.9958}
+   {:subgroup (2 5 11 13), :mean-error 1.5859, :max-error 2.9958}
+   {:subgroup (2 5 7), :mean-error 5.8839, :max-error 8.8259}
+   {:subgroup (2 5 7 13), :mean-error 4.7106, :max-error 8.8259}
+   {:subgroup (2 5 7 11), :mean-error 5.1396, :max-error 9.508}
+   {:subgroup (2 5 7 11 13), :mean-error 4.2659, :max-error 9.508}
+   {:subgroup (2 3 5), :mean-error 6.9475, :max-error 11.91}
+   {:subgroup (2 3 7), :mean-error 6.5292, :max-error 11.91}
+   {:subgroup (2 3 13), :mean-error 7.0405, :max-error 11.91}
+   {:subgroup (2 3 5 7), :mean-error 5.7759, :max-error 11.91}
+   {:subgroup (2 3 5 13), :mean-error 6.2318, :max-error 11.91}
+   {:subgroup (2 3 7 13), :mean-error 6.4757, :max-error 11.91}
+   {:subgroup (2 3 5 7 13), :mean-error 5.8058, :max-error 11.91}
+   {:subgroup (2 3 11), :mean-error 7.5553, :max-error 12.5921}
+   {:subgroup (2 3 5 11), :mean-error 6.6857, :max-error 12.5921}
+   {:subgroup (2 3 7 11), :mean-error 6.8961, :max-error 12.5921}
+   {:subgroup (2 3 11 13), :mean-error 6.2581, :max-error 12.5921}
+   {:subgroup (2 3 5 7 11), :mean-error 6.1707, :max-error 12.5921}
+   {:subgroup (2 3 5 11 13), :mean-error 5.9775, :max-error 12.5921}
+   {:subgroup (2 3 7 11 13), :mean-error 6.3507, :max-error 12.5921}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 5.8864,
+    :max-error 12.5921})}
+ {:edo 51,
+  :subgroups
+  ({:subgroup (2 3 13), :mean-error 4.4481, :max-error 7.8547}
+   {:subgroup (2 5 7), :mean-error 6.5621, :max-error 9.8431}
+   {:subgroup (2 5 11), :mean-error 6.761, :max-error 10.1415}
+   {:subgroup (2 5 7 11), :mean-error 6.0246, :max-error 10.1415}
+   {:subgroup (2 3 7), :mean-error 7.1848, :max-error 11.9747}
+   {:subgroup (2 3 7 13), :mean-error 6.3371, :max-error 11.9747})}
+ {:edo 52,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 3.996, :max-error 5.994}
+   {:subgroup (2 5 11), :mean-error 3.996, :max-error 5.994}
+   {:subgroup (2 5 7 11), :mean-error 3.3509, :max-error 5.994})}
+ {:edo 53,
+  :subgroups
+  ({:subgroup (2 3 5), :mean-error 0.9501, :max-error 1.4763}
+   {:subgroup (2 3 13), :mean-error 1.6751, :max-error 2.7918}
+   {:subgroup (2 5 13), :mean-error 1.8612, :max-error 2.7918}
+   {:subgroup (2 3 5 13), :mean-error 1.5064, :max-error 2.7918}
+   {:subgroup (2 3 7), :mean-error 2.9372, :max-error 4.8954}
+   {:subgroup (2 5 7), :mean-error 4.1114, :max-error 6.1671}
+   {:subgroup (2 3 5 7), :mean-error 2.9622, :max-error 6.2353}
+   {:subgroup (2 3 7 13), :mean-error 3.3786, :max-error 7.5508}
+   {:subgroup (2 5 7 13), :mean-error 4.0101, :max-error 7.5508}
+   {:subgroup (2 3 5 7 13), :mean-error 3.0003, :max-error 7.5508}
+   {:subgroup (2 3 11), :mean-error 4.753, :max-error 7.9217}
+   {:subgroup (2 5 11), :mean-error 5.2812, :max-error 7.9217}
+   {:subgroup (2 3 5 11), :mean-error 3.8382, :max-error 7.9217}
+   {:subgroup (2 3 11 13), :mean-error 4.1184, :max-error 7.9217}
+   {:subgroup (2 5 11 13), :mean-error 4.1915, :max-error 7.9217}
+   {:subgroup (2 3 5 11 13), :mean-error 3.4247, :max-error 7.9217}
+   {:subgroup (2 3 7 11), :mean-error 5.6586, :max-error 12.6807}
+   {:subgroup (2 5 7 11), :mean-error 6.575, :max-error 12.6807}
+   {:subgroup (2 3 5 7 11), :mean-error 4.8109, :max-error 12.6807}
+   {:subgroup (2 3 7 11 13), :mean-error 5.1271, :max-error 12.6807}
+   {:subgroup (2 5 7 11 13), :mean-error 5.6306, :max-error 12.6807}
+   {:subgroup (2 3 5 7 11 13), :mean-error 4.389, :max-error 12.6807})}
+ {:edo 54,
+  :subgroups
+  ({:subgroup (2 5 13), :mean-error 8.3018, :max-error 12.4527}
+   {:subgroup (2 5 11), :mean-error 8.5157, :max-error 12.7736}
+   {:subgroup (2 5 11 13), :mean-error 7.0396, :max-error 12.7736})}
+ {:edo 55,
+  :subgroups
+  ({:subgroup (2 3 11), :mean-error 4.1912, :max-error 7.5464}
+   {:subgroup (2 3 7), :mean-error 5.2955, :max-error 8.8259}
+   {:subgroup (2 3 7 11), :mean-error 4.3419, :max-error 8.8259}
+   {:subgroup (2 5 13), :mean-error 6.921, :max-error 10.3814}
+   {:subgroup (2 5 11), :mean-error 8.1847, :max-error 12.277}
+   {:subgroup (2 3 5), :mean-error 7.42, :max-error 13.9599}
+   {:subgroup (2 3 5 11), :mean-error 6.8125, :max-error 13.9599})}
+ {:edo 56,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 3.0268, :max-error 4.5402}
+   {:subgroup (2 5 13), :mean-error 3.2089, :max-error 4.8134}
+   {:subgroup (2 5 7 13), :mean-error 3.0635, :max-error 4.8134}
+   {:subgroup (2 5 11), :mean-error 4.2829, :max-error 6.4243}
+   {:subgroup (2 5 7 11), :mean-error 5.2825, :max-error 10.3651}
+   {:subgroup (2 3 11), :mean-error 5.3153, :max-error 10.3757}
+   {:subgroup (2 5 11 13), :mean-error 5.419, :max-error 10.6383}
+   {:subgroup (2 5 7 11 13), :mean-error 5.1634, :max-error 10.6383}
+   {:subgroup (2 3 5), :mean-error 6.2523, :max-error 10.9752}
+   {:subgroup (2 3 5 11), :mean-error 5.108, :max-error 10.9752}
+   {:subgroup (2 3 7), :mean-error 8.9495, :max-error 14.9159}
+   {:subgroup (2 3 5 7), :mean-error 7.2516, :max-error 14.9159}
+   {:subgroup (2 3 7 11), :mean-error 7.3473, :max-error 14.9159}
+   {:subgroup (2 3 5 7 11), :mean-error 6.4004, :max-error 14.9159})}
+ {:edo 57,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 4.9109, :max-error 7.3663}
+   {:subgroup (2 5 11), :mean-error 4.9109, :max-error 7.3663}
+   {:subgroup (2 5 7 11), :mean-error 4.274, :max-error 7.3663}
+   {:subgroup (2 5 13), :mean-error 5.9626, :max-error 8.944}
+   {:subgroup (2 5 7 13), :mean-error 4.5394, :max-error 8.944}
+   {:subgroup (2 5 11 13), :mean-error 5.1302, :max-error 8.944}
+   {:subgroup (2 5 7 11 13), :mean-error 4.3675, :max-error 8.944}
+   {:subgroup (2 3 7), :mean-error 8.5808, :max-error 14.4363}
+   {:subgroup (2 3 11), :mean-error 7.8719, :max-error 14.4363}
+   {:subgroup (2 3 7 11), :mean-error 7.1282, :max-error 14.4363}
+   {:subgroup (2 3 5), :mean-error 8.4706, :max-error 14.5845}
+   {:subgroup (2 3 5 7), :mean-error 8.474, :max-error 14.5845}
+   {:subgroup (2 3 5 11), :mean-error 7.5073, :max-error 14.5845}
+   {:subgroup (2 3 5 7 11), :mean-error 7.5597, :max-error 14.5845})}
+ {:edo 58,
+  :subgroups
+  ({:subgroup (2 3 7), :mean-error 2.1527, :max-error 3.5879}
+   {:subgroup (2 5 7), :mean-error 4.5265, :max-error 6.7897}
+   {:subgroup (2 3 11), :mean-error 4.3817, :max-error 7.3028}
+   {:subgroup (2 5 11), :mean-error 4.8685, :max-error 7.3028}
+   {:subgroup (2 3 7 11), :mean-error 3.5452, :max-error 7.3028}
+   {:subgroup (2 5 7 11), :mean-error 4.185, :max-error 7.3028}
+   {:subgroup (2 3 13), :mean-error 4.6489, :max-error 7.7482}
+   {:subgroup (2 5 13), :mean-error 5.1655, :max-error 7.7482}
+   {:subgroup (2 3 7 13), :mean-error 3.7432, :max-error 7.7482}
+   {:subgroup (2 3 11 13), :mean-error 4.5687, :max-error 7.7482}
+   {:subgroup (2 5 7 13), :mean-error 4.4077, :max-error 7.7482}
+   {:subgroup (2 5 11 13), :mean-error 3.9596, :max-error 7.7482}
+   {:subgroup (2 3 7 11 13), :mean-error 3.9484, :max-error 7.7482}
+   {:subgroup (2 5 7 11 13), :mean-error 3.8423, :max-error 7.7482}
+   {:subgroup (2 3 5), :mean-error 4.7754, :max-error 8.283}
+   {:subgroup (2 3 5 7), :mean-error 3.8939, :max-error 8.283}
+   {:subgroup (2 3 5 11), :mean-error 4.3249, :max-error 8.283}
+   {:subgroup (2 3 5 13), :mean-error 4.4464, :max-error 8.283}
+   {:subgroup (2 3 5 7 11), :mean-error 3.8512, :max-error 8.283}
+   {:subgroup (2 3 5 7 13), :mean-error 3.956, :max-error 8.283}
+   {:subgroup (2 3 5 11 13), :mean-error 4.0163, :max-error 8.283}
+   {:subgroup (2 3 5 7 11 13), :mean-error 3.7639, :max-error 8.283})}
+ {:edo 59,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 1.5283, :max-error 2.2924}
+   {:subgroup (2 5 13), :mean-error 4.5042, :max-error 6.7563}
+   {:subgroup (2 5 11 13), :mean-error 3.7391, :max-error 6.7563}
+   {:subgroup (2 5 7), :mean-error 4.9635, :max-error 7.4453}
+   {:subgroup (2 5 7 11), :mean-error 4.8265, :max-error 9.6107}
+   {:subgroup (2 5 7 13), :mean-error 7.0585, :max-error 14.0746}
+   {:subgroup (2 5 7 11 13), :mean-error 6.0883, :max-error 14.0746})}
+ {:edo 60,
+  :subgroups
+  ({:subgroup (2 3 13), :mean-error 2.2405, :max-error 3.91}
+   {:subgroup (2 5 13), :mean-error 4.2092, :max-error 6.3137}
+   {:subgroup (2 3 5), :mean-error 4.535, :max-error 8.2687}
+   {:subgroup (2 3 5 13), :mean-error 4.1886, :max-error 8.2687}
+   {:subgroup (2 3 7), :mean-error 5.2955, :max-error 8.8259}
+   {:subgroup (2 5 7), :mean-error 5.8839, :max-error 8.8259}
+   {:subgroup (2 3 5 7), :mean-error 4.6265, :max-error 8.8259}
+   {:subgroup (2 3 7 13), :mean-error 4.457, :max-error 8.8259}
+   {:subgroup (2 5 7 13), :mean-error 5.3773, :max-error 8.8259}
+   {:subgroup (2 3 5 7 13), :mean-error 4.5914, :max-error 8.8259}
+   {:subgroup (2 3 11), :mean-error 7.5553, :max-error 12.5921}
+   {:subgroup (2 3 11 13), :mean-error 5.8137, :max-error 12.5921}
+   {:subgroup (2 5 11), :mean-error 9.9972, :max-error 14.9958}
+   {:subgroup (2 5 11 13), :mean-error 7.5859, :max-error 14.9958})}
+ {:edo 61,
+  :subgroups
+  ({:subgroup (2 5 13), :mean-error 4.7526, :max-error 7.1289}
+   {:subgroup (2 5 11), :mean-error 5.0848, :max-error 7.6272}
+   {:subgroup (2 5 11 13), :mean-error 4.7093, :max-error 7.6272}
+   {:subgroup (2 5 7), :mean-error 8.0136, :max-error 12.0204}
+   {:subgroup (2 5 7 11), :mean-error 6.0932, :max-error 12.0204}
+   {:subgroup (2 5 7 13), :mean-error 6.9059, :max-error 12.0204}
+   {:subgroup (2 5 7 11 13), :mean-error 5.9826, :max-error 12.0204}
+   {:subgroup (2 3 13), :mean-error 6.4153, :max-error 12.4835}
+   {:subgroup (2 3 11), :mean-error 7.789, :max-error 12.9817}
+   {:subgroup (2 3 11 13), :mean-error 6.4632, :max-error 12.9817}
+   {:subgroup (2 3 5), :mean-error 7.5777, :max-error 13.3706}
+   {:subgroup (2 3 5 13), :mean-error 6.2336, :max-error 13.3706}
+   {:subgroup (2 3 5 11), :mean-error 7.9257, :max-error 13.8689}
+   {:subgroup (2 3 5 11 13), :mean-error 6.8328, :max-error 13.8689})}
+ {:edo 62,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 1.2447, :max-error 1.8671}
+   {:subgroup (2 5 13), :mean-error 6.0351, :max-error 9.0527}
+   {:subgroup (2 5 7 13), :mean-error 4.707, :max-error 9.0527}
+   {:subgroup (2 5 11), :mean-error 6.777, :max-error 10.1656}
+   {:subgroup (2 5 7 11), :mean-error 5.2634, :max-error 10.1656}
+   {:subgroup (2 5 11 13), :mean-error 6.461, :max-error 10.1656}
+   {:subgroup (2 5 7 11 13), :mean-error 5.7201, :max-error 10.1656}
+   {:subgroup (2 3 7), :mean-error 6.0002, :max-error 10.3616}
+   {:subgroup (2 3 11), :mean-error 6.0211, :max-error 10.3616}
+   {:subgroup (2 3 13), :mean-error 5.7986, :max-error 10.3616}
+   {:subgroup (2 3 7 11), :mean-error 5.8736, :max-error 10.3616}
+   {:subgroup (2 3 7 13), :mean-error 5.6263, :max-error 10.3616}
+   {:subgroup (2 3 11 13), :mean-error 4.9632, :max-error 10.3616}
+   {:subgroup (2 3 7 11 13), :mean-error 5.3294, :max-error 10.3616}
+   {:subgroup (2 3 5), :mean-error 6.3053, :max-error 11.1447}
+   {:subgroup (2 3 5 7), :mean-error 5.2246, :max-error 11.1447}
+   {:subgroup (2 3 5 11), :mean-error 6.1405, :max-error 11.1447}
+   {:subgroup (2 3 5 13), :mean-error 5.837, :max-error 11.1447}
+   {:subgroup (2 3 5 7 11), :mean-error 5.6166, :max-error 11.1447}
+   {:subgroup (2 3 5 7 13), :mean-error 5.3548, :max-error 11.1447}
+   {:subgroup (2 3 5 11 13), :mean-error 5.5902, :max-error 11.1447}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 5.4232,
+    :max-error 11.1447})}
+ {:edo 63,
+  :subgroups
+  ({:subgroup (2 5 13), :mean-error 3.5742, :max-error 5.3613}
+   {:subgroup (2 3 7), :mean-error 2.8478, :max-error 5.6138}
+   {:subgroup (2 3 11), :mean-error 3.1557, :max-error 5.6138}
+   {:subgroup (2 3 7 11), :mean-error 2.5707, :max-error 5.6138}
+   {:subgroup (2 5 11), :mean-error 4.2829, :max-error 6.4244}
+   {:subgroup (2 5 11 13), :mean-error 3.6176, :max-error 6.4244}
+   {:subgroup (2 5 7), :mean-error 5.3093, :max-error 7.964}
+   {:subgroup (2 5 7 11), :mean-error 4.1592, :max-error 7.964}
+   {:subgroup (2 5 7 13), :mean-error 4.3874, :max-error 7.964}
+   {:subgroup (2 5 7 11 13), :mean-error 3.8847, :max-error 7.964}
+   {:subgroup (2 3 13), :mean-error 4.8277, :max-error 8.0462}
+   {:subgroup (2 3 7 13), :mean-error 3.888, :max-error 8.0462}
+   {:subgroup (2 3 11 13), :mean-error 3.888, :max-error 8.0462}
+   {:subgroup (2 3 7 11 13), :mean-error 3.3846, :max-error 8.0462}
+   {:subgroup (2 3 5), :mean-error 5.9133, :max-error 10.9751}
+   {:subgroup (2 3 5 7), :mean-error 4.9472, :max-error 10.9751}
+   {:subgroup (2 3 5 11), :mean-error 4.8072, :max-error 10.9751}
+   {:subgroup (2 3 5 13), :mean-error 4.9317, :max-error 10.9751}
+   {:subgroup (2 3 5 7 11), :mean-error 4.3152, :max-error 10.9751}
+   {:subgroup (2 3 5 7 13), :mean-error 4.6013, :max-error 10.9751}
+   {:subgroup (2 3 5 11 13), :mean-error 4.4202, :max-error 10.9751}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 4.1941,
+    :max-error 10.9751})}
+ {:edo 64,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 4.9575, :max-error 7.4363}
+   {:subgroup (2 5 13), :mean-error 4.9575, :max-error 7.4363}
+   {:subgroup (2 5 7 13), :mean-error 4.2101, :max-error 7.4363})}
+ {:edo 65,
+  :subgroups
+  ({:subgroup (2 3 5), :mean-error 1.2662, :max-error 2.2117}
+   {:subgroup (2 5 11), :mean-error 1.6855, :max-error 2.5282}
+   {:subgroup (2 3 11), :mean-error 2.0168, :max-error 3.3613}
+   {:subgroup (2 3 5 11), :mean-error 1.7406, :max-error 3.3613}
+   {:subgroup (2 5 13), :mean-error 5.8021, :max-error 8.7031}
+   {:subgroup (2 5 11 13), :mean-error 4.5432, :max-error 8.7031}
+   {:subgroup (2 3 7), :mean-error 5.2955, :max-error 8.8259}
+   {:subgroup (2 3 13), :mean-error 5.7217, :max-error 9.5362}
+   {:subgroup (2 3 5 13), :mean-error 4.5474, :max-error 9.5362}
+   {:subgroup (2 3 11 13), :mean-error 4.8464, :max-error 9.5362}
+   {:subgroup (2 3 5 11 13), :mean-error 3.9851, :max-error 9.5362}
+   {:subgroup (2 5 7), :mean-error 6.803, :max-error 10.2045}
+   {:subgroup (2 3 5 7), :mean-error 4.8016, :max-error 10.2045}
+   {:subgroup (2 3 7 11), :mean-error 5.1851, :max-error 11.3541}
+   {:subgroup (2 5 7 11), :mean-error 5.9068, :max-error 11.3541}
+   {:subgroup (2 3 5 7 11), :mean-error 4.4542, :max-error 11.3541})}
+ {:edo 66,
+  :subgroups
+  ({:subgroup (2 5 13), :mean-error 2.997, :max-error 4.4955}
+   {:subgroup (2 5 7), :mean-error 3.4597, :max-error 5.1896}
+   {:subgroup (2 5 7 13), :mean-error 2.65, :max-error 5.1896}
+   {:subgroup (2 5 11), :mean-error 3.9089, :max-error 5.8634}
+   {:subgroup (2 5 7 11), :mean-error 3.0474, :max-error 5.8634}
+   {:subgroup (2 5 11 13), :mean-error 2.9869, :max-error 5.8634}
+   {:subgroup (2 5 7 11 13), :mean-error 2.5505, :max-error 5.8634})}
+ {:edo 67,
+  :subgroups
+  ({:subgroup (2 3 7), :mean-error 3.8047, :max-error 6.8951}
+   {:subgroup (2 5 11), :mean-error 5.1441, :max-error 7.7161}
+   {:subgroup (2 5 13), :mean-error 5.1441, :max-error 7.7161}
+   {:subgroup (2 5 11 13), :mean-error 4.2985, :max-error 7.7161}
+   {:subgroup (2 3 13), :mean-error 4.8951, :max-error 8.1585}
+   {:subgroup (2 3 7 13), :mean-error 4.009, :max-error 8.1585}
+   {:subgroup (2 5 7), :mean-error 6.2519, :max-error 9.3779}
+   {:subgroup (2 5 7 11), :mean-error 5.3399, :max-error 9.3779}
+   {:subgroup (2 5 7 13), :mean-error 4.8995, :max-error 9.3779}
+   {:subgroup (2 5 7 11 13), :mean-error 4.5323, :max-error 9.3779}
+   {:subgroup (2 3 11), :mean-error 6.4806, :max-error 10.801}
+   {:subgroup (2 3 7 11), :mean-error 5.1835, :max-error 10.801}
+   {:subgroup (2 3 11 13), :mean-error 5.4643, :max-error 10.801}
+   {:subgroup (2 3 7 11 13), :mean-error 4.7394, :max-error 10.801}
+   {:subgroup (2 3 5), :mean-error 8.017, :max-error 14.6112}
+   {:subgroup (2 3 5 7), :mean-error 6.5538, :max-error 14.6112}
+   {:subgroup (2 3 5 11), :mean-error 6.7578, :max-error 14.6112}
+   {:subgroup (2 3 5 13), :mean-error 6.5175, :max-error 14.6112}
+   {:subgroup (2 3 5 7 11), :mean-error 6.1113, :max-error 14.6112}
+   {:subgroup (2 3 5 7 13), :mean-error 5.8004, :max-error 14.6112}
+   {:subgroup (2 3 5 11 13), :mean-error 5.9158, :max-error 14.6112}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 5.5438,
+    :max-error 14.6112})}
+ {:edo 68,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 1.2811, :max-error 1.9216}
+   {:subgroup (2 5 11), :mean-error 4.1205, :max-error 6.1807}
+   {:subgroup (2 5 7 11), :mean-error 3.3841, :max-error 6.1807}
+   {:subgroup (2 5 13), :mean-error 4.3541, :max-error 6.5312}
+   {:subgroup (2 5 7 13), :mean-error 3.2921, :max-error 6.5312}
+   {:subgroup (2 3 5), :mean-error 4.5819, :max-error 7.8547}
+   {:subgroup (2 3 7), :mean-error 4.3603, :max-error 7.8547}
+   {:subgroup (2 3 13), :mean-error 4.4481, :max-error 7.8547}
+   {:subgroup (2 3 5 7), :mean-error 3.7961, :max-error 7.8547}
+   {:subgroup (2 3 5 13), :mean-error 3.9311, :max-error 7.8547}
+   {:subgroup (2 3 7 13), :mean-error 4.1143, :max-error 7.8547}
+   {:subgroup (2 3 5 7 13), :mean-error 3.6633, :max-error 7.8547}
+   {:subgroup (2 5 11 13), :mean-error 5.7154, :max-error 10.7903}
+   {:subgroup (2 5 7 11 13), :mean-error 4.7004, :max-error 10.7903}
+   {:subgroup (2 3 11), :mean-error 7.2683, :max-error 12.1138}
+   {:subgroup (2 3 5 11), :mean-error 6.2127, :max-error 12.1138}
+   {:subgroup (2 3 7 11), :mean-error 5.8203, :max-error 12.1138}
+   {:subgroup (2 3 11 13), :mean-error 6.3989, :max-error 12.1138}
+   {:subgroup (2 3 5 7 11), :mean-error 5.2133, :max-error 12.1138}
+   {:subgroup (2 3 5 11 13), :mean-error 5.5812, :max-error 12.1138}
+   {:subgroup (2 3 7 11 13), :mean-error 5.6, :max-error 12.1138}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 4.9973,
+    :max-error 12.1138})}
+ {:edo 69,
+  :subgroups
+  ({:subgroup (2 5 13), :mean-error 3.83, :max-error 5.7451}
+   {:subgroup (2 5 7), :mean-error 5.8614, :max-error 8.7922}
+   {:subgroup (2 5 11), :mean-error 5.9392, :max-error 8.9088}
+   {:subgroup (2 5 7 11), :mean-error 5.3023, :max-error 8.9088}
+   {:subgroup (2 5 7 13), :mean-error 6.0336, :max-error 10.8322}
+   {:subgroup (2 5 11 13), :mean-error 6.0919, :max-error 10.9489}
+   {:subgroup (2 5 7 11 13), :mean-error 6.138, :max-error 10.9489}
+   {:subgroup (2 3 5), :mean-error 7.3533, :max-error 12.6057}
+   {:subgroup (2 3 13), :mean-error 6.4144, :max-error 12.6057}
+   {:subgroup (2 3 5 13), :mean-error 5.7805, :max-error 12.6057})}
+ {:edo 70,
+  :subgroups
+  ({:subgroup (2 3 13), :mean-error 1.3992, :max-error 2.332}
+   {:subgroup (2 3 11), :mean-error 2.7305, :max-error 4.5508}
+   {:subgroup (2 3 11 13), :mean-error 2.2401, :max-error 4.5508}
+   {:subgroup (2 3 7), :mean-error 4.9902, :max-error 8.317}
+   {:subgroup (2 5 7), :mean-error 5.5446, :max-error 8.317}
+   {:subgroup (2 5 13), :mean-error 5.6665, :max-error 8.4997}
+   {:subgroup (2 3 7 13), :mean-error 4.2317, :max-error 8.8446}
+   {:subgroup (2 5 7 13), :mean-error 5.751, :max-error 8.8446}
+   {:subgroup (2 3 5), :mean-error 5.465, :max-error 8.8741}
+   {:subgroup (2 3 5 7), :mean-error 5.0851, :max-error 8.8741}
+   {:subgroup (2 3 5 13), :mean-error 4.9983, :max-error 9.4018}
+   {:subgroup (2 3 5 7 13), :mean-error 5.116, :max-error 9.4018}
+   {:subgroup (2 5 11), :mean-error 7.1457, :max-error 10.7185}
+   {:subgroup (2 5 11 13), :mean-error 5.4472, :max-error 10.7185}
+   {:subgroup (2 3 7 11), :mean-error 5.2178, :max-error 11.0635}
+   {:subgroup (2 5 7 11), :mean-error 6.8604, :max-error 11.0635}
+   {:subgroup (2 3 7 11 13), :mean-error 4.4509, :max-error 11.0635}
+   {:subgroup (2 5 7 11 13), :mean-error 6.1253, :max-error 11.0635}
+   {:subgroup (2 3 5 11), :mean-error 6.0068, :max-error 11.6207}
+   {:subgroup (2 3 5 7 11), :mean-error 5.8991, :max-error 11.6207}
+   {:subgroup (2 3 5 11 13), :mean-error 5.3226, :max-error 11.6207}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 5.5642,
+    :max-error 11.6207})}
+ {:edo 71,
+  :subgroups
+  ({:subgroup (2 5 13), :mean-error 3.0285, :max-error 4.5428}
+   {:subgroup (2 5 11), :mean-error 4.2857, :max-error 6.4286}
+   {:subgroup (2 5 11 13), :mean-error 3.5683, :max-error 6.4286}
+   {:subgroup (2 5 7), :mean-error 5.2429, :max-error 7.8643}
+   {:subgroup (2 5 7 13), :mean-error 5.3973, :max-error 9.9884}
+   {:subgroup (2 5 7 11), :mean-error 6.3402, :max-error 11.8742}
+   {:subgroup (2 5 7 11 13), :mean-error 5.6582, :max-error 11.8742})}
+ {:edo 72,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 1.9869, :max-error 2.9804}
+   {:subgroup (2 5 11), :mean-error 1.9869, :max-error 2.9804}
+   {:subgroup (2 5 7 11), :mean-error 1.6304, :max-error 2.9804}
+   {:subgroup (2 3 7), :mean-error 1.9958, :max-error 3.91}
+   {:subgroup (2 3 11), :mean-error 2.0824, :max-error 3.91}
+   {:subgroup (2 3 7 11), :mean-error 1.7075, :max-error 3.91}
+   {:subgroup (2 3 5), :mean-error 2.6226, :max-error 4.9354}
+   {:subgroup (2 3 5 7), :mean-error 2.1316, :max-error 4.9354}
+   {:subgroup (2 3 5 11), :mean-error 2.3239, :max-error 4.9354}
+   {:subgroup (2 3 5 7 11), :mean-error 2.0068, :max-error 4.9354}
+   {:subgroup (2 3 13), :mean-error 4.3166, :max-error 7.1944}
+   {:subgroup (2 5 13), :mean-error 4.7962, :max-error 7.1944}
+   {:subgroup (2 3 5 13), :mean-error 3.4479, :max-error 7.1944}
+   {:subgroup (2 3 7 13), :mean-error 3.4147, :max-error 7.1944}
+   {:subgroup (2 3 11 13), :mean-error 3.5563, :max-error 7.1944}
+   {:subgroup (2 5 7 13), :mean-error 3.734, :max-error 7.1944}
+   {:subgroup (2 5 11 13), :mean-error 3.8742, :max-error 7.1944}
+   {:subgroup (2 3 5 7 13), :mean-error 2.9808, :max-error 7.1944}
+   {:subgroup (2 3 5 11 13), :mean-error 3.1547, :max-error 7.1944}
+   {:subgroup (2 3 7 11 13), :mean-error 2.9998, :max-error 7.1944}
+   {:subgroup (2 5 7 11 13), :mean-error 3.2102, :max-error 7.1944}
+   {:subgroup (2 3 5 7 11 13), :mean-error 2.8007, :max-error 7.1944})}
+ {:edo 73,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 5.4712, :max-error 8.2068}
+   {:subgroup (2 5 11), :mean-error 5.4712, :max-error 8.2068}
+   {:subgroup (2 5 7 11), :mean-error 5.1949, :max-error 8.2068}
+   {:subgroup (2 3 7), :mean-error 5.6657, :max-error 9.7886}
+   {:subgroup (2 3 11), :mean-error 5.4327, :max-error 9.7886}
+   {:subgroup (2 3 7 11), :mean-error 5.262, :max-error 9.7886}
+   {:subgroup (2 5 13), :mean-error 6.9189, :max-error 10.3783}
+   {:subgroup (2 5 7 13), :mean-error 5.362, :max-error 10.3783}
+   {:subgroup (2 5 11 13), :mean-error 6.4535, :max-error 10.3783}
+   {:subgroup (2 5 7 11 13), :mean-error 5.6686, :max-error 10.3783}
+   {:subgroup (2 3 13), :mean-error 7.1761, :max-error 11.9601}
+   {:subgroup (2 3 7 13), :mean-error 5.8594, :max-error 11.9601}
+   {:subgroup (2 3 11 13), :mean-error 6.4576, :max-error 11.9601}
+   {:subgroup (2 3 7 11 13), :mean-error 5.823, :max-error 11.9601}
+   {:subgroup (2 3 5), :mean-error 6.8142, :max-error 13.1012}
+   {:subgroup (2 3 5 7), :mean-error 6.7059, :max-error 13.1012}
+   {:subgroup (2 3 5 11), :mean-error 5.4092, :max-error 13.1012}
+   {:subgroup (2 3 5 7 11), :mean-error 5.8194, :max-error 13.1012})}
+ {:edo 74,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 1.917, :max-error 2.8755}
+   {:subgroup (2 5 13), :mean-error 1.917, :max-error 2.8755}
+   {:subgroup (2 5 11 13), :mean-error 1.8848, :max-error 2.8755}
+   {:subgroup (2 5 7), :mean-error 2.7647, :max-error 4.1471}
+   {:subgroup (2 5 7 11), :mean-error 2.5472, :max-error 4.1471}
+   {:subgroup (2 5 7 13), :mean-error 2.1002, :max-error 4.1471}
+   {:subgroup (2 5 7 11 13), :mean-error 2.2272, :max-error 4.1471}
+   {:subgroup (2 3 11), :mean-error 5.6093, :max-error 9.3488}
+   {:subgroup (2 3 13), :mean-error 7.2186, :max-error 12.031}
+   {:subgroup (2 3 11 13), :mean-error 5.8721, :max-error 12.031}
+   {:subgroup (2 3 5), :mean-error 6.3925, :max-error 12.1909}
+   {:subgroup (2 3 5 11), :mean-error 5.1896, :max-error 12.1909}
+   {:subgroup (2 3 5 13), :mean-error 5.9211, :max-error 12.1909}
+   {:subgroup (2 3 5 11 13), :mean-error 5.0909, :max-error 12.1909}
+   {:subgroup (2 3 7), :mean-error 8.0775, :max-error 13.4625}
+   {:subgroup (2 3 5 7), :mean-error 6.5427, :max-error 13.4625}
+   {:subgroup (2 3 7 11), :mean-error 6.5083, :max-error 13.4625}
+   {:subgroup (2 3 7 13), :mean-error 7.1043, :max-error 13.4625}
+   {:subgroup (2 3 5 7 11), :mean-error 5.5773, :max-error 13.4625}
+   {:subgroup (2 3 5 7 13), :mean-error 5.8929, :max-error 13.4625}
+   {:subgroup (2 3 7 11 13), :mean-error 6.0577, :max-error 13.4625}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 5.2378,
+    :max-error 13.4625})}
+ {:edo 75,
+  :subgroups
+  ({:subgroup (2 3 5), :mean-error 3.2466, :max-error 6.4037}
+   {:subgroup (2 3 7), :mean-error 4.3045, :max-error 7.1741}
+   {:subgroup (2 5 11), :mean-error 4.8786, :max-error 7.3179}
+   {:subgroup (2 3 13), :mean-error 4.4834, :max-error 7.4723}
+   {:subgroup (2 3 7 13), :mean-error 4.2336, :max-error 7.4723}
+   {:subgroup (2 5 7), :mean-error 6.3252, :max-error 9.4878}
+   {:subgroup (2 3 5 7), :mean-error 4.7089, :max-error 9.4878}
+   {:subgroup (2 5 13), :mean-error 6.524, :max-error 9.7861}
+   {:subgroup (2 3 5 13), :mean-error 4.8444, :max-error 9.7861}
+   {:subgroup (2 5 7 13), :mean-error 6.0887, :max-error 9.7861}
+   {:subgroup (2 3 5 7 13), :mean-error 5.0532, :max-error 9.7861}
+   {:subgroup (2 3 11), :mean-error 6.8447, :max-error 11.4079}
+   {:subgroup (2 3 5 11), :mean-error 5.4202, :max-error 11.4079}
+   {:subgroup (2 3 7 11), :mean-error 7.1226, :max-error 14.492}
+   {:subgroup (2 5 7 11), :mean-error 7.6316, :max-error 14.492}
+   {:subgroup (2 3 5 7 11), :mean-error 6.2607, :max-error 14.492}
+   {:subgroup (2 3 11 13), :mean-error 7.2551, :max-error 14.7903}
+   {:subgroup (2 5 11 13), :mean-error 7.7808, :max-error 14.7903}
+   {:subgroup (2 3 5 11 13), :mean-error 6.366, :max-error 14.7903}
+   {:subgroup (2 3 7 11 13), :mean-error 6.8195, :max-error 14.7903}
+   {:subgroup (2 5 7 11 13), :mean-error 7.8137, :max-error 14.7903}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 6.4721,
+    :max-error 14.7903})}
+ {:edo 76,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 4.9109, :max-error 7.3663}
+   {:subgroup (2 5 13), :mean-error 4.9109, :max-error 7.3663}
+   {:subgroup (2 5 7 13), :mean-error 4.0136, :max-error 7.3663}
+   {:subgroup (2 5 11), :mean-error 5.7866, :max-error 8.68}
+   {:subgroup (2 5 7 11), :mean-error 5.2846, :max-error 8.68}
+   {:subgroup (2 5 11 13), :mean-error 4.9543, :max-error 8.68}
+   {:subgroup (2 5 7 11 13), :mean-error 4.6056, :max-error 8.68}
+   {:subgroup (2 3 7), :mean-error 7.5282, :max-error 14.4363}
+   {:subgroup (2 3 13), :mean-error 7.9247, :max-error 14.4363}
+   {:subgroup (2 3 7 13), :mean-error 6.3992, :max-error 14.4363}
+   {:subgroup (2 3 5), :mean-error 8.4706, :max-error 14.5845}
+   {:subgroup (2 3 5 7), :mean-error 7.0386, :max-error 14.5845}
+   {:subgroup (2 3 5 13), :mean-error 7.5793, :max-error 14.5845}
+   {:subgroup (2 3 5 7 13), :mean-error 6.5856, :max-error 14.5845})}
+ {:edo 77,
+  :subgroups
+  ({:subgroup (2 3 13), :mean-error 1.406, :max-error 2.3434}
+   {:subgroup (2 3 7), :mean-error 1.5553, :max-error 2.5921}
+   {:subgroup (2 5 13), :mean-error 2.1978, :max-error 3.2967}
+   {:subgroup (2 3 7 13), :mean-error 1.8289, :max-error 3.6229}
+   {:subgroup (2 3 5), :mean-error 2.7447, :max-error 4.6093}
+   {:subgroup (2 3 5 13), :mean-error 2.3096, :max-error 4.6093}
+   {:subgroup (2 3 11), :mean-error 3.518, :max-error 5.8634}
+   {:subgroup (2 3 7 11), :mean-error 2.9632, :max-error 5.8634}
+   {:subgroup (2 5 7), :mean-error 3.9259, :max-error 5.8888}
+   {:subgroup (2 3 5 7), :mean-error 3.0361, :max-error 5.8888}
+   {:subgroup (2 5 7 13), :mean-error 3.1162, :max-error 5.8888}
+   {:subgroup (2 3 5 7 13), :mean-error 2.7033, :max-error 5.8888}
+   {:subgroup (2 3 11 13), :mean-error 3.2829, :max-error 6.8942}
+   {:subgroup (2 3 7 11 13), :mean-error 3.0177, :max-error 6.8942}
+   {:subgroup (2 5 11), :mean-error 6.1067, :max-error 9.1601}
+   {:subgroup (2 3 5 11), :mean-error 4.523, :max-error 9.1601}
+   {:subgroup (2 5 7 11), :mean-error 5.0121, :max-error 9.1601}
+   {:subgroup (2 5 11 13), :mean-error 4.7518, :max-error 9.1601}
+   {:subgroup (2 3 5 7 11), :mean-error 4.1149, :max-error 9.1601}
+   {:subgroup (2 3 5 11 13), :mean-error 3.8579, :max-error 9.1601}
+   {:subgroup (2 5 7 11 13), :mean-error 4.3886, :max-error 9.1601}
+   {:subgroup (2 3 5 7 11 13), :mean-error 3.7253, :max-error 9.1601})}
+ {:edo 78,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 1.4021, :max-error 2.1032}
+   {:subgroup (2 5 11), :mean-error 2.8177, :max-error 4.2266}
+   {:subgroup (2 5 7 11), :mean-error 2.1807, :max-error 4.2266}
+   {:subgroup (2 5 13), :mean-error 4.883, :max-error 7.3245}
+   {:subgroup (2 5 7 13), :mean-error 3.7297, :max-error 7.3245}
+   {:subgroup (2 5 11 13), :mean-error 4.0836, :max-error 7.3245}
+   {:subgroup (2 5 7 11 13), :mean-error 3.4354, :max-error 7.3245}
+   {:subgroup (2 3 7), :mean-error 6.8038, :max-error 11.4746}
+   {:subgroup (2 3 11), :mean-error 6.3791, :max-error 11.4746}
+   {:subgroup (2 3 13), :mean-error 5.7595, :max-error 11.4746}
+   {:subgroup (2 3 7 11), :mean-error 5.6473, :max-error 11.4746}
+   {:subgroup (2 3 7 13), :mean-error 5.6473, :max-error 11.4746}
+   {:subgroup (2 3 11 13), :mean-error 5.1755, :max-error 11.4746}
+   {:subgroup (2 3 7 11 13), :mean-error 5.0522, :max-error 11.4746}
+   {:subgroup (2 3 5), :mean-error 7.2596, :max-error 13.1729}
+   {:subgroup (2 3 5 7), :mean-error 6.0093, :max-error 13.1729}
+   {:subgroup (2 3 5 11), :mean-error 5.8163, :max-error 13.1729}
+   {:subgroup (2 3 5 13), :mean-error 5.8232, :max-error 13.1729}
+   {:subgroup (2 3 5 7 11), :mean-error 5.2145, :max-error 13.1729}
+   {:subgroup (2 3 5 7 13), :mean-error 5.4012, :max-error 13.1729}
+   {:subgroup (2 3 5 11 13), :mean-error 5.1514, :max-error 13.1729}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 4.8943,
+    :max-error 13.1729})}
+ {:edo 79,
+  :subgroups
+  ({:subgroup (2 3 11), :mean-error 3.4732, :max-error 6.4417}
+   {:subgroup (2 3 13), :mean-error 3.5936, :max-error 6.4417}
+   {:subgroup (2 3 11 13), :mean-error 2.9193, :max-error 6.4417}
+   {:subgroup (2 5 11), :mean-error 4.3779, :max-error 6.5669}
+   {:subgroup (2 5 13), :mean-error 4.3779, :max-error 6.5669}
+   {:subgroup (2 5 11 13), :mean-error 3.3838, :max-error 6.5669}
+   {:subgroup (2 3 7), :mean-error 5.8606, :max-error 9.7677}
+   {:subgroup (2 3 7 11), :mean-error 4.9794, :max-error 9.7677}
+   {:subgroup (2 3 7 13), :mean-error 5.1132, :max-error 9.7677}
+   {:subgroup (2 3 7 11 13), :mean-error 4.4381, :max-error 9.7677}
+   {:subgroup (2 3 5), :mean-error 4.9147, :max-error 9.7877}
+   {:subgroup (2 3 5 11), :mean-error 4.0528, :max-error 9.7877}
+   {:subgroup (2 3 5 13), :mean-error 3.9981, :max-error 9.7877}
+   {:subgroup (2 3 5 11 13), :mean-error 3.5102, :max-error 9.7877}
+   {:subgroup (2 5 7), :mean-error 6.5953, :max-error 9.8929}
+   {:subgroup (2 5 7 11), :mean-error 5.6935, :max-error 9.8929}
+   {:subgroup (2 5 7 13), :mean-error 5.7939, :max-error 9.8929}
+   {:subgroup (2 5 7 11 13), :mean-error 4.9741, :max-error 9.8929}
+   {:subgroup (2 3 5 7), :mean-error 6.5578, :max-error 13.1137}
+   {:subgroup (2 3 5 7 11), :mean-error 5.5904, :max-error 13.1137}
+   {:subgroup (2 3 5 7 13), :mean-error 5.5904, :max-error 13.1137}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 4.9392,
+    :max-error 13.1137})}
+ {:edo 80,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 2.4575, :max-error 3.6863}
+   {:subgroup (2 5 13), :mean-error 2.8093, :max-error 4.2139}
+   {:subgroup (2 5 11 13), :mean-error 2.7206, :max-error 4.2139}
+   {:subgroup (2 3 11), :mean-error 3.1724, :max-error 6.09}
+   {:subgroup (2 3 7), :mean-error 3.7045, :max-error 6.1741}
+   {:subgroup (2 5 7), :mean-error 4.1161, :max-error 6.1741}
+   {:subgroup (2 3 7 11), :mean-error 3.0824, :max-error 6.1741}
+   {:subgroup (2 5 7 11), :mean-error 3.0877, :max-error 6.1741}
+   {:subgroup (2 3 13), :mean-error 3.9706, :max-error 6.6177}
+   {:subgroup (2 3 11 13), :mean-error 3.4211, :max-error 6.6177}
+   {:subgroup (2 3 7 13), :mean-error 3.9936, :max-error 6.7018}
+   {:subgroup (2 5 7 13), :mean-error 3.9653, :max-error 6.7018}
+   {:subgroup (2 3 7 11 13), :mean-error 3.5265, :max-error 6.7018}
+   {:subgroup (2 5 7 11 13), :mean-error 3.418, :max-error 6.7018}
+   {:subgroup (2 3 5), :mean-error 3.7663, :max-error 6.7313}
+   {:subgroup (2 3 5 7), :mean-error 3.1845, :max-error 6.7313}
+   {:subgroup (2 3 5 11), :mean-error 2.9435, :max-error 6.7313}
+   {:subgroup (2 3 5 7 11), :mean-error 2.7825, :max-error 6.7313}
+   {:subgroup (2 3 5 13), :mean-error 4.0717, :max-error 7.2589}
+   {:subgroup (2 3 5 7 13), :mean-error 3.7602, :max-error 7.2589}
+   {:subgroup (2 3 5 11 13), :mean-error 3.4576, :max-error 7.2589}
+   {:subgroup (2 3 5 7 11 13), :mean-error 3.3502, :max-error 7.2589})}
+ {:edo 81,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 2.1132, :max-error 3.1698}
+   {:subgroup (2 5 13), :mean-error 3.3635, :max-error 5.0453}
+   {:subgroup (2 5 7), :mean-error 3.9086, :max-error 5.863}
+   {:subgroup (2 5 7 11), :mean-error 3.2717, :max-error 5.863}
+   {:subgroup (2 5 11 13), :mean-error 3.7314, :max-error 7.0866}
+   {:subgroup (2 5 7 13), :mean-error 5.0779, :max-error 9.7797}
+   {:subgroup (2 5 7 11 13), :mean-error 4.5458, :max-error 9.7797}
+   {:subgroup (2 3 5), :mean-error 6.6018, :max-error 11.3174}
+   {:subgroup (2 3 7), :mean-error 5.6996, :max-error 11.3174}
+   {:subgroup (2 3 11), :mean-error 6.1565, :max-error 11.3174}
+   {:subgroup (2 3 5 7), :mean-error 5.1628, :max-error 11.3174}
+   {:subgroup (2 3 5 11), :mean-error 5.3705, :max-error 11.3174}
+   {:subgroup (2 3 7 11), :mean-error 4.9997, :max-error 11.3174}
+   {:subgroup (2 3 5 7 11), :mean-error 4.6441, :max-error 11.3174})}
+ {:edo 82,
+  :subgroups
+  ({:subgroup (2 3 7), :mean-error 2.3642, :max-error 3.9403}
+   {:subgroup (2 3 11), :mean-error 2.8678, :max-error 4.7796}
+   {:subgroup (2 5 7), :mean-error 3.8839, :max-error 5.8259}
+   {:subgroup (2 5 13), :mean-error 4.2542, :max-error 6.3813}
+   {:subgroup (2 5 7 13), :mean-error 3.6663, :max-error 6.3813}
+   {:subgroup (2 3 5), :mean-error 4.2873, :max-error 6.794}
+   {:subgroup (2 3 5 7), :mean-error 3.756, :max-error 6.794}
+   {:subgroup (2 3 13), :mean-error 4.4096, :max-error 7.3494}
+   {:subgroup (2 3 5 13), :mean-error 4.3559, :max-error 7.3494}
+   {:subgroup (2 3 7 13), :mean-error 3.9807, :max-error 7.3494}
+   {:subgroup (2 3 5 7 13), :mean-error 3.9362, :max-error 7.3494}
+   {:subgroup (2 3 7 11), :mean-error 3.6066, :max-error 7.7519}
+   {:subgroup (2 5 11), :mean-error 7.0703, :max-error 10.6055}
+   {:subgroup (2 3 5 11), :mean-error 5.3943, :max-error 10.6055}
+   {:subgroup (2 5 7 11), :mean-error 5.7981, :max-error 10.6055}
+   {:subgroup (2 3 5 7 11), :mean-error 4.8636, :max-error 10.6055}
+   {:subgroup (2 3 11 13), :mean-error 5.1218, :max-error 11.161}
+   {:subgroup (2 5 11 13), :mean-error 6.5514, :max-error 11.161}
+   {:subgroup (2 3 5 11 13), :mean-error 5.4523, :max-error 11.161}
+   {:subgroup (2 3 7 11 13), :mean-error 4.8304, :max-error 11.161}
+   {:subgroup (2 5 7 11 13), :mean-error 5.6296, :max-error 11.161}
+   {:subgroup (2 3 5 7 11 13), :mean-error 4.9768, :max-error 11.161})}
+ {:edo 83,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 2.7993, :max-error 4.1989}
+   {:subgroup (2 5 11), :mean-error 3.9787, :max-error 5.9681}
+   {:subgroup (2 5 7 11), :mean-error 3.0092, :max-error 5.9681}
+   {:subgroup (2 5 13), :mean-error 4.0141, :max-error 6.0212}
+   {:subgroup (2 5 7 13), :mean-error 3.0358, :max-error 6.0212}
+   {:subgroup (2 5 11 13), :mean-error 3.3306, :max-error 6.0212}
+   {:subgroup (2 5 7 11 13), :mean-error 2.7925, :max-error 6.0212}
+   {:subgroup (2 3 5), :mean-error 7.5585, :max-error 12.9575}
+   {:subgroup (2 3 7), :mean-error 7.8652, :max-error 13.1087}
+   {:subgroup (2 3 5 7), :mean-error 7.2834, :max-error 13.1087}
+   {:subgroup (2 3 11), :mean-error 8.9267, :max-error 14.8778}
+   {:subgroup (2 3 5 11), :mean-error 8.0876, :max-error 14.8778}
+   {:subgroup (2 3 7 11), :mean-error 7.3658, :max-error 14.8778}
+   {:subgroup (2 3 5 7 11), :mean-error 7.3823, :max-error 14.8778}
+   {:subgroup (2 3 13), :mean-error 8.9585, :max-error 14.9309}
+   {:subgroup (2 3 5 13), :mean-error 8.1117, :max-error 14.9309}
+   {:subgroup (2 3 7 13), :mean-error 7.3894, :max-error 14.9309}
+   {:subgroup (2 3 11 13), :mean-error 7.7826, :max-error 14.9309}
+   {:subgroup (2 3 5 7 13), :mean-error 7.401, :max-error 14.9309}
+   {:subgroup (2 3 5 11 13), :mean-error 7.8173, :max-error 14.9309}
+   {:subgroup (2 3 7 11 13), :mean-error 6.6803, :max-error 14.9309}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 7.1355,
+    :max-error 14.9309})}
+ {:edo 84,
+  :subgroups
+  ({:subgroup (2 5 13), :mean-error 1.9526, :max-error 2.9289}
+   {:subgroup (2 5 7), :mean-error 2.1347, :max-error 3.2021}
+   {:subgroup (2 5 7 13), :mean-error 1.9893, :max-error 3.2021}
+   {:subgroup (2 3 5), :mean-error 2.2808, :max-error 3.91}
+   {:subgroup (2 3 13), :mean-error 3.7437, :max-error 6.2395}
+   {:subgroup (2 3 5 13), :mean-error 3.1228, :max-error 6.2395}
+   {:subgroup (2 5 11), :mean-error 4.2829, :max-error 6.4244}
+   {:subgroup (2 5 7 11), :mean-error 3.646, :max-error 6.4244}
+   {:subgroup (2 5 11 13), :mean-error 3.6004, :max-error 6.4244}
+   {:subgroup (2 5 7 11 13), :mean-error 3.0903, :max-error 6.4244}
+   {:subgroup (2 3 7), :mean-error 3.9076, :max-error 6.5127}
+   {:subgroup (2 3 5 7), :mean-error 3.247, :max-error 6.5127}
+   {:subgroup (2 3 7 13), :mean-error 3.6294, :max-error 6.5127}
+   {:subgroup (2 3 5 7 13), :mean-error 3.3328, :max-error 6.5127}
+   {:subgroup (2 3 11), :mean-error 5.8409, :max-error 9.7349}
+   {:subgroup (2 3 5 11), :mean-error 4.7117, :max-error 9.7349}
+   {:subgroup (2 3 7 11), :mean-error 5.1222, :max-error 9.7349}
+   {:subgroup (2 3 11 13), :mean-error 5.0615, :max-error 9.7349}
+   {:subgroup (2 3 5 7 11), :mean-error 4.5343, :max-error 9.7349}
+   {:subgroup (2 3 5 11 13), :mean-error 4.47, :max-error 9.7349}
+   {:subgroup (2 3 7 11 13), :mean-error 4.4802, :max-error 9.7349}
+   {:subgroup (2 3 5 7 11 13), :mean-error 4.2299, :max-error 9.7349})}
+ {:edo 85,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 3.4248, :max-error 5.1372}
+   {:subgroup (2 3 7), :mean-error 4.2002, :max-error 7.8547}
+   {:subgroup (2 3 13), :mean-error 4.4481, :max-error 7.8547}
+   {:subgroup (2 3 7 13), :mean-error 3.6332, :max-error 7.8547}
+   {:subgroup (2 3 11), :mean-error 5.1507, :max-error 8.5844}
+   {:subgroup (2 3 7 11), :mean-error 4.5549, :max-error 8.5844}
+   {:subgroup (2 3 11 13), :mean-error 4.8303, :max-error 8.5844}
+   {:subgroup (2 3 7 11 13), :mean-error 4.2823, :max-error 8.5844}
+   {:subgroup (2 5 7), :mean-error 6.9526, :max-error 10.429}
+   {:subgroup (2 5 7 11), :mean-error 5.3361, :max-error 10.429}
+   {:subgroup (2 5 13), :mean-error 7.7789, :max-error 11.6684}
+   {:subgroup (2 5 7 13), :mean-error 6.7162, :max-error 11.6684}
+   {:subgroup (2 5 11 13), :mean-error 5.9558, :max-error 11.6684}
+   {:subgroup (2 5 7 11 13), :mean-error 5.8716, :max-error 11.6684}
+   {:subgroup (2 3 5), :mean-error 6.6976, :max-error 12.992}
+   {:subgroup (2 3 5 7), :mean-error 6.0305, :max-error 12.992}
+   {:subgroup (2 3 5 11), :mean-error 5.3677, :max-error 12.992}
+   {:subgroup (2 3 5 13), :mean-error 6.3685, :max-error 12.992}
+   {:subgroup (2 3 5 7 11), :mean-error 5.3656, :max-error 12.992}
+   {:subgroup (2 3 5 7 13), :mean-error 5.7319, :max-error 12.992}
+   {:subgroup (2 3 5 11 13), :mean-error 5.6573, :max-error 12.992}
+   {:subgroup (2 3 5 7 11 13), :mean-error 5.3993, :max-error 12.992})}
+ {:edo 86,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 4.5477, :max-error 6.8216}
+   {:subgroup (2 5 13), :mean-error 5.1349, :max-error 7.7023}
+   {:subgroup (2 3 7), :mean-error 4.6315, :max-error 8.5612}
+   {:subgroup (2 3 13), :mean-error 4.473, :max-error 8.5612}
+   {:subgroup (2 3 7 13), :mean-error 3.9331, :max-error 8.5612}
+   {:subgroup (2 5 11 13), :mean-error 5.8007, :max-error 10.14}
+   {:subgroup (2 5 7), :mean-error 6.9461, :max-error 10.4192}
+   {:subgroup (2 5 7 13), :mean-error 5.7627, :max-error 10.4192}
+   {:subgroup (2 5 7 11), :mean-error 7.1591, :max-error 12.8568}
+   {:subgroup (2 5 7 11 13), :mean-error 6.6832, :max-error 12.8568}
+   {:subgroup (2 3 5), :mean-error 6.4898, :max-error 12.9451}
+   {:subgroup (2 3 5 7), :mean-error 5.9829, :max-error 12.9451}
+   {:subgroup (2 3 5 13), :mean-error 5.4169, :max-error 12.9451}
+   {:subgroup (2 3 5 7 13), :mean-error 5.2457, :max-error 12.9451})}
+ {:edo 87,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 0.342, :max-error 0.513}
+   {:subgroup (2 5 13), :mean-error 0.639, :max-error 0.9585}
+   {:subgroup (2 5 11 13), :mean-error 0.5469, :max-error 0.9585}
+   {:subgroup (2 3 11), :mean-error 1.7107, :max-error 2.9866}
+   {:subgroup (2 3 13), :mean-error 1.6216, :max-error 2.9866}
+   {:subgroup (2 3 11 13), :mean-error 1.403, :max-error 2.9866}
+   {:subgroup (2 3 5), :mean-error 1.7778, :max-error 3.0934}
+   {:subgroup (2 3 5 11), :mean-error 1.4758, :max-error 3.0934}
+   {:subgroup (2 3 5 13), :mean-error 1.4353, :max-error 3.0934}
+   {:subgroup (2 3 5 11 13), :mean-error 1.2824, :max-error 3.0934}
+   {:subgroup (2 5 7), :mean-error 2.2058, :max-error 3.3087}
+   {:subgroup (2 5 7 11), :mean-error 1.8752, :max-error 3.7149}
+   {:subgroup (2 5 7 13), :mean-error 2.098, :max-error 4.1603}
+   {:subgroup (2 5 7 11 13), :mean-error 1.7667, :max-error 4.1603}
+   {:subgroup (2 3 7), :mean-error 3.7771, :max-error 6.2952}
+   {:subgroup (2 3 5 7), :mean-error 2.9972, :max-error 6.2952}
+   {:subgroup (2 3 7 11), :mean-error 2.9638, :max-error 6.2952}
+   {:subgroup (2 3 7 13), :mean-error 2.9638, :max-error 6.2952}
+   {:subgroup (2 3 5 7 11), :mean-error 2.4854, :max-error 6.2952}
+   {:subgroup (2 3 5 7 13), :mean-error 2.4854, :max-error 6.2952}
+   {:subgroup (2 3 7 11 13), :mean-error 2.4934, :max-error 6.2952}
+   {:subgroup (2 3 5 7 11 13), :mean-error 2.1658, :max-error 6.2952})}
+ {:edo 88,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 2.997, :max-error 4.4956}
+   {:subgroup (2 5 11), :mean-error 3.9089, :max-error 5.8634}
+   {:subgroup (2 5 7 11), :mean-error 3.5736, :max-error 5.8634}
+   {:subgroup (2 5 13), :mean-error 6.2816, :max-error 9.4224}
+   {:subgroup (2 5 7 13), :mean-error 4.8186, :max-error 9.4224}
+   {:subgroup (2 5 11 13), :mean-error 6.1444, :max-error 10.7903}
+   {:subgroup (2 5 7 11 13), :mean-error 5.2152, :max-error 10.7903}
+   {:subgroup (2 3 5), :mean-error 7.5839, :max-error 13.0009}
+   {:subgroup (2 3 7), :mean-error 7.6717, :max-error 13.0009}
+   {:subgroup (2 3 11), :mean-error 6.6279, :max-error 13.0009}
+   {:subgroup (2 3 5 7), :mean-error 7.1422, :max-error 13.0009}
+   {:subgroup (2 3 5 11), :mean-error 5.9674, :max-error 13.0009}
+   {:subgroup (2 3 7 11), :mean-error 6.3573, :max-error 13.0009}
+   {:subgroup (2 3 5 7 11), :mean-error 6.113, :max-error 13.0009})}
+ {:edo 89,
+  :subgroups
+  ({:subgroup (2 3 11), :mean-error 1.8923, :max-error 3.1539}
+   {:subgroup (2 3 7), :mean-error 2.174, :max-error 3.6234}
+   {:subgroup (2 3 7 11), :mean-error 2.0341, :max-error 3.6234}
+   {:subgroup (2 3 13), :mean-error 2.7436, :max-error 4.5726}
+   {:subgroup (2 5 7), :mean-error 3.1317, :max-error 4.6975}
+   {:subgroup (2 5 11), :mean-error 3.1317, :max-error 4.6975}
+   {:subgroup (2 5 7 11), :mean-error 2.427, :max-error 4.6975}
+   {:subgroup (2 3 11 13), :mean-error 2.9721, :max-error 6.0637}
+   {:subgroup (2 3 5), :mean-error 3.8245, :max-error 6.3604}
+   {:subgroup (2 3 5 7), :mean-error 3.2696, :max-error 6.3604}
+   {:subgroup (2 3 5 11), :mean-error 3.2269, :max-error 6.3604}
+   {:subgroup (2 3 5 7 11), :mean-error 2.8814, :max-error 6.3604}
+   {:subgroup (2 3 7 13), :mean-error 3.1808, :max-error 6.5332}
+   {:subgroup (2 3 7 11 13), :mean-error 3.0091, :max-error 6.5332}
+   {:subgroup (2 5 13), :mean-error 6.1801, :max-error 9.2701}
+   {:subgroup (2 3 5 13), :mean-error 4.7163, :max-error 9.2701}
+   {:subgroup (2 5 7 13), :mean-error 4.9618, :max-error 9.2701}
+   {:subgroup (2 5 11 13), :mean-error 4.8836, :max-error 9.2701}
+   {:subgroup (2 3 5 7 13), :mean-error 4.2018, :max-error 9.2701}
+   {:subgroup (2 3 5 11 13), :mean-error 4.1466, :max-error 9.2701}
+   {:subgroup (2 5 7 11 13), :mean-error 4.1002, :max-error 9.2701}
+   {:subgroup (2 3 5 7 11 13), :mean-error 3.7714, :max-error 9.2701})}
+ {:edo 90,
+  :subgroups
+  ({:subgroup (2 5 13), :mean-error 0.5871, :max-error 0.8806}
+   {:subgroup (2 5 7), :mean-error 3.0049, :max-error 4.5074}
+   {:subgroup (2 5 11), :mean-error 3.3362, :max-error 5.0042}
+   {:subgroup (2 5 11 13), :mean-error 2.5901, :max-error 5.0042}
+   {:subgroup (2 5 7 13), :mean-error 2.5764, :max-error 5.0351}
+   {:subgroup (2 5 7 11), :mean-error 4.6382, :max-error 9.1587}
+   {:subgroup (2 5 7 11 13), :mean-error 3.8396, :max-error 9.1587}
+   {:subgroup (2 3 5), :mean-error 5.4969, :max-error 9.4234}
+   {:subgroup (2 3 7), :mean-error 4.7525, :max-error 9.4234}
+   {:subgroup (2 3 5 7), :mean-error 4.3019, :max-error 9.4234}
+   {:subgroup (2 3 13), :mean-error 5.9706, :max-error 9.951}
+   {:subgroup (2 3 5 13), :mean-error 5.0157, :max-error 9.951}
+   {:subgroup (2 3 7 13), :mean-error 4.9462, :max-error 9.951}
+   {:subgroup (2 3 5 7 13), :mean-error 4.3851, :max-error 9.951}
+   {:subgroup (2 3 11), :mean-error 8.4448, :max-error 14.0746}
+   {:subgroup (2 3 5 11), :mean-error 6.8901, :max-error 14.0746}
+   {:subgroup (2 3 7 11), :mean-error 6.7789, :max-error 14.0746}
+   {:subgroup (2 3 11 13), :mean-error 6.8962, :max-error 14.0746}
+   {:subgroup (2 3 5 7 11), :mean-error 5.8405, :max-error 14.0746}
+   {:subgroup (2 3 5 11 13), :mean-error 6.0062, :max-error 14.0746}
+   {:subgroup (2 3 7 11 13), :mean-error 6.1348, :max-error 14.0746}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 5.4433,
+    :max-error 14.0746})}
+ {:edo 91,
+  :subgroups
+  ({:subgroup (2 3 7), :mean-error 3.7131, :max-error 6.1885}
+   {:subgroup (2 5 7), :mean-error 4.1257, :max-error 6.1885}
+   {:subgroup (2 5 11), :mean-error 4.2829, :max-error 6.4243}
+   {:subgroup (2 3 5), :mean-error 3.8436, :max-error 6.95}
+   {:subgroup (2 3 5 7), :mean-error 3.229, :max-error 6.95}
+   {:subgroup (2 5 13), :mean-error 4.883, :max-error 7.3245}
+   {:subgroup (2 5 11 13), :mean-error 4.0836, :max-error 7.3245}
+   {:subgroup (2 3 11), :mean-error 5.1816, :max-error 8.636}
+   {:subgroup (2 3 7 11), :mean-error 4.8921, :max-error 8.7168}
+   {:subgroup (2 5 7 11), :mean-error 5.0077, :max-error 8.7168}
+   {:subgroup (2 3 5 11), :mean-error 5.0646, :max-error 9.4783}
+   {:subgroup (2 3 5 7 11), :mean-error 4.5227, :max-error 9.4783}
+   {:subgroup (2 3 13), :mean-error 5.7217, :max-error 9.5362}
+   {:subgroup (2 3 11 13), :mean-error 5.1395, :max-error 9.5362}
+   {:subgroup (2 3 7 13), :mean-error 5.2921, :max-error 9.6169}
+   {:subgroup (2 5 7 13), :mean-error 5.4578, :max-error 9.6169}
+   {:subgroup (2 3 7 11 13), :mean-error 5.2852, :max-error 9.6169}
+   {:subgroup (2 5 7 11 13), :mean-error 5.1316, :max-error 9.6169}
+   {:subgroup (2 3 5 13), :mean-error 5.4738, :max-error 10.3784}
+   {:subgroup (2 3 5 7 13), :mean-error 4.8404, :max-error 10.3784}
+   {:subgroup (2 3 5 11 13), :mean-error 5.5153, :max-error 10.3784}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 5.1897,
+    :max-error 10.3784})}
+ {:edo 92,
+  :subgroups
+  ({:subgroup (2 3 5), :mean-error 3.7259, :max-error 7.3835}
+   {:subgroup (2 3 11), :mean-error 4.9665, :max-error 8.2775}
+   {:subgroup (2 3 7), :mean-error 5.0365, :max-error 8.3942}
+   {:subgroup (2 3 7 11), :mean-error 4.7726, :max-error 8.3942}
+   {:subgroup (2 5 11), :mean-error 5.655, :max-error 8.4825}
+   {:subgroup (2 5 7), :mean-error 5.7327, :max-error 8.5992}
+   {:subgroup (2 5 7 11), :mean-error 4.8815, :max-error 8.5992}
+   {:subgroup (2 3 13), :mean-error 6.3184, :max-error 10.5307}
+   {:subgroup (2 3 7 13), :mean-error 5.7481, :max-error 10.5307}
+   {:subgroup (2 3 11 13), :mean-error 5.7222, :max-error 10.5307}
+   {:subgroup (2 3 7 11 13), :mean-error 5.1255, :max-error 10.5307}
+   {:subgroup (2 5 13), :mean-error 7.1571, :max-error 10.7357}
+   {:subgroup (2 5 7 13), :mean-error 5.9693, :max-error 10.7357}
+   {:subgroup (2 5 11 13), :mean-error 5.9498, :max-error 10.7357}
+   {:subgroup (2 5 7 11 13), :mean-error 5.016, :max-error 10.7357}
+   {:subgroup (2 3 5 11), :mean-error 5.397, :max-error 10.8753}
+   {:subgroup (2 3 5 7), :mean-error 5.45, :max-error 10.992}
+   {:subgroup (2 3 5 7 11), :mean-error 5.7105, :max-error 10.992}
+   {:subgroup (2 3 5 13), :mean-error 6.4212, :max-error 13.1285}
+   {:subgroup (2 3 5 7 13), :mean-error 6.492, :max-error 13.1285}
+   {:subgroup (2 3 5 11 13), :mean-error 6.4646, :max-error 13.1285}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 6.2394,
+    :max-error 13.1285})}
+ {:edo 93,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 1.2447, :max-error 1.867}
+   {:subgroup (2 5 13), :mean-error 1.7341, :max-error 2.6011}
+   {:subgroup (2 5 7 13), :mean-error 1.4812, :max-error 2.6011}
+   {:subgroup (2 5 11), :mean-error 2.3472, :max-error 3.5208}
+   {:subgroup (2 5 7 11), :mean-error 2.4329, :max-error 4.6047}
+   {:subgroup (2 5 11 13), :mean-error 2.7999, :max-error 5.3388}
+   {:subgroup (2 5 7 11 13), :mean-error 2.5089, :max-error 5.3388}
+   {:subgroup (2 3 7), :mean-error 6.0002, :max-error 10.3616}
+   {:subgroup (2 3 13), :mean-error 5.8534, :max-error 10.3616}
+   {:subgroup (2 3 7 13), :mean-error 4.9399, :max-error 10.3616}
+   {:subgroup (2 3 5), :mean-error 6.3053, :max-error 11.1447}
+   {:subgroup (2 3 5 7), :mean-error 5.2246, :max-error 11.1447}
+   {:subgroup (2 3 5 13), :mean-error 5.1579, :max-error 11.1447}
+   {:subgroup (2 3 5 7 13), :mean-error 4.5359, :max-error 11.1447}
+   {:subgroup (2 3 11), :mean-error 8.3294, :max-error 13.8824}
+   {:subgroup (2 3 5 11), :mean-error 6.7812, :max-error 13.8824}
+   {:subgroup (2 3 7 11), :mean-error 6.7456, :max-error 13.8824}
+   {:subgroup (2 3 11 13), :mean-error 6.7456, :max-error 13.8824}
+   {:subgroup (2 3 5 7 11), :mean-error 5.8139, :max-error 13.8824}
+   {:subgroup (2 3 5 11 13), :mean-error 5.8139, :max-error 13.8824}
+   {:subgroup (2 3 7 11 13), :mean-error 5.7505, :max-error 13.8824}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 5.1589,
+    :max-error 13.8824})}
+ {:edo 94,
+  :subgroups
+  ({:subgroup (2 3 7), :mean-error 0.8321, :max-error 1.3869}
+   {:subgroup (2 3 13), :mean-error 1.2153, :max-error 2.0256}
+   {:subgroup (2 3 7 13), :mean-error 1.1509, :max-error 2.0256}
+   {:subgroup (2 3 11), :mean-error 1.6362, :max-error 2.7271}
+   {:subgroup (2 5 11), :mean-error 2.2233, :max-error 3.335}
+   {:subgroup (2 3 5), :mean-error 2.3672, :max-error 3.6803}
+   {:subgroup (2 3 5 11), :mean-error 2.1455, :max-error 3.6803}
+   {:subgroup (2 3 7 11), :mean-error 1.7325, :max-error 3.7686}
+   {:subgroup (2 3 11 13), :mean-error 2.0164, :max-error 4.4073}
+   {:subgroup (2 3 7 11 13), :mean-error 1.8712, :max-error 4.4073}
+   {:subgroup (2 5 7), :mean-error 3.1479, :max-error 4.7219}
+   {:subgroup (2 3 5 7), :mean-error 2.4652, :max-error 4.7219}
+   {:subgroup (2 5 7 11), :mean-error 2.7579, :max-error 4.7219}
+   {:subgroup (2 3 5 7 11), :mean-error 2.3696, :max-error 4.7219}
+   {:subgroup (2 5 13), :mean-error 3.5737, :max-error 5.3605}
+   {:subgroup (2 3 5 13), :mean-error 2.7555, :max-error 5.3605}
+   {:subgroup (2 5 7 13), :mean-error 2.9114, :max-error 5.3605}
+   {:subgroup (2 5 11 13), :mean-error 3.0772, :max-error 5.3605}
+   {:subgroup (2 3 5 7 13), :mean-error 2.5802, :max-error 5.3605}
+   {:subgroup (2 3 5 11 13), :mean-error 2.595, :max-error 5.3605}
+   {:subgroup (2 5 7 11 13), :mean-error 2.8979, :max-error 5.3605}
+   {:subgroup (2 3 5 7 11 13), :mean-error 2.5598, :max-error 5.3605})}
+ {:edo 95,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 3.5102, :max-error 5.2652}
+   {:subgroup (2 5 11), :mean-error 3.5102, :max-error 5.2652}
+   {:subgroup (2 5 7 11), :mean-error 2.7436, :max-error 5.2652}
+   {:subgroup (2 5 13), :mean-error 3.8588, :max-error 5.7882}
+   {:subgroup (2 5 7 13), :mean-error 3.1373, :max-error 5.7882}
+   {:subgroup (2 5 11 13), :mean-error 3.0264, :max-error 5.7882}
+   {:subgroup (2 5 7 11 13), :mean-error 2.6072, :max-error 5.7882}
+   {:subgroup (2 3 5), :mean-error 6.3157, :max-error 10.8268}
+   {:subgroup (2 3 7), :mean-error 5.735, :max-error 10.8268}
+   {:subgroup (2 3 11), :mean-error 5.6018, :max-error 10.8268}
+   {:subgroup (2 3 13), :mean-error 5.4883, :max-error 10.8268}
+   {:subgroup (2 3 5 7), :mean-error 5.3328, :max-error 10.8268}
+   {:subgroup (2 3 5 11), :mean-error 5.1512, :max-error 10.8268}
+   {:subgroup (2 3 5 13), :mean-error 4.9554, :max-error 10.8268}
+   {:subgroup (2 3 7 11), :mean-error 4.5677, :max-error 10.8268}
+   {:subgroup (2 3 7 13), :mean-error 4.651, :max-error 10.8268}
+   {:subgroup (2 3 11 13), :mean-error 4.503, :max-error 10.8268}
+   {:subgroup (2 3 5 7 11), :mean-error 4.5939, :max-error 10.8268}
+   {:subgroup (2 3 5 7 13), :mean-error 4.5446, :max-error 10.8268}
+   {:subgroup (2 3 5 11 13), :mean-error 4.3879, :max-error 10.8268}
+   {:subgroup (2 3 7 11 13), :mean-error 3.9721, :max-error 10.8268}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 4.0838,
+    :max-error 10.8268})}
+ {:edo 96,
+  :subgroups
+  ({:subgroup (2 5 11), :mean-error 1.6695, :max-error 2.5042}
+   {:subgroup (2 3 11), :mean-error 2.0824, :max-error 3.91}
+   {:subgroup (2 3 13), :mean-error 2.1695, :max-error 3.91}
+   {:subgroup (2 3 11 13), :mean-error 1.9005, :max-error 3.91}
+   {:subgroup (2 5 13), :mean-error 2.8093, :max-error 4.2139}
+   {:subgroup (2 5 11 13), :mean-error 2.3266, :max-error 4.2139}
+   {:subgroup (2 3 5), :mean-error 2.6763, :max-error 5.0963}
+   {:subgroup (2 3 5 11), :mean-error 2.1507, :max-error 5.0963}
+   {:subgroup (2 3 5 13), :mean-error 2.5012, :max-error 5.0963}
+   {:subgroup (2 3 5 11 13), :mean-error 2.1661, :max-error 5.0963}
+   {:subgroup (2 5 7), :mean-error 4.1161, :max-error 6.1741}
+   {:subgroup (2 5 7 11), :mean-error 3.9437, :max-error 7.492}
+   {:subgroup (2 5 7 13), :mean-error 4.7986, :max-error 9.2018}
+   {:subgroup (2 5 7 11 13), :mean-error 4.1815, :max-error 9.2018}
+   {:subgroup (2 3 7), :mean-error 6.0505, :max-error 10.0841}
+   {:subgroup (2 3 5 7), :mean-error 4.7614, :max-error 10.0841}
+   {:subgroup (2 3 7 11), :mean-error 4.699, :max-error 10.0841}
+   {:subgroup (2 3 7 13), :mean-error 4.9374, :max-error 10.0841}
+   {:subgroup (2 3 5 7 11), :mean-error 3.9687, :max-error 10.0841}
+   {:subgroup (2 3 5 7 13), :mean-error 4.296, :max-error 10.0841}
+   {:subgroup (2 3 7 11 13), :mean-error 4.1561, :max-error 10.0841}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 3.7431,
+    :max-error 10.0841})}
+ {:edo 97,
+  :subgroups
+  ({:subgroup (2 5 13), :mean-error 2.3453, :max-error 3.518}
+   {:subgroup (2 5 7), :mean-error 2.585, :max-error 3.8775}
+   {:subgroup (2 5 7 13), :mean-error 2.7615, :max-error 4.5869}
+   {:subgroup (2 3 11), :mean-error 3.6363, :max-error 6.3993}
+   {:subgroup (2 3 13), :mean-error 3.6977, :max-error 6.3993}
+   {:subgroup (2 3 11 13), :mean-error 3.5272, :max-error 6.3993}
+   {:subgroup (2 5 11), :mean-error 5.4611, :max-error 8.1917}
+   {:subgroup (2 5 11 13), :mean-error 4.2141, :max-error 8.1917}
+   {:subgroup (2 3 5), :mean-error 4.6691, :max-error 9.2078}
+   {:subgroup (2 3 5 11), :mean-error 4.5255, :max-error 9.2078}
+   {:subgroup (2 3 5 13), :mean-error 3.7037, :max-error 9.2078}
+   {:subgroup (2 3 5 11 13), :mean-error 3.9518, :max-error 9.2078}
+   {:subgroup (2 5 7 11), :mean-error 5.0984, :max-error 9.2605}
+   {:subgroup (2 5 7 11 13), :mean-error 4.4078, :max-error 9.2605}
+   {:subgroup (2 3 7), :mean-error 6.166, :max-error 10.2767}
+   {:subgroup (2 3 5 7), :mean-error 4.9621, :max-error 10.2767}
+   {:subgroup (2 3 7 11), :mean-error 5.4082, :max-error 10.2767}
+   {:subgroup (2 3 7 13), :mean-error 4.9229, :max-error 10.2767}
+   {:subgroup (2 3 5 7 11), :mean-error 5.0359, :max-error 10.2767}
+   {:subgroup (2 3 5 7 13), :mean-error 4.2292, :max-error 10.2767}
+   {:subgroup (2 3 7 11 13), :mean-error 4.7731, :max-error 10.2767}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 4.4832,
+    :max-error 10.2767})}
+ {:edo 98,
+  :subgroups
+  ({:subgroup (2 5 13), :mean-error 3.682, :max-error 5.523}
+   {:subgroup (2 5 11), :mean-error 3.8803, :max-error 5.8206}
+   {:subgroup (2 5 11 13), :mean-error 3.6386, :max-error 5.8206}
+   {:subgroup (2 5 7), :mean-error 4.668, :max-error 7.002}
+   {:subgroup (2 5 7 11), :mean-error 3.5506, :max-error 7.002}
+   {:subgroup (2 5 7 13), :mean-error 4.2294, :max-error 7.002}
+   {:subgroup (2 5 7 11 13), :mean-error 3.7344, :max-error 7.002}
+   {:subgroup (2 3 7), :mean-error 4.4992, :max-error 7.9916}
+   {:subgroup (2 3 11), :mean-error 4.7355, :max-error 7.9916}
+   {:subgroup (2 3 7 11), :mean-error 3.9297, :max-error 7.9916}
+   {:subgroup (2 3 13), :mean-error 7.4171, :max-error 12.3619}
+   {:subgroup (2 3 7 13), :mean-error 5.9382, :max-error 12.3619}
+   {:subgroup (2 3 11 13), :mean-error 5.9382, :max-error 12.3619}
+   {:subgroup (2 3 7 11 13), :mean-error 5.0702, :max-error 12.3619}
+   {:subgroup (2 3 5), :mean-error 7.0118, :max-error 13.5147}
+   {:subgroup (2 3 5 7), :mean-error 5.6898, :max-error 13.5147}
+   {:subgroup (2 3 5 11), :mean-error 5.5824, :max-error 13.5147}
+   {:subgroup (2 3 5 13), :mean-error 6.4696, :max-error 13.5147}
+   {:subgroup (2 3 5 7 11), :mean-error 4.8885, :max-error 13.5147}
+   {:subgroup (2 3 5 7 13), :mean-error 5.7371, :max-error 13.5147}
+   {:subgroup (2 3 5 11 13), :mean-error 5.5981, :max-error 13.5147}
+   {:subgroup (2 3 5 7 11 13),
+    :mean-error 5.1132,
+    :max-error 13.5147})}
+ {:edo 99,
+  :subgroups
+  ({:subgroup (2 5 7), :mean-error 1.0434, :max-error 1.5651}
+   {:subgroup (2 3 7), :mean-error 1.1161, :max-error 2.1506}
+   {:subgroup (2 3 5), :mean-error 1.4178, :max-error 2.6404}
+   {:subgroup (2 3 5 7), :mean-error 1.2113, :max-error 2.6404}
+   {:subgroup (2 5 13), :mean-error 3.8194, :max-error 5.7291}
+   {:subgroup (2 5 7 13), :mean-error 3.0097, :max-error 5.7291}
+   {:subgroup (2 3 13), :mean-error 3.7888, :max-error 6.3146}
+   {:subgroup (2 3 7 13), :mean-error 2.926, :max-error 6.3146}
+   {:subgroup (2 3 5 13), :mean-error 3.3416, :max-error 6.8044}
+   {:subgroup (2 3 5 7 13), :mean-error 2.7418, :max-error 6.8044}
+   {:subgroup (2 5 11), :mean-error 4.9523, :max-error 7.4285}
+   {:subgroup (2 5 7 11), :mean-error 3.8594, :max-error 7.4285}
+   {:subgroup (2 5 11 13), :mean-error 4.4083, :max-error 7.4285}
+   {:subgroup (2 5 7 11 13), :mean-error 3.9784, :max-error 7.4285}
+   {:subgroup (2 3 11), :mean-error 4.8084, :max-error 8.014}
+   {:subgroup (2 3 7 11), :mean-error 3.6813, :max-error 8.014}
+   {:subgroup (2 3 11 13), :mean-error 4.6066, :max-error 8.014}
+   {:subgroup (2 3 7 11 13), :mean-error 3.9703, :max-error 8.014}
+   {:subgroup (2 3 5 11), :mean-error 4.1141, :max-error 8.5038}
+   {:subgroup (2 3 5 7 11), :mean-error 3.3416, :max-error 8.5038}
+   {:subgroup (2 3 5 11 13), :mean-error 4.4239, :max-error 8.5038}
+   {:subgroup (2 3 5 7 11 13), :mean-error 3.8247, :max-error 8.5038})})

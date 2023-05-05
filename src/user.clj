@@ -19,13 +19,20 @@
   [path]
   (edn/read-string (slurp (format "data/%s.edn" path))))
 
-(defn compute-edo-subgroups []
-  (let [size-range [5 99]
+(defn compute-edos-by-subgroup []
+  (let [size-range [15 99]
         data (for [s number/viable-subgroups]
                {:subgroup s
                 :best-edos (edo/best-in-subgroup size-range s)
                 :viable-edos (map :edo (edo/in-subgroup size-range s))})]
-    (save-edn "edo-subgroups" data)))
+    (save-edn "edos-by-subgroup" data)))
+
+(defn compute-subgroups-by-edo []
+  (save-edn "subgroups-by-edo"
+            (for [n (range 15 100)]
+              {:edo n
+               :subgroups (-> (edo/as-temperament n [2 3 5 7 11 13])
+                              temperament/errors-by-subgroup)})))
 
 (comment
   (def t (temperament/named "diaschismic"))
@@ -43,6 +50,7 @@
 
   (scale/chromatic-scale (edo/as-temperament 17 [2 3]))
 
-  (compute-edo-subgroups)
+  (compute-edos-by-subgroup)
+  (compute-subgroups-by-edo)
 
   :rcf)

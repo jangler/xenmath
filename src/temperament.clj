@@ -123,3 +123,12 @@
                  (dec n)
                  (if (< e2 e) e2 e)))
         (map #(number/places 4 %)(:generators t))))))
+
+(defn errors-by-subgroup
+  [t]
+  (->> (for [s number/viable-subgroups]
+         (conj {:subgroup s}
+                (dissoc (error-stats (interval/subgroup 15 s) t)
+                        :errors)))
+       (filter #(< (:max-error %) 15))
+       (sort-by :max-error)))
