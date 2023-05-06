@@ -81,22 +81,24 @@
       (dissoc nil)))
 
 (defn genchain
-  "Return the genchain of temperament t to n notes."
-  [n t]
-  (let [gs (:generators t)
-        rs (interval/odd-limit 15)
-        ms (tmap-generator-all t rs)]
-    (for [i (range (/ n (/ 1200 (first gs))))]
-      (let [cs (for [j (range (/ 1200 (first gs)))]
-                 (mod (+ (* (first gs) j) (* (second gs) i))
-                      1200))]
-        {:cents cs
-         :ratios (or (ms i) [])
-         :also-near (filter (fn [r]
-                         (let [c (interval/cents r)]
-                           (and (not-any? #(= % r) (ms i))
-                                (some #(< (abs (- c %)) 20) cs))))
-                       rs)}))))
+  "Return the genchain of temperament t to n notes, listing potential
+   unmapped intervals with less than tolerance cents of error (default 15)."
+  ([n t] (genchain n t 15))
+  ([n t tolerance]
+   (let [gs (:generators t)
+         rs (interval/odd-limit 15)
+         ms (tmap-generator-all t rs)]
+     (for [i (range (/ n (/ 1200 (first gs))))]
+       (let [cs (for [j (range (/ 1200 (first gs)))]
+                  (mod (+ (* (first gs) j) (* (second gs) i))
+                       1200))]
+         {:cents cs
+          :ratios (or (ms i) [])
+          :also-near (filter (fn [r]
+                               (let [c (interval/cents r)]
+                                 (and (not-any? #(= % r) (ms i))
+                                      (some #(< (abs (- c %)) tolerance) cs))))
+                             rs)})))))
 
 (defn flat-genchain
   "Return only the intervals in the genchain of temperament t to n notes."

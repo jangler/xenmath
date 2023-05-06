@@ -31,12 +31,14 @@
 (defn step-sizes
   "Returns a set of step sizes in a scale."
   [scale]
-  (reduce (fn [sizes size]
-            (if (some #(near % size) sizes)
-              sizes
-              (conj sizes size)))
-          #{}
-          (map first (modes scale))))
+  (->> (map first (modes scale))
+       (reduce (fn [sizes size]
+                 (if (some #(near % size) sizes)
+                   sizes
+                   (conj sizes size)))
+               [])
+       sort
+       reverse))
 
 (defn mos?
   "Returns true if a scale is a MOS scale."

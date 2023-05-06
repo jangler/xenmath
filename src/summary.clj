@@ -6,9 +6,9 @@
 ; TODO: edos supporting the temperament
 (defn summary [t]
   (let [ms (scale/moses (:generators t) [5 24])
-        es (temperament/error-stats (interval/odd-limit 15) t)]
+        gc (map :ratios (temperament/genchain (count (last ms)) t))
+        es (temperament/error-stats (flatten gc) t)]
     (conj t {:moses (map count ms)
              :proper-moses (map count (filter scale/proper? ms))
              :mean-error (:mean-error es)
-             :genchain (->> (temperament/genchain (count (last ms)) t)
-                            (map :ratios))})))
+             :genchain gc})))
