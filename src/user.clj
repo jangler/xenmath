@@ -1,13 +1,15 @@
 (ns user
   (:require [edo]
             [interval]
+            [notation]
             [number]
             [scale]
             [search]
             [summary :refer [summary]]
             [temperament]
             [clojure.edn :as edn]
-            [clojure.pprint :refer [pprint]]))
+            [clojure.pprint :refer [pprint]]
+            [clojure.string :as str]))
 
 (defn save-edn
   "Write v to path as edn."
@@ -41,14 +43,30 @@
                              2))
         periods-per-octave (/ 1200 (first (:generators s)))
         index-factor (fn [i]
-                       (- 1 (* i periods-per-octave 1/24)))
+                       (max 0 (- 1 (* i periods-per-octave 1/14))))
         genchain-score (->> (:genchain s)
                             (map-indexed (fn [i rs]
                                            (* (index-factor i)
                                               (reduce + (map interval-weight rs)))))
                             (reduce +))
-        error-penalty (* 1/5 (max 0 (- (:mean-error s) 5)))]
+        error-penalty (* 1/6 (max 0 (- (:mean-error s) 4)))]
     (float (- genchain-score error-penalty))))
+
+(defn print-csv-notation-matrix [n t]
+  (let [gc (map :ratios (temperament/genchain (* n 2) t))
+        cgc (reverse (map (fn [rs]
+                            (map #(/ 2 %) rs))
+                          gc))
+        format-row (fn [vs]
+                     (->> vs
+                          (map #(str/join "~" %))
+                          (str/join ", ")))]
+    (->> (map format-row [(take (dec n) cgc)
+                          (drop-last (drop n cgc))
+                          (rest (take n gc))
+                          (rest (drop n gc))])
+         (str/join "\n")
+         println)))
 
 (comment
   (def t (temperament/named "tetracot"))
@@ -75,5 +93,12 @@
                :score (score-temperament s)}))
        (sort-by :score)
        reverse)
+  
+  (let [n (notation/all-notation (interval/odd-limit 15) t 7 0 false)]
+    (for [q ["d" "m" "M" "A"]
+          i (range 1 8)]
+      (let [s (str q i)]
+        [s (map :ratio (filter #(= (:notation %) s) n))])))
+  (scale/moses [1200 (second (:generators t))] [7 13])
 
   :rcf)

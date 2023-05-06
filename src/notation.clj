@@ -1,6 +1,6 @@
 (ns notation
   (:require [clojure.math :as math]
-            [numbers :refer [factors prime-indices rational-power]]
+            [number :refer [factors prime-indices rational-power]]
             [interval :refer [monzo]]
             [temperament]))
 
@@ -98,7 +98,7 @@
   "Return all notation for intervals of interest in a scale, formatted nicely."
   ([rs t n mode reverse-chroma] (all-notation rs t n mode reverse-chroma #{1}))
   ([rs t n mode reverse-chroma perfect-intervals]
-   (->> (concat rs (map #(octave-reduce (/ 1 %)) rs))
+   (->> rs
         (filter #(temperament/maps? t %))
         (map (fn [r]
                {:ratio r
