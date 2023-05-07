@@ -12,14 +12,15 @@
         [n]
         (conj (factors (/ n i)) i)))))
 
+(def primes
+  "Primes in the 27-odd-limit."
+  [2 3 5 7 11 13 17 19 23])
+
 (def prime-indices
   "Map of primes to their indices in a mapping or generator list."
-  {2 0
-   3 1
-   5 2
-   7 3
-   11 4
-   13 5})
+  (->> primes
+       (map-indexed (fn [i x] [x i]))
+       (into {})))
 
 (defn rational-power [r p]
   (cond (zero? p) 1
@@ -34,10 +35,9 @@
 
 (def viable-subgroups
   "15-odd-limit subgroups that map 2, and at least one of 3 and 5."
-  (let [primes [2 3 5 7 11 13]]
-    (for [n (range 3 (inc (count primes)))
-          c (combo/combinations [2 3 5 7 11 13] n)
-          :when (and (some #{2} c)
-                     (or (some #{3} c)
-                         (some #{5} c)))]
-      c)))
+  (for [n (range 3 (inc (count primes)))
+        c (combo/combinations primes n)
+        :when (and (some #{2} c)
+                   (or (some #{3} c)
+                       (some #{5} c)))]
+    c))

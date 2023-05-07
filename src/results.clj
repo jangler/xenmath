@@ -4,6 +4,7 @@
             [notation]
             [scale]
             [temperament :refer [error-stats]]
+            [var]
             [clojure.math :as math]
             [clojure.set :refer [union]]))
 
@@ -230,7 +231,7 @@
   "Return notation for a planar temperament. The second generator must be a
    fifth, and the third generator must be a comma."
   [t]
-  (->> (interval/odd-limit 15)
+  (->> (interval/odd-limit var/*odd-limit*)
        (filter #(temperament/maps? t %))
        (sort-by interval/factor-sum)
        (map (fn [r]

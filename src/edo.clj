@@ -1,6 +1,7 @@
 (ns edo
   (:require [clojure.math :as math]
             [interval]
+            [number]
             [scale]
             [temperament]))
 
@@ -9,7 +10,7 @@
   [n primes]
   (let [g (/ 1200 n)
         pset (set primes)]
-    [(vec (for [p [2 3 5 7 11 13]]
+    [(vec (for [p number/primes]
             (if (pset p)
               (math/round (/ (interval/cents p) g))
               nil)))]))

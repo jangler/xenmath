@@ -11,7 +11,7 @@
         den-factors (number/factors (if (ratio? r)
                                        (denominator r)
                                        1))]
-    (vec (for [p [2 3 5 7 11 13]]
+    (vec (for [p number/primes]
            (- (count (filter #(= % p) num-factors))
               (count (filter #(= % p) den-factors)))))))
 
@@ -20,7 +20,7 @@
   [r]
   (->> (monzo r)
        (map abs)
-       (map * [2 3 5 7 11 13])
+       (map * number/primes)
        (reduce +)))
 
 (defn odd-limit

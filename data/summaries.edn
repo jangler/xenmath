@@ -25,7 +25,7 @@
    [])}
  {:name "bunya",
   :mapping [[1 1 1 -1 2 4] [0 4 9 26 10 -2]],
-  :generators [1200 175.8993],
+  :generators [1200 175.8992],
   :commas [100/99 144/143 225/224 243/242],
   :moses (5 6 7 13 20),
   :proper-moses (6 7),
@@ -53,11 +53,11 @@
    [])}
  {:name "catakleismic",
   :mapping [[1 0 1 -3 nil 0] [0 6 5 22 nil 14]],
-  :generators [1200 316.7651],
+  :generators [1200 316.6794],
   :commas [169/168 225/224 325/324],
   :moses (7 11 15 19),
   :proper-moses (15 19),
-  :mean-error 2.9205,
+  :mean-error 2.9955,
   :genchain
   ([]
    [6/5]
@@ -79,23 +79,23 @@
    [7/5]
    [])}
  {:name "diaschismic",
-  :mapping [[2 3 5 7 9 10] [0 1 -2 -8 -12 -15]],
-  :generators [600 103.8968],
-  :commas [126/125 176/175 196/195 364/363],
+  :mapping [[2 3 5 7 9 10 8] [0 1 -2 -8 -12 -15 1]],
+  :generators [600 104.2719],
+  :commas [126/125 136/135 176/175 196/195 256/255],
   :moses (6 8 10 12 22),
   :proper-moses (10 12),
-  :mean-error 3.5254,
+  :mean-error 4.4321,
   :genchain
-  ([]
-   [3/2 16/15]
-   [8/5 9/8]
-   [6/5 22/13]
+  ([17/12 24/17]
+   [3/2 16/15 18/17 17/16]
+   [8/5 9/8 17/15]
+   [6/5 17/10 22/13]
    [9/5 14/11]
    []
    [10/7]
    [15/14 14/13]
    [8/7]
-   [12/7]
+   [12/7 17/14]
    [9/7 20/11])}
  {:name "didacus",
   :mapping [[1 nil 2 2] [0 nil 2 5]],
@@ -108,7 +108,7 @@
   ([] [] [5/4] [7/5] [] [7/4] [] [] [] [] [] [] [] [] [] [] [] [] [])}
  {:name "meantone",
   :mapping [[1 2 4] [0 -1 -4]],
-  :generators [1200 503.4215],
+  :generators [1200 503.4216],
   :commas [81/80],
   :moses (5 7 12 19),
   :proper-moses (5 7 12 19),
@@ -135,7 +135,7 @@
    [])}
  {:name "monkey",
   :mapping [[1 1 1 5 2 4] [0 4 9 -15 10 -2]],
-  :generators [1200 175.7286],
+  :generators [1200 175.7287],
   :commas [100/99 105/104 144/143 243/242],
   :moses (5 6 7 13 20),
   :proper-moses (6 7),
@@ -193,11 +193,11 @@
    [])}
  {:name "pajara",
   :mapping [[2 3 5 6] [0 1 -2 -2]],
-  :generators [600 107.0357],
+  :generators [600 107.2727],
   :commas [50/49 64/63],
   :moses (6 8 10 12 22),
   :proper-moses (10 12 22),
-  :mean-error 9.982,
+  :mean-error 10.0017,
   :genchain
   ([7/5 10/7]
    [3/2 16/15 15/14]
@@ -212,11 +212,11 @@
    [])}
  {:name "porcupinefish",
   :mapping [[1 2 3 2 4 6] [0 -3 -5 6 -4 -17]],
-  :generators [1200 162.3682],
+  :generators [1200 162.3684],
   :commas [55/54 64/63 91/90 100/99],
   :moses (5 6 7 8 15 22),
   :proper-moses (7 8 15 22),
-  :mean-error 9.7362,
+  :mean-error 9.7363,
   :genchain
   ([]
    [10/9 12/11 11/10]
@@ -271,11 +271,11 @@
    [15/8])}
  {:name "semaja",
   :mapping [[1 -2 1 3 1 2] [0 19 7 -1 13 9]],
-  :generators [1200 226.3962],
+  :generators [1200 226.4187],
   :commas [121/120 169/168 176/175 275/273],
   :moses (5 6 11 16 21),
   :proper-moses (5 6 16),
-  :mean-error 4.8188,
+  :mean-error 4.746,
   :genchain
   ([]
    [8/7]
@@ -327,11 +327,11 @@
    [])}
  {:name "sensation",
   :mapping [[1 -1 -1 -2 nil 0] [0 7 9 13 nil 10]],
-  :generators [1200 443.1364],
+  :generators [1200 443.1363],
   :commas [91/90 126/125 169/168],
   :moses (5 8 11 19),
   :proper-moses (8 19),
-  :mean-error 6.0296,
+  :mean-error 6.0297,
   :genchain
   ([]
    [9/7 13/10]
@@ -381,11 +381,11 @@
    [])}
  {:name "shoe",
   :mapping [[1 nil 1 3 1 2] [0 nil 7 -1 13 9]],
-  :generators [1200 227.1699],
+  :generators [1200 227.1702],
   :commas [176/175 640/637 847/845],
   :moses (5 6 11 16 21),
   :proper-moses (5 6 16 21),
-  :mean-error 2.0238,
+  :mean-error 2.0235,
   :genchain
   ([]
    [8/7]
@@ -439,11 +439,11 @@
    [])}
  {:name "squares",
   :mapping [[1 3 8 6 7] [0 -4 -16 -9 -10]],
-  :generators [1200 425.8553],
+  :generators [1200 425.8554],
   :commas [66/65 81/80 99/98],
   :moses (5 8 11 14 17),
   :proper-moses (14),
-  :mean-error 5.6379,
+  :mean-error 5.6378,
   :genchain
   ([]
    [9/7 14/11]
@@ -464,19 +464,49 @@
    [8/5])}
  {:name "srutal",
   :mapping [[2 3 5] [0 1 -2]],
-  :generators [600 105.2137],
+  :generators [600 105.2139],
   :commas [2048/2025],
   :moses (6 8 10 12 22),
   :proper-moses (10 12),
-  :mean-error 3.8019,
+  :mean-error 3.8021,
   :genchain ([] [3/2 16/15] [8/5 9/8] [6/5] [9/5] [] [] [] [] [] [])}
+ {:name "suprapyth",
+  :mapping [[1 2 6 2 1] [0 -1 -9 2 6]],
+  :generators [1200 491.0003],
+  :commas [55/54 64/63 99/98],
+  :moses (5 7 12 17 22),
+  :proper-moses (5 17 22),
+  :mean-error 10.16,
+  :genchain
+  ([]
+   [4/3]
+   [7/4 16/9]
+   [7/6]
+   [14/9 11/7]
+   []
+   [11/8]
+   [9/5 11/6]
+   [6/5 11/9]
+   [8/5]
+   [16/15]
+   [7/5]
+   [28/15]
+   []
+   []
+   [11/10]
+   [22/15]
+   []
+   []
+   []
+   []
+   [])}
  {:name "tetracot",
   :mapping [[1 1 1 nil 2 4] [0 4 9 nil 10 -2]],
-  :generators [1200 175.8992],
+  :generators [1200 175.8995],
   :commas [100/99 144/143 243/242],
   :moses (5 6 7 13 20),
   :proper-moses (6 7),
-  :mean-error 5.7401,
+  :mean-error 5.7396,
   :genchain
   ([]
    [10/9 11/10]
@@ -500,11 +530,11 @@
    [])}
  {:name "ultrapyth",
   :mapping [[1 2 8 2 -1 11] [0 -1 -14 2 11 -18]],
-  :generators [1200 486.6374],
+  :generators [1200 486.6919],
   :commas [55/54 64/63 91/90 1573/1568],
   :moses (5 7 12 17 22),
   :proper-moses (5),
-  :mean-error 9.9014,
+  :mean-error 10.0104,
   :genchain
   ([]
    [4/3]

@@ -7,6 +7,7 @@
             [search]
             [summary :refer [summary]]
             [temperament]
+            [var]
             [clojure.edn :as edn]
             [clojure.pprint :refer [pprint]]
             [clojure.string :as str]))
@@ -36,7 +37,7 @@
                :subgroups (-> (edo/as-temperament n [2 3 5 7 11 13])
                               temperament/errors-by-subgroup)})))
 
-(defn score-temperament [s]
+(defn score-temperament [s free-error max-error]
   (let [interval-weight (fn [r]
                           (/ (+ (/ 1 (interval/factor-sum r))
                                 (/ 1 (interval/factor-sum (/ 2 r))))
@@ -49,8 +50,9 @@
                                            (* (index-factor i)
                                               (reduce + (map interval-weight rs)))))
                             (reduce +))
-        error-penalty (* 1/6 (max 0 (- (:mean-error s) 4)))]
-    (float (- genchain-score error-penalty))))
+        error-penalty (/ (max 0 (- (:mean-error s) free-error))
+                         (- max-error free-error))]
+    (float (* genchain-score (- 1 error-penalty)))))
 
 (defn print-csv-notation-matrix [n t]
   (let [gc (map :ratios (temperament/genchain (* n 2) t))
@@ -68,19 +70,36 @@
          (str/join "\n")
          println)))
 
+(defn switch-generator
+  "Return a version of temperament t with its generator switched between
+   bright and dark."
+  [t]
+  (-> t
+      (update :generators (fn [v]
+                            [(first v)
+                             (- (first v) (second v))]))
+      (update :mapping (fn [v]
+                         [(first v) (map - (second v))]))))
+
 (comment
-  (def t (temperament/named "tetracot"))
+  (def t (temperament/named "sensation"))
 
   (summary t)
   (save-edn "summaries" (map summary (temperament/load-all)))
 
-  (temperament/optimize 20 t)
+  (temperament/optimize 14 t)
+  (map (fn [t] [(:name t) (temperament/optimize 14 t)])
+       (temperament/load-all))
+
   (temperament/error-stats (temperament/flat-genchain 16 t) t)
 
-  (temperament/genchain 22 t 10)
+  (switch-generator t)
+
+  (temperament/genchain 10 t 0)
+  (temperament/genchain 10 (switch-generator t) 0)
 
   (->> (edo/as-temperament 17 [2 3 13])
-       (temperament/error-stats (interval/odd-limit 15)))
+       (temperament/error-stats (interval/odd-limit var/*odd-limit*)))
 
   (scale/chromatic-scale (edo/as-temperament 17 [2 3]))
 
@@ -90,15 +109,17 @@
   (->> (load-edn "summaries")
        (map (fn [s]
               {:name (:name s)
-               :score (score-temperament s)}))
+               :score (score-temperament s 3 12)}))
        (sort-by :score)
-       reverse)
-  
-  (let [n (notation/all-notation (interval/odd-limit 15) t 7 0 false)]
-    (for [q ["d" "m" "M" "A"]
-          i (range 1 8)]
+       reverse
+       (take 10))
+
+  (let [n (notation/all-notation (interval/odd-limit var/*odd-limit*) t 8 5 true)]
+    (for [i (range 1 9)
+          q ["d" "m" "M" "A"]]
       (let [s (str q i)]
         [s (map :ratio (filter #(= (:notation %) s) n))])))
   (scale/moses [1200 (second (:generators t))] [7 13])
+  (scale/moses (:generators t) [10 10])
 
   :rcf)

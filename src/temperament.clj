@@ -2,7 +2,8 @@
   (:require [clojure.edn :as edn]
             [clojure.math :as math]
             [interval]
-            [number]))
+            [number]
+            [var]))
 
 (def store-path
   "File path where temperaments are stored."
@@ -86,11 +87,13 @@
   ([n t] (genchain n t 15))
   ([n t tolerance]
    (let [gs (:generators t)
-         rs (interval/odd-limit 15)
-         ms (tmap-generator-all t rs)]
-     (for [i (range (/ n (/ 1200 (first gs))))]
-       (let [cs (for [j (range (/ 1200 (first gs)))]
-                  (mod (+ (* (first gs) j) (* (second gs) i))
+         rs (interval/odd-limit var/*odd-limit*)
+         ms (tmap-generator-all t rs)
+         per (first gs)
+         ppo (/ 1200 per)]
+     (for [i (range (/ n ppo))]
+       (let [cs (for [j (range ppo)]
+                  (mod (+ (* per j) (* (second gs) i))
                        1200))]
          {:cents cs
           :ratios (or (ms i) [])
