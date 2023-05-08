@@ -1,4 +1,8 @@
-[{:name "beatles"
+[{:name "archy"
+  :mapping [[1 2 nil 2] [0 -1 nil 2]]
+  :generators [1200 491.2289]
+  :commas [64/63]}
+ {:name "beatles"
   :mapping [[1 1 5 4 10 4] [0 2 -9 -4 -22 -1]]
   :generators [1200 355.9674]
   :commas [64/63 91/90 100/99 169/168]}
@@ -18,6 +22,26 @@
   :mapping [[1 nil 2 2] [0 nil 2 5]]
   :generators [1200 193.7652]
   :commas [3136/3125]}
+ {:name "echidna"
+  :mapping [[2 4 3 7 5] [0 -3 6 -5 7]]
+  :generators [600 164.9306]
+  :commas [176/175 540/539 896/891]}
+ {:name "godzilla"
+  :mapping [[1 2 4 3] [0 -2 -8 -1]]
+  :generators [1200 251.711]
+  :commas [49/48, 81/80]}
+ {:name "keemun"
+  :mapping [[1 0 1 2] [0 6 5 3]]
+  :generators [1200 316.9923]
+  :commas [49/48 126/125]}
+ {:name "keen"
+  :mapping [[2 3 5 4 8] [0 1 -2 9 -6]]
+  :generators [600 106.5741]
+  :commas [100/99 385/384 1232/1215]}
+ {:name "leapday"
+  :mapping [[1 2 11 9 8 7] [0 -1 -21 -15 -11 -8]]
+  :generators [1200 495.6877]
+  :commas [91/90 121/120 169/168 352/351]}
  {:name "meantone"
   :mapping [[1 2 4] [0 -1 -4]]
   :generators [1200 503.4216]
@@ -74,6 +98,10 @@
   :mapping [[2 3 5] [0 1 -2]]
   :generators [600 105.2139]
   :commas [2048/2025]}
+ {:name "superpyth"
+  :mapping [[1 2 6 2] [0 -1 -9 2]]
+  :generators [1200 490.4096]
+  :commas [64/63 245/243]}
  {:name "suprapyth"
   :mapping [[1 2 6 2 1] [0 -1 -9 2 6]]
   :generators [1200 491.0003]

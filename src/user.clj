@@ -22,19 +22,19 @@
   [path]
   (edn/read-string (slurp (format "data/%s.edn" path))))
 
-(defn compute-edos-by-subgroup []
-  (let [size-range [15 99]
-        data (for [s number/viable-subgroups]
+(defn compute-edos-by-subgroup [m n]
+  (let [size-range [m n]
+        data (for [s (number/viable-subgroups)]
                {:subgroup s
                 :best-edos (edo/best-in-subgroup size-range s)
                 :viable-edos (map :edo (edo/in-subgroup size-range s))})]
-    (save-edn "edos-by-subgroup" data)))
+    (save-edn (format "edos-by-subgroup-%d" var/*odd-limit*) data)))
 
-(defn compute-subgroups-by-edo []
-  (save-edn "subgroups-by-edo"
-            (for [n (range 15 100)]
+(defn compute-subgroups-by-edo [m n]
+  (save-edn (format "subgroups-by-edo-%d" var/*odd-limit*)
+            (for [n (range m (inc n))]
               {:edo n
-               :subgroups (-> (edo/as-temperament n [2 3 5 7 11 13])
+               :subgroups (-> (edo/as-temperament n number/primes)
                               temperament/errors-by-subgroup)})))
 
 (defn score-temperament [s free-error max-error]
@@ -45,12 +45,14 @@
         periods-per-octave (/ 1200 (first (:generators s)))
         index-factor (fn [i]
                        (max 0 (- 1 (* i periods-per-octave 1/14))))
-        genchain-score (->> (:genchain s)
+        genchain-score (->> (temperament/genchain 14 s 0)
+                            (map :ratios)
                             (map-indexed (fn [i rs]
                                            (* (index-factor i)
                                               (reduce + (map interval-weight rs)))))
                             (reduce +))
-        error-penalty (/ (max 0 (- (:mean-error s) free-error))
+        es (temperament/error-stats (interval/odd-limit var/*odd-limit*) s)
+        error-penalty (/ (max 0 (- (:mean-error es) free-error))
                          (- max-error free-error))]
     (float (* genchain-score (- 1 error-penalty)))))
 
@@ -82,7 +84,7 @@
                          [(first v) (map - (second v))]))))
 
 (comment
-  (def t (temperament/named "sensation"))
+  (def t (temperament/named "keen"))
 
   (summary t)
   (save-edn "summaries" (map summary (temperament/load-all)))
@@ -95,31 +97,37 @@
 
   (switch-generator t)
 
-  (temperament/genchain 10 t 0)
-  (temperament/genchain 10 (switch-generator t) 0)
+  (temperament/genchain 12 t 0)
+  (temperament/genchain 12 (switch-generator t) 0)
 
   (->> (edo/as-temperament 17 [2 3 13])
        (temperament/error-stats (interval/odd-limit var/*odd-limit*)))
 
   (scale/chromatic-scale (edo/as-temperament 17 [2 3]))
 
-  (compute-edos-by-subgroup)
-  (compute-subgroups-by-edo)
+  (compute-edos-by-subgroup 5 72)
+  (binding [var/*odd-limit* 27]
+   (compute-subgroups-by-edo 5 24))
 
-  (->> (load-edn "summaries")
-       (map (fn [s]
-              {:name (:name s)
-               :score (score-temperament s 3 12)}))
-       (sort-by :score)
-       reverse
-       (take 10))
+  (binding [var/*odd-limit* 9]
+    (->> (load-edn "summaries")
+         (map (fn [s]
+                {:name (:name s)
+                 :score (score-temperament s 3 20)}))
+         (sort-by :score)
+         reverse
+         (take 10)))
 
-  (let [n (notation/all-notation (interval/odd-limit var/*odd-limit*) t 8 5 true)]
+  (let [n (notation/all-notation (interval/odd-limit var/*odd-limit*) t 7 5 true)]
     (for [i (range 1 9)
           q ["d" "m" "M" "A"]]
       (let [s (str q i)]
         [s (map :ratio (filter #(= (:notation %) s) n))])))
   (scale/moses [1200 (second (:generators t))] [7 13])
-  (scale/moses (:generators t) [10 10])
+  (scale/moses (:generators (switch-generator t)) [10 22])
+
+  (->> (interval/subgroup 27 [2 3 17 19])
+       (map (fn [r] [r (interval/cents r)]))
+       (sort-by second))
 
   :rcf)

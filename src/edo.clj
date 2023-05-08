@@ -3,7 +3,8 @@
             [interval]
             [number]
             [scale]
-            [temperament]))
+            [temperament]
+            var))
 
 (defn mapping
   "Returns the best mapping of the given primes for the edo of size n."
@@ -26,7 +27,7 @@
   "Return edos from min-size to max-size that map the given primes with
    acceptable accuracy."
   [[min-size max-size] primes]
-  (let [rs (interval/subgroup 15 primes)]
+  (let [rs (interval/subgroup var/*odd-limit* primes)]
     (->> (range min-size (inc max-size))
          (map (fn [n]
                 (let [es (->> (as-temperament n primes)
@@ -34,7 +35,7 @@
                   {:edo n
                    :mean-error (:mean-error es)
                    :max-error (:max-error es)})))
-         (filter #(< (:max-error %) 15)))))
+         (filter #(< (:max-error %) var/*odd-limit*)))))
 
 (defn strip-nondecreasing-error
   "Given a return value from in-subgroup, strip edos without lower mean and max

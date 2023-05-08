@@ -1,5 +1,6 @@
 (ns number 
-  (:require [clojure.math :as math]
+  (:require var
+            [clojure.math :as math]
             [clojure.math.combinatorics :as combo]))
 
 (defn factors
@@ -33,11 +34,13 @@
   (let [f (math/pow 10 n)]
     (/ (math/round (* f x)) f)))
 
-(def viable-subgroups
-  "15-odd-limit subgroups that map 2, and at least one of 3 and 5."
-  (for [n (range 3 (inc (count primes)))
-        c (combo/combinations primes n)
-        :when (and (some #{2} c)
-                   (or (some #{3} c)
-                       (some #{5} c)))]
-    c))
+(defn viable-subgroups
+  "Return ubgroups that map 2, and at least one of 3 and 5."
+  []
+  (let [ps (filter #(< % var/*odd-limit*) primes)]
+    (for [n (range 3 (inc (count ps)))
+          c (combo/combinations ps n)
+          :when (and (some #{2} c)
+                     (or (some #{3} c)
+                         (some #{5} c)))]
+      c)))

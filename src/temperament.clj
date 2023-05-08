@@ -131,9 +131,9 @@
 
 (defn errors-by-subgroup
   [t]
-  (->> (for [s number/viable-subgroups]
+  (->> (for [s (number/viable-subgroups)]
          (conj {:subgroup s}
-                (dissoc (error-stats (interval/subgroup 15 s) t)
+                (dissoc (error-stats (interval/subgroup var/*odd-limit* s) t)
                         :errors)))
        (filter #(< (:max-error %) 15))
        (sort-by :max-error)))
