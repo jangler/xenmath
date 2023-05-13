@@ -15,7 +15,7 @@
 
 (def primes
   "Primes in the 27-odd-limit."
-  [2 3 5 7 11 13 17 19 23])
+  [2 3 5 7 11 13 17 19 23 29 31])
 
 (def prime-indices
   "Map of primes to their indices in a mapping or generator list."
@@ -35,12 +35,10 @@
     (/ (math/round (* f x)) f)))
 
 (defn viable-subgroups
-  "Return ubgroups that map 2, and at least one of 3 and 5."
+  "Return subgroups mapping 2 within the odd-limit."
   []
   (let [ps (filter #(< % var/*odd-limit*) primes)]
     (for [n (range 3 (inc (count ps)))
           c (combo/combinations ps n)
-          :when (and (some #{2} c)
-                     (or (some #{3} c)
-                         (some #{5} c)))]
+          :when (some #{2} c)]
       c)))

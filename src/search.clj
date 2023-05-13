@@ -5,7 +5,7 @@
             [clojure.math :as math]
             [clojure.math.combinatorics :as combo]
             [scale]
-            [numbers :refer [prime-indices]]
+            [number :refer [prime-indices]]
             [interval]
             [temperament]))
 

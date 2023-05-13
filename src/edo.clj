@@ -72,3 +72,19 @@
        :cents (float g)
        :all (map count ms)
        :matching (map count (filter pred ms))})))
+
+(defn supporting
+  "Return EDOs from xs supporting temperament t."
+  [xs t]
+  (let [ps (temperament/primes t)
+        rs (interval/subgroup var/*odd-limit* ps)]
+    (->> xs
+         (keep (fn [n]
+                (let [e (edo/as-temperament n ps)]
+                  (when (every? #(zero? (first %))
+                              (map #(temperament/tmap e %) (:commas t)))
+                    (-> (temperament/error-stats rs e)
+                        (select-keys [:mean-error :max-error])
+                        (assoc :edo n))))))
+         (filter #(< (:max-error %) 20))
+         (sort-by :mean-error))))

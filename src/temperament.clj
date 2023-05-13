@@ -1,6 +1,7 @@
 (ns temperament
   (:require [clojure.edn :as edn]
             [clojure.math :as math]
+            [clojure.set :as set]
             [interval]
             [number]
             [var]))
@@ -127,13 +128,21 @@
           (recur (if (< e2 e) t2 t)
                  (dec n)
                  (if (< e2 e) e2 e)))
-        (map #(number/places 4 %)(:generators t))))))
+        (map #(number/places 4 %) (:generators t))))))
 
 (defn errors-by-subgroup
   [t]
   (->> (for [s (number/viable-subgroups)]
          (conj {:subgroup s}
-                (dissoc (error-stats (interval/subgroup var/*odd-limit* s) t)
-                        :errors)))
+               (dissoc (error-stats (interval/subgroup var/*odd-limit* s) t)
+                       :errors)))
        (filter #(< (:max-error %) 15))
        (sort-by :max-error)))
+
+(defn primes
+  "Returns primes mapped by temperament t."
+  [t]
+  (let [m (set/map-invert number/prime-indices)]
+    (->> (first (t :mapping))
+         (keep-indexed (fn [i x]
+                         (if (some? x) (m i) nil))))))

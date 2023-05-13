@@ -118,11 +118,11 @@
   (->> (edos-with-comma-steps commas)
        (filter #(pred (:comma-steps %)))))
 
-(defn all-edos-tempering-out [& commas]
+(defn all-edos-tempering-out [commas]
   (filter-comma-steps commas #(every? zero? %)))
 
-(defn edos-tempering-out [& commas]
-  (edo/strip-nondecreasing-error (apply all-edos-tempering-out commas)))
+(defn edos-tempering-out [commas]
+  (edo/strip-nondecreasing-error (all-edos-tempering-out commas)))
 
 (defn mos-report [[per gen]]
   (->> (scale/moses [per gen] [3 24])
@@ -131,36 +131,6 @@
                :proper (scale/proper? s)}))))
 
 (comment
-  (edos-tempering-out 81/80 225/224) ; septimal meantone
-  (edos-tempering-out 64/63 245/243) ; superpyth
-  (edos-tempering-out 55/54 64/63 99/98) ; suprapyth
-  (edos-tempering-out 5120/5103) ; hemifamity
-  (edos-tempering-out 225/224) ; marvel
-  (edos-tempering-out 32805/32768) ; schismatic
-  (edos-tempering-out 225/224 3125/3087) ; garibaldi
-  (edos-tempering-out 225/224 385/384 2200/2187) ; cassandra
-  (edos-tempering-out 100/99 225/224 245/242) ; andromeda
-  (edos-tempering-out 91/90 121/120 169/168 352/351) ; leapday
-  (edos-tempering-out 81/80 105/104 126/125) ; erato
-  (edos-tempering-out 50/49 64/63) ; pajara
-  (edos-tempering-out 2048/2025 4375/4374) ; srutal
-  (edos-tempering-out 875/864 2048/2025) ; keen
-  (edos-tempering-out 1728/1715 2048/2025) ; echidna
-  (edos-tempering-out 250/243) ; porcupine
-  (edos-tempering-out 20000/19683) ; tetracot
-  (edos-tempering-out 875/864 5120/5103) ; monkey
-  (edos-tempering-out 225/224 15625/15309) ; bunya
-  (edos-tempering-out 15625/15552) ; hanson/kleismic
-  (edos-tempering-out 225/224 4375/4374) ; catakleismic
-  (edos-tempering-out 64/63 99/98) ; machine
-  (edos-tempering-out 1029/1024 3136/3125) ; hemithirds
-  (edos-tempering-out 99/98 9317/9216) ; joan
-  (edos-tempering-out 352/351 364/363) ; parapyth
-  (edos-tempering-out 1029/1024) ; slendric
-  (edos-tempering-out 81/80 1029/1024) ; mothra
-  (edos-tempering-out 245/243 1029/1024) ; rodan
-  (edos-tempering-out 1029/1024 10976/10935) ; guiron
-
   (mos-report [1200 176]) ; tetracot
   (mos-report [600 705]) ; srutal
   (mos-report [600 435]) ; echidna
