@@ -196,13 +196,3 @@
   (fifth-tempering 81/80 59049/57344 1053/1024)
   (fifth-tempering 1029/1024)
   :rcf)
-
-(defn all-notation-planar
-  "Return notation for a planar temperament. The second generator must be a
-   fifth, and the third generator must be a comma."
-  [t]
-  (->> (interval/odd-limit var/*odd-limit*)
-       (filter #(temperament/maps? t %))
-       (sort-by interval/factor-sum)
-       (map (fn [r]
-              [r (notation/notate-planar r t)]))))

@@ -90,14 +90,20 @@
                          [(first v) (map - (second v))]))))
 
 (comment
-  (def t (temperament/named "hemififths"))
+  (def t (temperament/named "tetracot"))
+
+  (def t {:name "superpyth",
+          :mapping [[1 2 6 2 4] [0 -1 -9 2 1] [0 0 0 0 1]],
+          :generators [1200 490.4096 89]})
+  (notation/notate-planar 3/2 t)
 
   (summary t)
   (save-edn "summaries" (map summary (temperament/load-all)))
 
-  (edo/supporting (range 5 100) t)
+  (edo/supporting (range 5 54) t)
 
-  (temperament/optimize 14 t)
+  (binding [var/*odd-limit* 9]
+    (temperament/optimize 14 t))
   (->> ["supra" "skwares" "mohaha" "porkypine"]
        (map (fn [name]
               (let [t (temperament/named name)]
@@ -115,36 +121,41 @@
 
   (scale/chromatic-scale (edo/as-temperament 17 [2 3]))
 
-  (compute-edos-by-subgroup 5 72)
-  (future (binding [var/*odd-limit* 15]
+  (binding [var/*odd-limit* 9]
+    (->> [[2 3 5] [2 3 7] [2 3 5 7]]
+         (map #(interval/subgroup 9 %))
+         (map #(select-keys (->> (edo/as-temperament 53 [2 3 5 7])
+                                 (temperament/error-stats %))
+                            [:mean-error :max-error]))))
+
+  (future (binding [var/*odd-limit* 9]
+            (compute-edos-by-subgroup 5 99)
             (compute-subgroups-by-edo (range 5 (inc 99)))))
 
-  (binding [var/*odd-limit* 11]
+  (binding [var/*odd-limit* 9]
     (->> (load-edn "summaries")
          (map (fn [t]
                 {:name (:name t)
-                 :score (score-temperament t 3 15)}))
+                 :score (score-temperament t 3 18)}))
          (sort-by :score)
          reverse
          (take 10)))
 
-  (let [n (notation/all-notation (interval/odd-limit var/*odd-limit*) t 7 0 false)]
+  (let [n (notation/all-notation (interval/odd-limit 27) t 7 5 true #{1})]
     (for [i (range 1 8)
           q ["d" "m" "P" "M" "A"]]
       (let [t (str q i)]
         [t (map :ratio (filter #(= (:notation %) t) n))])))
   (scale/moses [1200 (second (:generators t))] [7 13])
-  (->> (scale/moses (:generators (switch-generator t)) [7 10])
-       last
-       scale/modes)
+  (->> (scale/moses (:generators t) [7 13]))
 
   (->> (interval/subgroup 27 [2 3 17 19])
        (map (fn [r] [r (interval/cents r)]))
        (sort-by second))
-  
+
   (let [t (edo/as-temperament 20 [2 7 11 13 19 29])]
     (map #(temperament/tmap t %) [22/19 29/19]))
-  
+
   (let [t (edo/as-temperament 24 [2 3 11 17 19])
         es (temperament/error-stats (interval/odd-limit 31) t)]
     [(:mean-error es)
@@ -164,7 +175,7 @@
               {:ratio r
                :cents (interval/cents r)}))
        (sort-by :cents))
-  
+
   ; TODO make this work right with rationals
   (scale/modes [9/8 5/4 11/8 3/2 5/3 7/4 2/1])
 

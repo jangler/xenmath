@@ -2,7 +2,8 @@
   (:require [clojure.math :as math]
             [number :refer [factors prime-indices rational-power]]
             [interval :refer [monzo]]
-            [temperament]))
+            [temperament]
+            var))
 
 (defn mod-within
   "Like modulo, but returns a value between a and b instead of within 0 and n."
@@ -137,6 +138,16 @@
                 (apply str (map (fn [_] "/") (range (nth m 2))))
                 "")]
     (str drops lifts downs ups quality degree)))
+
+(defn all-planar
+  "Return notation for a planar temperament. The second generator must be a
+   fifth, and the third generator must be a comma."
+  [t]
+  (->> (interval/odd-limit var/*odd-limit*)
+       (filter #(temperament/maps? t %))
+       (sort-by interval/factor-sum)
+       (map (fn [r]
+              [r (notation/notate-planar r t)]))))
 
 (defn udn-degree [tertial-r]
   (nth [4 1 5 2 6 3 7] (mod (inc (second (monzo tertial-r))) 7)))

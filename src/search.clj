@@ -7,13 +7,13 @@
             [scale]
             [number :refer [prime-indices]]
             [interval]
-            [temperament]))
+            [temperament]
+            var))
 
 ; TODO: chromaticism
 ; TODO: mapping non-primes (9 and 15)
 
 (def save-path "data/search-results.edn")
-(def odd-limit 15)
 (def smallest-consonance 10/9)
 (def degrees-with-triads-fraction 1)
 (def min-mean-triads-per-degree 2)
@@ -27,7 +27,7 @@
   1)
 
 (def consonances
-  (->> (range 3 (inc odd-limit))
+  (->> (range 3 (inc var/*odd-limit*))
        (map (fn [i]
               (for [j (range (int (math/ceil (/ i 1.999))) i)]
                 (/ i j))))
@@ -88,7 +88,7 @@
   (->> consonances
        (map (fn [r]
               {:ratio r
-               :vector (temperament/tmap {:mappng mapping} r)}))
+               :vector (temperament/tmap {:mapping mapping} r)}))
        (filter (fn [m]
                  (and (some? (m :vector))
                       (some #(= % (m :vector)) scale))))
@@ -119,7 +119,7 @@
   [a b]
   (and (->> [a b (/ (max a b) (min a b))]
             (every? #(contains? consonances %)))
-       (every? #(or (even? %) (<= % odd-limit))
+       (every? #(or (even? %) (<= % var/*odd-limit*))
                (triad-form a b))))
 
 (defn mode-triads
@@ -130,7 +130,6 @@
     (->> (combo/combinations cs 2)
          (filter #(apply form-consonant-triad? %))
          (map #(apply triad-form %)))))
-
 
 (defn scale-triads
   "Return available 15-odd-limit triads on each scale degree."

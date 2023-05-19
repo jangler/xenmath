@@ -42,6 +42,11 @@
   [t r]
   (some? (tmap t r)))
 
+(defn edosteps
+  "Returns the steps to interval r in rank-1 temperament t."
+  [t r]
+  (first (tmap t r)))
+
 (defn tuning
   "Returns the cents of interval r in temperament t."
   [r t]

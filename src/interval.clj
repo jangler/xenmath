@@ -1,16 +1,18 @@
 (ns interval
   (:require [clojure.math :as math]
-            [number]))
+            [clojure.string :as str]
+            [number]
+            [clojure.math.combinatorics :as combo]))
 
 (defn monzo
   "Returns a prime exponent vector for ratio r."
   [r]
   (let [num-factors (number/factors (if (ratio? r)
-                                       (numerator r)
-                                       r))
+                                      (numerator r)
+                                      r))
         den-factors (number/factors (if (ratio? r)
-                                       (denominator r)
-                                       1))]
+                                      (denominator r)
+                                      1))]
     (vec (for [p number/primes]
            (- (count (filter #(= % p) num-factors))
               (count (filter #(= % p) den-factors)))))))
@@ -55,3 +57,64 @@
   (let [ps (set ps)]
     (filter #(every? ps (interval/primes %))
             (odd-limit n))))
+
+(defn beating-dissonance
+  "Return a score for beating dissonance in interval r, from 0 to 1."
+  [r]
+  (let [c (cents r)]
+    (cond
+      (< c 60) (/ c 60)
+      (< c 120) (- 1 (/ (- c 60) 120))
+      (< c 180) (- 1/2 (/ (- c 120) 180))
+      (< c 240) (- 1/6 (/ (- c 180) 360))
+      :else 0)))
+
+(defn tension
+  "Return an estimate of harmonic clashing in interval r."
+  [r]
+  (let [hs1 (for [i (range 1 17)]
+              {:pitch i
+               :volume (/ i)})
+        hs2 (for [h hs1]
+              (update h :pitch #(* r %)))]
+    (reduce + (for [h1 hs1
+                    h2 hs2]
+                (let [[p1 p2] (map :pitch [h1 h2])]
+                  (* (beating-dissonance (/ (max p1 p2) (min p1 p2)))
+                     (:volume h1)
+                     (:volume h2)))))))
+
+(defn from-cents
+  "Convert cents to a (float) ratio."
+  [c]
+  (math/pow 2 (/ c 1200)))
+
+; this doesn't really give reasonable results
+(defn chord-tension
+  "Return an estimate of harmonic clashing in chord rs."
+  [rs]
+  (let [hs (for [r rs
+                 i (range 1 17)]
+             {:pitch (* r i)
+              :volume (/ i)})]
+    (->> (combo/combinations hs 2)
+         (map (fn [[h1 h2]]
+                (let [[p1 p2] (map :pitch [h1 h2])]
+                  (* (beating-dissonance (/ (max p1 p2) (min p1 p2)))
+                     (:volume h1)
+                     (:volume h2)))))
+         (reduce +))))
+
+(comment
+  (->> (for [c (range 2400)]
+         [c (tension (from-cents c))])
+       flatten
+       vec
+       (str/join " ")
+       (spit "xy.txt"))
+  
+  (->> (interval/odd-limit 9)
+       (sort-by tension))
+  
+  (chord-tension [1/1 5/4 3/2 7/4])
+  :rcf)

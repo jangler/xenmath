@@ -23,6 +23,32 @@
   (for [i (range (count scale))]
     (mode i scale)))
 
+(defn max-by
+  "Returns the element of coll that yields the largest result as an argument to
+   function f."
+  [f coll]
+  (->> coll
+       (map (fn [x]
+              [x (f x)]))
+       (sort-by second)
+       last
+       first))
+
+(defn brightest-mode
+  "Returns the brightest mode of the scale."
+  [scale]
+  (->> scale modes (max-by #(reduce + %))))
+
+(defn brightest-tetrachordal-mode
+  "Returns the brightest mode of the scale with the same fourth and fifth
+   degrees as the original."
+  [scale]
+  (->> scale
+       modes
+       (filter #(and (= (nth % 2) (nth scale 2))
+                     (= (nth % 3) (nth scale 3))))
+       (max-by #(reduce + %))))
+
 (defn near
   "Returns true if a is near b."
   [a b]

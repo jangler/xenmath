@@ -1,9 +1,11 @@
 (ns edo
   (:require [clojure.math :as math]
+            [clojure.set :as set]
             [interval]
             [number]
             [scale]
             [temperament]
+            search
             var))
 
 (defn mapping
@@ -35,7 +37,7 @@
                   {:edo n
                    :mean-error (:mean-error es)
                    :max-error (:max-error es)})))
-         (filter #(< (:max-error %) var/*odd-limit*)))))
+         (filter #(< (:max-error %) var/*error-tolerance*)))))
 
 (defn strip-nondecreasing-error
   "Given a return value from in-subgroup, strip edos without lower mean and max
@@ -43,8 +45,8 @@
   [edos]
   (loop [remaining edos
          found []
-         record-max 30
-         record-mean 15]
+         record-max var/*error-tolerance*
+         record-mean var/*error-tolerance*]
     (if (empty? remaining)
       found
       (recur (rest remaining)
@@ -80,11 +82,84 @@
         rs (interval/subgroup var/*odd-limit* ps)]
     (->> xs
          (keep (fn [n]
-                (let [e (edo/as-temperament n ps)]
-                  (when (every? #(zero? (first %))
-                              (map #(temperament/tmap e %) (:commas t)))
-                    (-> (temperament/error-stats rs e)
-                        (select-keys [:mean-error :max-error])
-                        (assoc :edo n))))))
-         (filter #(< (:max-error %) 20))
+                 (let [e (edo/as-temperament n ps)]
+                   (when (every? #(zero? (first %))
+                                 (map #(temperament/tmap e %) (:commas t)))
+                     (-> (temperament/error-stats rs e)
+                         (select-keys [:mean-error :max-error])
+                         (assoc :edo n))))))
+         (filter #(< (:max-error %) var/*error-tolerance*))
          (sort-by :mean-error))))
+
+(defn closest-match
+  "Return the closest match to c cents in n-edo."
+  [n c]
+  (->> (for [i (range (inc n))]
+         (* i (/ 1200 n)))
+       (sort-by #(abs (- % c)))
+       first
+       float))
+
+(defn approximating
+  "Return edos between minsize and maxsize with an interval within 2 cents of
+   c, sorted by increasing distance."
+  [[minsize maxsize] c]
+  (->> (for [n (range minsize (inc maxsize))]
+         {:edo n
+          :error (- (closest-match n c) c)})
+       (sort-by (comp abs :error))
+       (take-while #(< (abs (:error %)) 2))))
+
+(defn collapse-modes
+  "Eliminate scales which are modes of earlier scales in the coll."
+  [ss]
+  (->> ss (map scale/brightest-tetrachordal-mode) set))
+
+(defn all-tetrachord-scales
+  "Return all possible tetrachordal scales from edo n."
+  [n]
+  (let [t (as-temperament n [2 3])
+        fourth (temperament/edosteps t 4/3)
+        fifth (temperament/edosteps t 3/2)]
+    (->> (for [second (range 1 (dec fourth))
+               third (range (inc second) fourth)]
+           [second third fourth fifth (+ second fifth) (+ third fifth) n])
+         collapse-modes)))
+
+(defn scale-triads
+  "Return triads from each mode of scale s in edo temperament t."
+  [t s]
+  (for [m (scale/modes s)]
+    (search/mode-triads (t :mapping) (map vector m))))
+
+(defn as-auto-temperament
+  "Returns a temperament for n-edo, auto-mapping as many primes as possible
+   within the current odd limit and error tolerance, preferring least error."
+  [n]
+  (let [rs (interval/odd-limit var/*odd-limit*)]
+    (->> (number/viable-subgroups)
+         (map #(let [t (as-temperament n %)]
+                 (assoc t :max-error
+                        (:max-error (temperament/error-stats rs t)))))
+         (filter #(< (:max-error %) var/*error-tolerance*))
+         (scale/max-by #(vector (count (keep identity (first (:mapping %))))
+                                (- (:max-error %)))))))
+
+(comment
+  (binding [var/*odd-limit* 15]
+    (let [n 22]
+      (->> (all-tetrachord-scales n)
+           (map (fn [s]
+                  (let [ts (scale-triads (as-auto-temperament n) s)]
+                    {:scale s, :triads ts, :count (/ (count (flatten ts))
+                                                     3)})))
+           (sort-by :count)
+           (take-last 3))))
+  
+  (->> (temperament/named "superpyth")
+       :generators
+       second
+       (approximating [5 99]))
+  
+  (approximating [5 99] 163.743)
+  :rcf)
