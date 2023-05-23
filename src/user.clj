@@ -90,7 +90,7 @@
                          [(first v) (map - (second v))]))))
 
 (comment
-  (def t (temperament/named "tetracot"))
+  (def t (temperament/named "sensation"))
 
   (def t {:name "superpyth",
           :mapping [[1 2 6 2 4] [0 -1 -9 2 1] [0 0 0 0 1]],
@@ -102,12 +102,8 @@
 
   (edo/supporting (range 5 54) t)
 
-  (binding [var/*odd-limit* 9]
-    (temperament/optimize 14 t))
-  (->> ["supra" "skwares" "mohaha" "porkypine"]
-       (map (fn [name]
-              (let [t (temperament/named name)]
-                [(:name t) (temperament/optimize 14 t)]))))
+  (binding [var/*odd-limit* 15]
+    (temperament/optimize 18 t))
 
   (temperament/error-stats (temperament/flat-genchain 16 t) t)
 
@@ -132,22 +128,25 @@
             (compute-edos-by-subgroup 5 99)
             (compute-subgroups-by-edo (range 5 (inc 99)))))
 
-  (binding [var/*odd-limit* 9]
+  (binding [var/*odd-limit* 15]
     (->> (load-edn "summaries")
          (map (fn [t]
                 {:name (:name t)
-                 :score (score-temperament t 3 18)}))
+                 :score (score-temperament t 3 15)}))
          (sort-by :score)
          reverse
          (take 10)))
 
-  (let [n (notation/all-notation (interval/odd-limit 27) t 7 5 true #{1})]
-    (for [i (range 1 8)
+  (scale/brightest-mode-index (scale/moses (:generators t) [6 6]))
+  (let [n (notation/all-notation (interval/odd-limit 27) t 6 0 false)]
+    (for [i (range 1 7)
           q ["d" "m" "P" "M" "A"]]
       (let [t (str q i)]
         [t (map :ratio (filter #(= (:notation %) t) n))])))
   (scale/moses [1200 (second (:generators t))] [7 13])
-  (->> (scale/moses (:generators t) [7 13]))
+  (->> (scale/moses (:generators (switch-generator t)) [5 5])
+       first
+       scale/modes)
 
   (->> (interval/subgroup 27 [2 3 17 19])
        (map (fn [r] [r (interval/cents r)]))

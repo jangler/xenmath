@@ -145,9 +145,54 @@
          (scale/max-by #(vector (count (keep identity (first (:mapping %))))
                                 (- (:max-error %)))))))
 
+(defn notate
+  "Return a list of valid notation strings for ratio r in edo n."
+  [n r]
+  (let [t (edo/as-temperament n (set/union #{2 3}
+                                           (set (interval/primes r))))
+        naturals (map-indexed (fn [i r]
+                                {:degree (inc i)
+                                 :steps (temperament/edosteps t r)
+                                 :sharps 0
+                                 :ups 0})
+                              [1/1 9/8 81/64 4/3 3/2 27/16 243/128 2/1])
+        apotome-steps (temperament/edosteps t 2187/2048)
+        add-sharp (fn [n i]
+                    (-> n
+                        (update :sharps #(+ % i))
+                        (update :steps #(+ % (* i apotome-steps)))))
+        add-up (fn [n i]
+                 (-> n
+                     (update :ups #(+ % i))
+                     (update :steps #(+ % i))))
+        notes (mapcat (fn [n]
+                        (for [sharps (if (#{1 4 5 8} (:degree n))
+                                       [-1 0 1]
+                                       [-2 -1 0 1])
+                              ups [-1 0 1]]
+                          (add-sharp (add-up n ups) sharps)))
+                      naturals)
+        r-steps (temperament/edosteps t r)]
+    (->> notes
+         (filter #(= r-steps (:steps %)))
+         (map (fn [n]
+                (let [quality (if (#{1 4 5 8} (:degree n))
+                                (case (:sharps n)
+                                  -1 "d"
+                                  0 "P"
+                                  1 "A")
+                                (case (:sharps n)
+                                  -2 "d"
+                                  -1 "m"
+                                  0 "M"
+                                  1 "A"))
+                      downs (apply str (map (fn [_] "v") (range (- (:ups n)))))
+                      ups (apply str (map (fn [_] "^") (range (:ups n))))]
+                  (str ups downs quality (:degree n))))))))
+
 (comment
   (binding [var/*odd-limit* 15]
-    (let [n 22]
+    (let [n 34]
       (->> (all-tetrachord-scales n)
            (map (fn [s]
                   (let [ts (scale-triads (as-auto-temperament n) s)]
@@ -155,11 +200,59 @@
                                                      3)})))
            (sort-by :count)
            (take-last 3))))
-  
+
   (->> (temperament/named "superpyth")
        :generators
        second
        (approximating [5 99]))
-  
+
   (approximating [5 99] 163.743)
+
+  (binding [var/*error-tolerance* 25]
+    (supporting (range 5 51) {:mapping [[0 0 0 0 0 0]] :commas [1/1]}))
+
+  (temperament/error-stats (interval/odd-limit 15)
+                           (edo/as-auto-temperament 321))
+
+  (->> (interval/odd-limit 15)
+       (map #(vector % (set/intersection (set (notate 50 %))
+                                         (set (notate 43 %))))))
+
+  (binding [var/*error-tolerance* 5]
+    (best-in-subgroup [5 199] [2 3 5 7 11 13]))
+
+  ; setting 81/80 = 64/63 = 65/64
+  (edo/supporting (range 5 100)
+                  (temperament/named "hemififths"))
+
+  ; setting 81/80 = 64/63 = 65/64 = 55/54
+  (edo/supporting (range 5 100)
+                  {:mapping [[0 0 0 0 0 0]]
+                   :commas [5120/5103 325/324 385/384]})
+
+  (edo/supporting
+   (range 5 100)
+   {:name "akea"
+    :mapping [[1 1 0 4 4 6]
+              [0 1 4 -2 -1 -4]
+              [0 0 -1 -1 2 2]]
+    :generators [1200 702.9136 26.525]
+    :commas [325/324 352/351 385/384]})
+
+  {:name "hemifamity+"
+   :mapping [[1 1 0 4 4 6]
+             [0 1 4 -2 -1 -4]
+             [0 0 -1 -1 0 0]
+             [0 0 0 0 1 1]]
+   :generators [1200 702.9436 24.8262 54.2756]
+   :commas [5120/5103 352/351]}
+
+  (->> {:name "pele"
+        :mapping [[1 1 0 4 7 9]
+                  [0 1 4 -2 -6 -9]
+                  [0 0 -1 -1 -1 -1]]
+        :generators [1200 703.4102 25.8725]
+        :commas [196/195 352/351 364/363]}
+       notation/all-planar
+       (filter #(> (interval/limit (first %)) 7)))
   :rcf)

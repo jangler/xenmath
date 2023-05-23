@@ -113,8 +113,10 @@
        (str/join " ")
        (spit "xy.txt"))
   
-  (->> (interval/odd-limit 9)
+  (->> (interval/odd-limit 15)
        (sort-by tension))
+  
+  (interval/cents 15/11)
   
   (chord-tension [1/1 5/4 3/2 7/4])
   :rcf)

@@ -1,7 +1,5 @@
 (ns summary
-  (:require [interval]
-            [scale]
-            [temperament]))
+  (:require edo interval scale temperament))
 
 ; TODO: edos supporting the temperament
 (defn summary [t]
@@ -11,4 +9,9 @@
     (conj t {:moses (map count ms)
              :proper-moses (map count (filter scale/proper? ms))
              :mean-error (:mean-error es)
-             :genchain gc})))
+             :max-error (:max-error es)
+             :genchain gc
+             :edos (->> (edo/supporting (range 5 100) t)
+                        (sort-by :edo)
+                        edo/strip-nondecreasing-error
+                        (map :edo))})))

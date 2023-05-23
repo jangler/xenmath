@@ -111,7 +111,7 @@
 (defn notate-planar
   "Notate a ratio in a planar temperament with a fifth generator."
   [r t]
-  (let [m (temperament/tmap r t)
+  (let [m (rest (temperament/tmap t r))
         degree (nth [1 5 2 6 3 7 4] (mod (first m) 7))
         chroma (math/floor-div (inc (first m)) 7)
         quality (if (#{1 4 5} degree)
@@ -137,7 +137,12 @@
         lifts (if (> (count m) 2)
                 (apply str (map (fn [_] "/") (range (nth m 2))))
                 "")]
-    (str drops lifts downs ups quality degree)))
+    (str downs ups drops lifts
+         (if (and (= quality "P")
+                  (> (reduce + (map count [downs ups drops lifts])) 0))
+           ""
+           quality)
+         degree)))
 
 (defn all-planar
   "Return notation for a planar temperament. The second generator must be a

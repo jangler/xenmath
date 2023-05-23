@@ -39,6 +39,11 @@
   [scale]
   (->> scale modes (max-by #(reduce + %))))
 
+(defn brightest-mode-index
+  "Returns the index of the brightest mode of the scale."
+  [scale]
+  (.indexOf (modes scale) (brightest-mode scale)))
+
 (defn brightest-tetrachordal-mode
   "Returns the brightest mode of the scale with the same fourth and fifth
    degrees as the original."
@@ -174,4 +179,5 @@
   (proper? magic7)
   (moses [1200 380.7] [5 9])
   (pattern-name magic7)
+  (chromatic-scale (edo/as-temperament 34 [2 3 5 11 13]))
   :rcf)

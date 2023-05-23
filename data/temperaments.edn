@@ -2,6 +2,10 @@
   :mapping [[1 2 nil 2] [0 -1 nil 2]]
   :generators [1200 491.2289]
   :commas [64/63]}
+ {:name "archy+"
+  :mapping [[1 2 nil 2 nil 9] [0 -1 nil 2 nil -13]]
+  :generators [1200 489.1901]
+  :commas [64/63 4459/4374]}
  {:name "beatles"
   :mapping [[1 1 5 4 10 4] [0 2 -9 -4 -22 -1]]
   :generators [1200 355.9674]
@@ -62,10 +66,18 @@
   :mapping [[1 2 4 7 -2] [0 -1 -4 -10 13]]
   :generators [1200 503.4216]
   :commas [81/80 126/125 385/384]}
+ {:name "meanpop, 2.3.5.7.13"
+  :mapping [[1 2 4 7 nil 10] [0 -1 -4 -10 nil -15]]
+  :generators [1200 503.9652]
+  :commas [81/80 105/104 126/125]}
  {:name "meantone"
   :mapping [[1 2 4 7 11] [0 -1 -4 -10 -18]]
   :generators [1200 503.4216]
   :commas [81/80 99/98 126/125]}
+ {:name "septimal meantone"
+  :mapping [[1 2 4 7] [0 -1 -4 -10]]
+  :generators [1200 503.4216]
+  :commas [81/80 126/125]}
  {:name "mohaha"
   :mapping [[1 1 0 nil 2] [0 2 8 nil 5]]
   :generators [1200 348.2893]
@@ -120,7 +132,7 @@
   :commas [126/125 245/243]}
  {:name "sensation"
   :mapping [[1 -1 -1 -2 nil 0] [0 7 9 13 nil 10]]
-  :generators [1200 443.1363]
+  :generators [1200 443.1364]
   :commas [91/90 126/125 169/168]}
  {:name "shoe"
   :mapping [[1 nil 1 3 1 2] [0 nil 7 -1 13 9]]
@@ -137,7 +149,7 @@
  {:name "squares"
   :mapping [[1 3 8 6 7] [0 -4 -16 -9 -10]]
   :generators [1200 425.8554]
-  :commas [66/65 81/80 99/98]}
+  :commas [81/80 99/98 121/120]}
  {:name "srutal"
   :mapping [[2 3 5] [0 1 -2]]
   :generators [600 105.2139]
@@ -156,7 +168,7 @@
   :commas [55/54 64/63 99/98]}
  {:name "tetracot"
   :mapping [[1 1 1 nil 2 4] [0 4 9 nil 10 -2]]
-  :generators [1200 176.257]
+  :generators [1200 175.8993]
   :commas [100/99 144/143 243/242]}
  {:name "ultrapyth"
   :mapping [[1 2 8 2 -1 11] [0 -1 -14 2 11 -18]]

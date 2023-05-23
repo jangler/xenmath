@@ -119,7 +119,9 @@
    of length n."
   [n t]
   (let [rs (flat-genchain n t)
-        errfn #(:max-error (error-stats rs %))]
+        errfn #(let [es (error-stats rs %)]
+                 (+ (:max-error es)
+                    (* 0.1 (:mean-error es))))]
     (loop [t t
            n 10000
            e (errfn t)]
