@@ -218,8 +218,9 @@
        (map #(vector % (set/intersection (set (notate 50 %))
                                          (set (notate 43 %))))))
 
-  (binding [var/*error-tolerance* 5]
-    (best-in-subgroup [5 199] [2 3 5 7 11 13]))
+  (binding [var/*error-tolerance* 20
+            var/*odd-limit* 9]
+    (best-in-subgroup [5 199] [2 3 5 7]))
 
   ; setting 81/80 = 64/63 = 65/64
   (edo/supporting (range 5 100)

@@ -73,18 +73,22 @@
 (defn format-notation
   "Returns a string version of a map with keys :degree and :sharps."
   [m perfect]
-  (if (and (<= (m :sharps) 1)
-           (>= (m :sharps) (if perfect -1 -2)))
+  (if (and (<= (m :sharps) 2)
+           (>= (m :sharps) (if perfect -2 -3)))
     (str (if perfect
            (case (m :sharps)
+             -2 "dd"
              -1 "d"
              0 "P"
-             1 "A")
+             1 "A"
+             2 "AA")
            (case (m :sharps)
+             -3 "dd"
              -2 "d"
              -1 "m"
              0 "M"
-             1 "A"))
+             1 "A"
+             2 "AA"))
          (m :degree))
     nil))
 

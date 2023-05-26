@@ -90,7 +90,7 @@
                          [(first v) (map - (second v))]))))
 
 (comment
-  (def t (temperament/named "sensation"))
+  (def t (temperament/named "catakleismic"))
 
   (def t {:name "superpyth",
           :mapping [[1 2 6 2 4] [0 -1 -9 2 1] [0 0 0 0 1]],
@@ -98,7 +98,8 @@
   (notation/notate-planar 3/2 t)
 
   (summary t)
-  (save-edn "summaries" (map summary (temperament/load-all)))
+  (binding [var/*error-tolerance* 20]
+    (save-edn "summaries" (map summary (temperament/load-all))))
 
   (edo/supporting (range 5 54) t)
 
@@ -138,13 +139,13 @@
          (take 10)))
 
   (scale/brightest-mode-index (scale/moses (:generators t) [6 6]))
-  (let [n (notation/all-notation (interval/odd-limit 27) t 6 0 false)]
-    (for [i (range 1 7)
-          q ["d" "m" "P" "M" "A"]]
+  (let [n (notation/all-notation (interval/odd-limit 15) t 7 5 true #{1})]
+    (for [i (range 1 8)
+          q ["dd" "d" "m" "P" "M" "A" "AA"]]
       (let [t (str q i)]
         [t (map :ratio (filter #(= (:notation %) t) n))])))
   (scale/moses [1200 (second (:generators t))] [7 13])
-  (->> (scale/moses (:generators (switch-generator t)) [5 5])
+  (->> (scale/moses (:generators t) [7 12])
        first
        scale/modes)
 
