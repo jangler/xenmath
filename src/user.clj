@@ -140,10 +140,11 @@
 
   (scale/brightest-mode-index (scale/moses (:generators t) [6 6]))
   (let [n (notation/all-notation (interval/odd-limit 15) t 7 5 true #{1})]
-    (for [i (range 1 8)
-          q ["dd" "d" "m" "P" "M" "A" "AA"]]
-      (let [t (str q i)]
-        [t (map :ratio (filter #(= (:notation %) t) n))])))
+    (->> (for [i (range 1 8)
+               q ["dd" "d" "m" "P" "M" "A" "AA"]]
+           (let [t (str q i)]
+             [t (map :ratio (filter #(= (:notation %) t) n))]))
+         (filter (comp not-empty second))))
   (scale/moses [1200 (second (:generators t))] [7 13])
   (->> (scale/moses (:generators t) [7 12])
        first
