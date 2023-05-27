@@ -231,29 +231,7 @@
                   {:mapping [[0 0 0 0 0 0]]
                    :commas [5120/5103 325/324 385/384]})
 
-  (edo/supporting
-   (range 5 100)
-   {:name "akea"
-    :mapping [[1 1 0 4 4 6]
-              [0 1 4 -2 -1 -4]
-              [0 0 -1 -1 2 2]]
-    :generators [1200 702.9136 26.525]
-    :commas [325/324 352/351 385/384]})
-
-  {:name "hemifamity+"
-   :mapping [[1 1 0 4 4 6]
-             [0 1 4 -2 -1 -4]
-             [0 0 -1 -1 0 0]
-             [0 0 0 0 1 1]]
-   :generators [1200 702.9436 24.8262 54.2756]
-   :commas [5120/5103 352/351]}
-
-  (->> {:name "pele"
-        :mapping [[1 1 0 4 7 9]
-                  [0 1 4 -2 -6 -9]
-                  [0 0 -1 -1 -1 -1]]
-        :generators [1200 703.4102 25.8725]
-        :commas [196/195 352/351 364/363]}
+  (->> (temperament/named "hemififths planar")
        notation/all-planar
        (filter #(> (interval/limit (first %)) 7)))
   :rcf)

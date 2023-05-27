@@ -90,7 +90,7 @@
                          [(first v) (map - (second v))]))))
 
 (comment
-  (def t (temperament/named "catakleismic"))
+  (def t (temperament/named "hemififths planar"))
 
   (def t {:name "superpyth",
           :mapping [[1 2 6 2 4] [0 -1 -9 2 1] [0 0 0 0 1]],
@@ -106,7 +106,7 @@
   (binding [var/*odd-limit* 15]
     (temperament/optimize 18 t))
 
-  (temperament/error-stats (temperament/flat-genchain 16 t) t)
+  (temperament/error-stats (temperament/flat-genchain 18 t) t)
 
   (switch-generator t)
 

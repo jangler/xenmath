@@ -117,25 +117,32 @@
 (defn optimize
   "Return temperament t's generators optimized for the intervals in a genchain
    of length n."
-  [n t]
-  (let [rs (flat-genchain n t)
-        errfn #(let [es (error-stats rs %)]
-                 (+ (:max-error es)
-                    (* 0.1 (:mean-error es))))]
-    (loop [t t
-           n 10000
-           e (errfn t)]
-      (if (pos? n)
-        (let [gs (t :generators)
-              t2 (assoc t :generators
-                        (vec (concat [(first gs)]
-                                     (->> (rest gs)
-                                          (map #(+ % (- (math/random) 0.5)))))))
-              e2 (errfn t2)]
-          (recur (if (< e2 e) t2 t)
-                 (dec n)
-                 (if (< e2 e) e2 e)))
-        (map #(number/places 4 %) (:generators t))))))
+  ([n t] (optimize n t false))
+  ([n t half-sharp?]
+   (let [rs (flat-genchain n t)
+         errfn #(let [es (error-stats rs %)]
+                  (+ (:max-error es)
+                     (* 0.1 (:mean-error es))))]
+     (loop [t t
+            n 10000
+            e (errfn t)]
+       (if (pos? n)
+         (let [gs (t :generators)
+               t2 (assoc t :generators
+                         (vec (concat [(first gs)]
+                                      (->> (rest gs)
+                                           (map #(+ % (- (math/random) 0.5)))))))
+               gs (t2 :generators)
+               t2 (if half-sharp?
+                    (assoc t2 :generators (vector (first gs)
+                                                  (second gs)
+                                                  (mod (* (second gs) 7) 1200)))
+                    t2)
+               e2 (errfn t2)]
+           (recur (if (< e2 e) t2 t)
+                  (dec n)
+                  (if (< e2 e) e2 e)))
+         (map #(number/places 4 %) (:generators t)))))))
 
 (defn errors-by-subgroup
   [t]
